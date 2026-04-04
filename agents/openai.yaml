@@ -1,0 +1,7 @@
+interface:
+  display_name: "Personality Memory"
+  short_description: "Persistent persona memory from dialogue history."
+  default_prompt: "Use $personality-memory to ingest dialogue logs and build an explainable long-term persona profile."
+
+policy:
+  allow_implicit_invocation: true

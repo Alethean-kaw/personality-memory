@@ -1,0 +1,29 @@
+{
+  "session_id": "campaign-tool-session-02",
+  "messages": [
+    {
+      "message_id": "m1",
+      "speaker": "user",
+      "timestamp": "2026-03-15T10:00:00Z",
+      "text": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dependencies."
+    },
+    {
+      "message_id": "m2",
+      "speaker": "user",
+      "timestamp": "2026-03-15T10:01:00Z",
+      "text": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+    },
+    {
+      "message_id": "m3",
+      "speaker": "assistant",
+      "timestamp": "2026-03-15T10:01:20Z",
+      "text": "I'll keep the advice grounded in that context."
+    },
+    {
+      "message_id": "m4",
+      "speaker": "user",
+      "timestamp": "2026-03-15T10:02:00Z",
+      "text": "I mainly use Python and terminal workflows. I want reusable building blocks instead of brittle hacks."
+    }
+  ]
+}

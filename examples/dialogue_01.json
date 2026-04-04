@@ -1,0 +1,29 @@
+{
+  "session_id": "campaign-tool-session-01",
+  "messages": [
+    {
+      "message_id": "m1",
+      "speaker": "user",
+      "timestamp": "2026-03-01T09:00:00Z",
+      "text": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+    },
+    {
+      "message_id": "m2",
+      "speaker": "assistant",
+      "timestamp": "2026-03-01T09:00:20Z",
+      "text": "Understood. I will stay concise and structured."
+    },
+    {
+      "message_id": "m3",
+      "speaker": "user",
+      "timestamp": "2026-03-01T09:01:00Z",
+      "text": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+    },
+    {
+      "message_id": "m4",
+      "speaker": "user",
+      "timestamp": "2026-03-01T09:02:00Z",
+      "text": "I value local files and transparent behavior because I want the system to stay inspectable."
+    }
+  ]
+}
