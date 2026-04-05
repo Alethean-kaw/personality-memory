@@ -1,0 +1,58 @@
+{
+  "name": "multi-profile-replay",
+  "dialogues": [
+    {
+      "path": "dialogue_01.json",
+      "profile": "alpha"
+    },
+    {
+      "path": "dialogue_02.json",
+      "profile": "beta"
+    }
+  ],
+  "retrieval_checks": [
+    {
+      "step": 1,
+      "profile": "alpha",
+      "query": "tabletop campaigns",
+      "expect_memory_ids": [
+        "ltm_8bacb9c052af"
+      ]
+    },
+    {
+      "step": 2,
+      "profile": "alpha",
+      "query": "local storage over cloud dependencies",
+      "expect_absent_memory_ids": [
+        "ltm_8415250fa921"
+      ]
+    },
+    {
+      "step": 2,
+      "profile": "beta",
+      "query": "local storage over cloud dependencies",
+      "expect_memory_ids": [
+        "ltm_8415250fa921"
+      ],
+      "expect_absent_memory_ids": [
+        "ltm_db11dde7ccf1"
+      ]
+    }
+  ],
+  "memory_checks": [
+    {
+      "step": 2,
+      "profile": "alpha",
+      "active_memory_ids": [
+        "ltm_db11dde7ccf1"
+      ]
+    },
+    {
+      "step": 2,
+      "profile": "beta",
+      "active_memory_ids": [
+        "ltm_8415250fa921"
+      ]
+    }
+  ]
+}

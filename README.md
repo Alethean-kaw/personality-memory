@@ -1,16 +1,18 @@
 # personality-memory
 
-`personality-memory` is a self-contained OpenClaw skill and Python CLI for turning long-running dialogue into durable, explainable user memory.
+`personality-memory` is a self-contained OpenClaw skill and local Python CLI for building a durable, explainable, profile-aware memory system from long-running dialogue.
 
-This MVP is intentionally conservative:
+This version is aimed at the first real product layer beyond an MVP:
 
-- It stores every raw conversation event.
-- It extracts candidate memories before promoting anything to long-term memory.
-- It builds persona from accepted long-term memory only.
-- It keeps revision history for manual correction, deactivation, and deletion.
-- It uses local JSON and JSONL files only.
+- profile-aware storage with automatic migration from legacy flat `data/*`
+- durable memory and persona separated into explicit layers
+- lifecycle / aging for long-term memory instead of a single `active` flag
+- review governance for conflict resolution and manual arbitration
+- a stable runtime JSON contract for downstream assistant use
+- local pluggable similarity backends with `hybrid` as the default
+- replay evaluation for stability, isolation, migration, and aging scenarios
 
-No external database, embedding service, or API is required.
+No external database, external API, or model download is required.
 
 ## What This Skill Is
 
@@ -18,51 +20,51 @@ This skill is not a one-shot chat summarizer.
 
 It is a persistent memory pipeline for:
 
-- accumulating raw dialogue over time
-- extracting stable signals while filtering short-term noise
-- consolidating reinforced evidence into long-term memory
-- generating a structured persona profile that stays grounded in real evidence
-- supporting later correction, overwrite, deactivation, and export
+- collecting raw dialogue over time
+- extracting candidate memory conservatively
+- promoting reinforced evidence into long-term memory
+- generating a structured persona profile grounded in memory
+- retrieving relevant context for future assistant actions
+- supporting correction, overwrite, deactivation, review, export, and replay evaluation
 
-## Why Memory Is Not The Same As Persona
+## Why Memory Is Not Persona
 
-Memory and persona should not be collapsed into the same thing.
+Memory and persona should stay separate.
 
-- Memory is evidence: explicit preferences, recurring projects, repeated goals, stable routines, taboos, and constraints.
-- Persona is a model built from memory: a structured operational interpretation of how the assistant should adapt.
+- Memory is evidence: preferences, projects, routines, constraints, goals, taboos, worldview signals.
+- Persona is an operational adaptation model built from accepted memory.
 
-If memory is treated as persona directly, the system becomes too eager to label the user, overfits to single messages, and turns transient statements into false identity claims.
+If the system treats memory as persona directly, it overfits to single messages and starts inventing identity-like claims from weak evidence. This skill keeps them distinct on purpose:
 
-This MVP keeps the layers separate on purpose:
-
-- `conversation_events` preserves the raw facts.
-- `memory_candidates` holds hypotheses that still need evidence.
-- `long_term_memory` contains accepted durable signals.
+- `conversation_events` preserves raw facts.
+- `memory_candidates` stores hypotheses.
+- `long_term_memory` stores durable accepted signals.
 - `persona_profile` is a downstream synthesis, not a source of truth.
 
 ## Why The Candidate Layer Exists
 
-The candidate layer is a quarantine buffer between raw text and durable memory.
+The candidate layer is a quarantine buffer between raw dialogue and durable memory.
 
-Without it, one-off instructions like "just do this quickly today" can become fake long-term preferences.
+Without it, one-off requests like `just do this for today` or temporary emotional states would get frozen into long-term personalization.
 
-This layer helps by:
+The candidate layer helps by:
 
-- attaching source evidence to every extraction
-- letting low-support signals stay unpromoted
-- preserving ambiguity until repetition or manual review resolves it
-- making it possible to reject, revise, or mark outdated extractions later
+- attaching evidence to every extraction
+- keeping low-support signals pending
+- allowing review/reject/reopen flows
+- preserving traceability and idempotence with explicit resolution metadata
 
-## How This MVP Reduces Hallucinated Persona Inference
+## How This Version Reduces Hallucinated Persona Inference
 
-This version avoids aggressive inference in several ways:
+This version stays conservative in a few ways:
 
-- It only extracts from explicit self-disclosure patterns.
-- It filters temporal and one-off language such as `today`, `for now`, `temporary`, and task-like requests.
-- It requires evidence-backed candidates before promotion.
-- It keeps pending candidates instead of forcing every signal into long-term memory.
-- Persona sections are built from accepted memories only.
-- Persona JSON includes memory references and confidence buckets so each section is explainable.
+- extraction is rule-based and favors explicit self-disclosure
+- temporal and one-off noise is filtered aggressively
+- promotion requires reinforcement or sufficient confidence
+- persona is built from active long-term memory only
+- contested memories are separated into `contested_signals`
+- dormant / expired memories are hidden from default persona and retrieval output
+- retrieval returns review items and contested signals as explicitly uncertain sections
 
 ## Project Structure
 
@@ -78,41 +80,119 @@ personality-memory/
     personality_memory/
       __init__.py
       __main__.py
+      backends.py
       cli.py
-      models.py
-      storage.py
-      extractor.py
       consolidator.py
+      evaluator.py
+      extractor.py
+      governance.py
+      lifecycle.py
+      memory_ops.py
+      models.py
       persona_builder.py
-      scoring.py
+      retrieval.py
       rules.py
+      scoring.py
+      storage.py
       utils.py
   data/
-    conversations.jsonl
-    memory_candidates.json
-    long_term_memory.json
-    persona_profile.json
-    revisions.json
+    registry.json
+    migrations.json
+    profiles/
+      <profile_id>/
+        conversations.jsonl
+        memory_candidates.json
+        long_term_memory.json
+        persona_profile.json
+        review_items.json
+        revisions.json
+    legacy_backup/
+      v1-flat/
   examples/
     dialogue_01.json
     dialogue_02.json
+    dialogue_03_conflict.json
+    dialogue_04_aging_start.json
+    dialogue_05_aging_checkpoint.json
+    dialogue_06_aging_revive.json
+    eval_stable.json
+    eval_conflict.json
+    eval_multi_profile.json
+    eval_migration.json
+    eval_aging.json
+    legacy_seed_v1/
+      *.json
+  exports/
+    personality-memory-export.json
+    personality-memory-export.md
+    evals/
+      *.json
+      *.md
   scripts/
     demo.py
   tests/
-    test_extractor.py
+    test_backends.py
+    test_cli.py
     test_consolidator.py
+    test_evaluator.py
+    test_extractor.py
+    test_governance.py
+    test_lifecycle.py
+    test_models.py
     test_persona_builder.py
+    test_retrieval.py
+    test_storage.py
+    test_utils.py
 ```
 
-`exports/` is created on demand by the `export` command.
+## Storage Layout And Migration
+
+All persistence stays inside this skill directory by default.
+
+Current storage layout:
+
+- `data/registry.json`
+- `data/migrations.json`
+- `data/profiles/<profile_id>/conversations.jsonl`
+- `data/profiles/<profile_id>/memory_candidates.json`
+- `data/profiles/<profile_id>/long_term_memory.json`
+- `data/profiles/<profile_id>/persona_profile.json`
+- `data/profiles/<profile_id>/review_items.json`
+- `data/profiles/<profile_id>/revisions.json`
+
+### Registry
+
+`registry.json` tracks:
+
+- `schema_version`
+- `default_profile_id`
+- `profiles[]`
+
+Each profile stores:
+
+- `id`
+- `display_name`
+- `created_at`
+- `updated_at`
+- `backend`
+- `aging_policy`
+
+### Legacy Migration
+
+If the skill starts and detects an old flat layout under `data/*`, it will:
+
+1. create the `default` profile
+2. copy old files into `data/legacy_backup/v1-flat/`
+3. move them into `data/profiles/default/`
+4. write a migration record into `data/migrations.json`
+
+Migration is idempotent. Reopening the skill does not duplicate the migration or damage the data.
 
 ## Memory Layers
 
-### A. `conversation_events`
+### `conversation_events`
 
-Stored in `data/conversations.jsonl`.
-
-Each event contains:
+Raw dialogue events with:
 
 - `id`
 - `session_id`
@@ -121,11 +201,9 @@ Each event contains:
 - `text`
 - `occurred_at`
 
-### B. `memory_candidates`
+### `memory_candidates`
 
-Stored in `data/memory_candidates.json`.
-
-Each candidate contains:
+Candidate memories with:
 
 - `id`
 - `content`
@@ -135,8 +213,11 @@ Each candidate contains:
 - `created_at`
 - `status`
 - `notes`
+- `resolution_kind`
+- `resolved_at`
+- `resolved_memory_id`
 
-Supported statuses in the MVP:
+Statuses:
 
 - `candidate`
 - `accepted`
@@ -144,11 +225,9 @@ Supported statuses in the MVP:
 - `rejected`
 - `outdated`
 
-### C. `long_term_memory`
+### `long_term_memory`
 
-Stored in `data/long_term_memory.json`.
-
-Each long-term memory contains:
+Durable memory with:
 
 - `id`
 - `summary`
@@ -161,12 +240,15 @@ Each long-term memory contains:
 - `contradiction_count`
 - `mutable`
 - `active`
+- `last_reinforced_at`
+- `lifecycle_state`
+- `staleness_score`
+- `stale_since`
+- `superseded_by`
 
-### D. `persona_profile`
+### `persona_profile`
 
-Stored in `data/persona_profile.json`.
-
-The generated persona contains:
+Derived persona with:
 
 - `communication_style`
 - `priorities`
@@ -175,249 +257,270 @@ The generated persona contains:
 - `emotional_tone_preferences`
 - `likely_goals`
 - `avoidances`
+- `contested_signals`
 - `system_adaptation_notes`
+- `markdown_summary`
 
-Each major section includes:
+### `review_items`
 
-- a readable summary
-- strong / medium / weak signal lists
-- source memory references via `memory_id`
+Auditable conflict and manual review records with:
 
-The JSON also stores a Markdown summary string so the same profile can be displayed in human-readable form.
+- `id`
+- `candidate_id`
+- `target_memory_id`
+- `kind`
+- `reason`
+- `opened_at`
+- `status`
+- `resolution_action`
+- `resolution_notes`
+- `resolved_at`
+- `revision_ids`
 
-## Data Flow
+## Runtime Contract For OpenClaw
 
-```text
-dialogue JSON
-  -> ingest
-  -> conversation_events
-  -> extractor
-  -> memory_candidates
-  -> consolidate
-  -> long_term_memory
-  -> build-persona
-  -> persona_profile
+`retrieve-context` is the stable machine contract for assistant runtime use.
+
+The recommended flow is:
+
+1. call `retrieve-context` before generating a personalized answer
+2. use the returned JSON as the authoritative memory context bundle
+3. only use `prepare-context` when you need a human-readable Markdown rendering
+
+### `retrieve-context` JSON shape
+
+```json
+{
+  "schema_version": 2,
+  "profile_id": "default",
+  "query": "Need concise JSON guidance",
+  "generated_at": "2026-03-15T10:02:00Z",
+  "memory_hits": [],
+  "persona_adaptation_notes": [],
+  "contested_signals": [],
+  "open_reviews": [],
+  "usage_guidance": [],
+  "memory_policy": {}
+}
 ```
 
-Manual correction path:
+Semantics:
 
-```text
-forget / revise
-  -> long_term_memory update
-  -> revisions.json append
-  -> build-persona again if needed
-```
+- `memory_hits` are stable active memories only
+- `contested_signals` are explicitly unsettled
+- `open_reviews` are unresolved governance items
+- `usage_guidance` explains how to treat the payload safely
+- `memory_policy` describes the active backend / lifecycle assumptions
 
-## Extraction Rules
+## Lifecycle / Aging
 
-The extractor is rule-based and deliberately conservative.
+Long-term memory now uses lifecycle state instead of a single binary flag.
 
-It currently favors explicit statements like:
+Supported states:
 
-- `I prefer ...`
-- `I dislike ...`
-- `Please keep answers ...`
-- `I'm building ...`
-- `I'm still working on ...`
-- `I value ...`
-- `I often ...`
-- `I mainly use ...`
+- `active`
+- `dormant`
+- `expired`
 
-It supports both English and a small set of Chinese phrasing patterns.
+Default aging policy:
 
-Current candidate categories:
+- `identity`: does not age automatically
+- `style`, `preference`, `taboo`, `worldview`: dormant at 180 days, expired at 360 days
+- `project`, `goal`, `routine`, `constraint`: dormant at 90 days, expired at 180 days
 
-- `preference`
-- `identity`
-- `project`
-- `style`
-- `constraint`
-- `relationship_pattern` reserved for future extension
-- `worldview`
-- `goal`
-- `taboo`
-- `routine`
+Lifecycle recalculation happens automatically during:
 
-## Consolidation Rules
+- `consolidate`
+- `build-persona`
+- `retrieve-context`
+- `prepare-context`
 
-The consolidator supports:
+Default retrieval and persona behavior:
 
-- similarity-based merge for repeated candidate memories
-- confidence increase on reinforcement
-- evidence accumulation
-- contradiction counting and review state for conflicting signals
-- manual deactivation or hard deletion with revision logs
-- manual revision with before/after snapshots in `revisions.json`
+- `active` memories are eligible for main output
+- `dormant` and `expired` memories stay stored but are hidden by default
+- if new evidence reinforces a dormant / expired memory, the consolidator revives it and resets it to `active`
 
-Important MVP behavior:
+## Consolidation And Governance Rules
 
-- repeated high-confidence signals get promoted or reinforced
-- low-support signals can stay in `candidate` state
-- conflicting signals are not auto-overwritten
+### Consolidation
+
+Important behavior:
+
+- only pending `status == "candidate"` entries are auto-processed
+- `accepted`, `review`, `rejected`, and `outdated` are terminal for automatic consolidation
+- pending support scoring ignores all terminal candidates
+- immutable memories are never auto-overwritten
+- repeat `consolidate` runs on unchanged data are idempotent
+- dormant / expired memories can be revived by new reinforcing candidates
+
+### Governance
+
+Manual review actions:
+
+- `accept-candidate`
+- `merge-into`
+- `replace-memory`
+- `reject-candidate`
+- `reopen-candidate`
+
+Every action appends to `revisions.json` so review decisions remain auditable.
+
+## Backends
+
+Similarity and ranking are pluggable.
+
+Built-in backends:
+
+- `hybrid` (default)
+- `lexical`
+
+`hybrid` combines:
+
+- lexical similarity
+- weighted token overlap
+- char trigram similarity
+- evidence excerpt matching
+- contradiction penalty downstream in retrieval/persona scoring
+
+The same backend seam is used by:
+
+- consolidation
+- retrieval
+- replay evaluation
 
 ## Quick Start
 
-### 1. Install
+### Install
 
 ```bash
 python -m pip install -e .
 ```
 
-### 2. Run The Demo
+### Run The Demo
 
 ```bash
 python scripts/demo.py
 ```
 
-### 3. Use The CLI
+### Basic Flow
 
 ```bash
+personality-memory migrate-storage
+personality-memory list-profiles
 personality-memory ingest ./examples/dialogue_01.json
 personality-memory ingest ./examples/dialogue_02.json
 personality-memory extract
 personality-memory consolidate
 personality-memory build-persona
-personality-memory show-memory
-personality-memory show-persona
+personality-memory retrieve-context --query "Need concise JSON guidance"
+personality-memory prepare-context --query "Need concise JSON guidance"
 personality-memory export
 ```
 
-If you do not want to install the package, you can adapt the demo pattern and run the CLI by inserting `src/` into `PYTHONPATH`.
+If you do not install the package, you can run `python -m personality_memory.cli ...` with `src/` on `PYTHONPATH`.
 
 ## CLI Commands
 
-### `ingest`
+### Global Options
 
-Ingest a conversation file and immediately extract candidates from newly added events.
+Most commands accept:
+
+- `--root <path>`
+- `--profile <profile_id>`
+
+If `--profile` is omitted, the registry default profile is used.
+
+### Profile / Storage Management
+
+```bash
+personality-memory list-profiles
+personality-memory create-profile writer-alt --display-name "Writer Alt"
+personality-memory show-profile writer-alt
+personality-memory set-default-profile writer-alt
+personality-memory migrate-storage --json
+```
+
+### Ingest / Extract / Consolidate
 
 ```bash
 personality-memory ingest ./examples/dialogue_01.json
-```
-
-Supported file shapes:
-
-- one conversation object with `messages`
-- one list of messages
-- one list of conversation objects
-
-### `extract`
-
-Rebuild candidates from stored conversation events.
-
-```bash
 personality-memory extract
-```
-
-### `consolidate`
-
-Merge accepted candidates into long-term memory and leave weak candidates pending.
-
-```bash
 personality-memory consolidate
+personality-memory consolidate --backend lexical
 ```
 
-### `build-persona`
+Accepted `timestamp` formats are normalized to canonical UTC `YYYY-MM-DDTHH:MM:SSZ`:
 
-Build the current persona profile from long-term memory.
+- ISO 8601 / RFC3339 with `Z` or explicit offset
+- `YYYY-MM-DD HH:MM[:SS]`
+- `YYYY/MM/DD HH:MM[:SS]`
+- `YYYY-MM-DD`
+- `YYYY/MM/DD`
+
+### Persona / Retrieval
 
 ```bash
 personality-memory build-persona
 personality-memory build-persona --json
+personality-memory retrieve-context --query "Need concise JSON guidance"
+personality-memory prepare-context --query "Need concise JSON guidance"
 ```
 
-### `show-memory`
+### Review Governance
 
-Show current long-term memory.
+```bash
+personality-memory list-review --status open
+personality-memory show-review review_abcd1234 --json
+personality-memory resolve-review review_abcd1234 --action reject-candidate --reason "Hypothetical statement"
+personality-memory reopen-candidate cand_1234 --reason "Need to re-evaluate after new evidence"
+```
+
+### Manual Memory Control
 
 ```bash
 personality-memory show-memory
-personality-memory show-memory --json
 personality-memory show-memory --include-inactive
-```
-
-### `show-persona`
-
-Show the current persona profile.
-
-```bash
 personality-memory show-persona
-personality-memory show-persona --json
+personality-memory forget ltm_1234 --reason "No longer true"
+personality-memory revise ltm_1234 --summary "prefers structured JSON outputs" --activate --reason "User clarified preference"
 ```
 
-### `forget`
-
-Deactivate or delete a memory.
+### Evaluation / Export
 
 ```bash
-personality-memory forget ltm_8bacb9c052af --reason "User said this is no longer true"
-personality-memory forget ltm_8bacb9c052af --hard-delete --reason "Remove completely"
-```
-
-### `revise`
-
-Manually correct a memory while preserving a revision record.
-
-```bash
-personality-memory revise ltm_2b0baf9345a8 --summary "prefers structured JSON outputs" --reason "User clarified the preference"
-```
-
-### `export`
-
-Export the full state bundle as JSON and Markdown.
-
-```bash
+personality-memory replay-eval ./examples/eval_stable.json
+personality-memory replay-eval ./examples/eval_multi_profile.json
+personality-memory replay-eval ./examples/eval_migration.json
+personality-memory replay-eval ./examples/eval_aging.json
 personality-memory export
-personality-memory export --output-dir ./exports
+personality-memory export --all-profiles
 ```
 
-## Example Dialogues
+## Example Dialogues And Replay Manifests
 
-Two example inputs are included:
+Dialogues:
 
-- [examples/dialogue_01.json](./examples/dialogue_01.json)
-- [examples/dialogue_02.json](./examples/dialogue_02.json)
+- `examples/dialogue_01.json`
+- `examples/dialogue_02.json`
+- `examples/dialogue_03_conflict.json`
+- `examples/dialogue_04_aging_start.json`
+- `examples/dialogue_05_aging_checkpoint.json`
+- `examples/dialogue_06_aging_revive.json`
 
-They intentionally repeat some signals so the demo can show reinforcement.
+Replay manifests:
 
-## Example Stage Outputs
+- `examples/eval_stable.json`: repeated stable preferences and projects
+- `examples/eval_conflict.json`: conflict creation plus manual review resolution
+- `examples/eval_multi_profile.json`: profile isolation across `alpha` and `beta`
+- `examples/eval_migration.json`: legacy flat storage migration with seeded memory
+- `examples/eval_aging.json`: expiration and later revival of a project memory
 
-These snippets come from the actual verified demo run in this repository.
+## Verified Outputs
 
-### Stage 1: Raw Conversation Events
+Representative examples from the current pipeline:
 
-`data/conversations.jsonl` contains one JSON object per line, for example:
-
-```json
-{
-  "id": "evt_e2fa5eaa5dd9",
-  "session_id": "campaign-tool-session-01",
-  "message_id": "m1",
-  "speaker": "user",
-  "text": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer.",
-  "occurred_at": "2026-03-01T09:00:00Z"
-}
-```
-
-### Stage 2: Candidate Memory
-
-After `ingest` and `extract`, candidates look like this:
-
-```json
-{
-  "id": "cand_1fb4165cfce7",
-  "content": "uses python and terminal workflows",
-  "type": "constraint",
-  "confidence": 0.67,
-  "status": "candidate",
-  "notes": "Needs more evidence (support=1)"
-}
-```
-
-This is exactly why the candidate layer exists: the signal is plausible, but it only appeared once, so the system keeps it as a candidate rather than forcing it into long-term memory.
-
-### Stage 3: Long-Term Memory
-
-After `consolidate`, a reinforced memory looks like this:
+### Long-Term Memory
 
 ```json
 {
@@ -425,65 +528,56 @@ After `consolidate`, a reinforced memory looks like this:
   "summary": "works on local-first writing tool for tabletop campaigns",
   "category": "project",
   "confidence": 0.99,
-  "first_seen": "2026-03-01T09:00:00Z",
-  "last_seen": "2026-03-15T10:00:00Z",
   "reinforcement_count": 2,
-  "contradiction_count": 0,
-  "mutable": true,
+  "lifecycle_state": "active",
   "active": true
 }
 ```
 
-That same project appeared twice, so it was merged and reinforced instead of duplicated.
-
-### Stage 4: Persona Profile JSON
-
-After `build-persona`, the persona contains evidence-backed sections:
+### Retrieval Contract
 
 ```json
 {
-  "communication_style": {
-    "summary": "Signals suggest the user prefers concise and structured, prefers direct and concise, avoids fluffy marketing language, and prefers json when it makes things clearer."
-  },
-  "system_adaptation_notes": [
+  "schema_version": 2,
+  "profile_id": "default",
+  "query": "Need concise JSON guidance for the tabletop writing tool",
+  "memory_hits": [
     {
-      "note": "Default to concise, structured answers and use JSON or explicit formats when it improves clarity.",
-      "memory_refs": [
-        "ltm_97c142d058aa",
-        "ltm_4b8a345308ca",
-        "ltm_2b0baf9345a8"
-      ],
-      "strength": "strong"
+      "memory_id": "ltm_8bacb9c052af",
+      "summary": "works on local-first writing tool for tabletop campaigns",
+      "category": "project"
     }
-  ]
+  ],
+  "contested_signals": [],
+  "open_reviews": []
 }
 ```
 
-### Stage 5: Persona Markdown
-
-The same persona can be shown as Markdown:
+### Prepared Context
 
 ```md
-## Communication Style
-- Signals suggest the user prefers concise and structured, prefers direct and concise, avoids fluffy marketing language, and prefers json when it makes things clearer.
+## Relevant Long-Term Memory
+- [ltm_8bacb9c052af] (project) works on local-first writing tool for tabletop campaigns
 
-## System Adaptation Notes
-- Default to concise, structured answers and use JSON or explicit formats when it improves clarity.
+## Usage Guidance
+- Treat Relevant Long-Term Memory as durable guidance grounded in prior interaction.
+- Treat contested signals and open review items as uncertain; do not present them as confirmed facts.
 ```
 
-## Verified Demo Results
+## Replay Evaluation Invariants
 
-The current demo run completes with:
+Built-in invariants currently check:
 
-- `ingest`: 8 conversation events written
-- `extract`: 12 candidate memories rebuilt
-- `consolidate`: `created=10`, `updated=1`, `conflicts=0`, `pending=1`
-- `build-persona`: persona JSON and Markdown summary written
-- `export`: JSON and Markdown export bundle written to `exports/`
+- consolidate idempotence
+- terminal candidates do not influence support
+- inactive memories are not retrieved
+- contested memories stay out of normal hits
+- open review items remain auditable
+- runtime contract fields remain present and stable
 
 ## Testing
 
-Run unit tests:
+Run all tests:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -491,46 +585,46 @@ python -m unittest discover -s tests -v
 
 Validated in this workspace:
 
-- extractor tests pass
-- consolidator tests pass
-- persona builder tests pass
-- demo script runs end to end
-- `revise` and `forget` command paths were manually exercised
-- skill metadata passes `quick_validate.py`
+- 56 unit tests pass
+- replay evaluator covers stable, conflict, migration, multi-profile, and aging scenarios
+- retrieval, governance, storage migration, and lifecycle tests all pass
 
-## Design Tradeoffs In This MVP
+## Design Tradeoffs In This Version
 
-This is an MVP, so a few tradeoffs are explicit:
+This is still a conservative local system, so some tradeoffs are intentional:
 
-- The extractor is heuristic and pattern-based, not semantic.
-- The system favors false negatives over false positives.
-- Persona is intentionally high-level and avoids speculative identity claims.
-- Some memories that feel "probably true" will remain candidates until repeated.
-- There is no embedding, reranking, or LLM summarization dependency yet.
-
-These are deliberate choices to keep the first version transparent, testable, local, and easy to debug.
+- extraction is heuristic rather than model-based
+- the system prefers false negatives over false positives
+- persona avoids speculative identity claims
+- manual review resolution is explicit and CLI-driven
+- `hybrid` is local and lightweight, not embedding-based
+- dormant / expired memory is hidden by default rather than deleted
 
 ## Extension Points
 
-This codebase is designed so future upgrades can be added without changing the storage contract:
+Natural future extensions include:
 
-- add embeddings for better similarity matching
-- add reranking for candidate promotion
-- add LLM-backed summarization for cleaner memory summaries
-- add richer contradiction handling with explicit conflict objects
-- add candidate aging and decay
-- add per-user namespaces beyond session-level ingestion
-- add retrieval helpers for downstream assistants
+- local embedding or reranking backends
+- richer review queues and reviewer policies
+- candidate aging / decay
+- optional LLM summarization for cleaner memory summaries
+- tighter host integration that calls `retrieve-context` automatically before every response
+- richer replay benchmark suites for long-horizon behavior
 
-Good extension seams:
+Useful code entrypoints:
 
-- extraction rules: `src/personality_memory/rules.py`
-- confidence and similarity logic: `src/personality_memory/scoring.py`
-- consolidation behavior: `src/personality_memory/consolidator.py`
-- persona synthesis: `src/personality_memory/persona_builder.py`
+- `src/personality_memory/storage.py`
+- `src/personality_memory/cli.py`
+- `src/personality_memory/consolidator.py`
+- `src/personality_memory/lifecycle.py`
+- `src/personality_memory/retrieval.py`
+- `src/personality_memory/governance.py`
+- `src/personality_memory/evaluator.py`
 
 ## Notes On Persistence
 
-All persistent state lives under `data/` inside this skill directory, so the memory survives restarts as long as the directory is preserved.
+When the CLI is run without `--root`, it resolves to this bundled skill directory instead of the caller's current working directory.
 
-No external service is required.
+Use `--root` only when you intentionally want to point at another compatible skill data directory.
+
+All persistence remains local to the skill directory.

@@ -1,0 +1,11 @@
+{
+  "session_id": "aging-session-02",
+  "messages": [
+    {
+      "message_id": "m1",
+      "speaker": "user",
+      "timestamp": "2026-07-15T09:00:00Z",
+      "text": "I prefer direct answers when we talk about tools."
+    }
+  ]
+}

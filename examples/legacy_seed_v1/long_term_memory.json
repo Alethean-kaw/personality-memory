@@ -1,0 +1,24 @@
+[
+  {
+    "id": "ltm_seed_local",
+    "summary": "prefers local-only tooling",
+    "category": "preference",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_seed_local",
+        "session_id": "legacy-seed",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-02-25T09:00:00Z",
+        "excerpt": "I prefer local-only tooling."
+      }
+    ],
+    "confidence": 0.9,
+    "first_seen": "2026-02-25T09:00:00Z",
+    "last_seen": "2026-02-25T09:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true
+  }
+]

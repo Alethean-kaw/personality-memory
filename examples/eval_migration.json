@@ -1,0 +1,25 @@
+{
+  "name": "migration-seeded-replay",
+  "legacy_seed_dir": "legacy_seed_v1",
+  "dialogues": [
+    "dialogue_01.json"
+  ],
+  "retrieval_checks": [
+    {
+      "step": 1,
+      "query": "local-only tooling",
+      "expect_memory_ids": [
+        "ltm_seed_local"
+      ]
+    }
+  ],
+  "memory_checks": [
+    {
+      "step": 1,
+      "active_memory_ids": [
+        "ltm_seed_local",
+        "ltm_8bacb9c052af"
+      ]
+    }
+  ]
+}

@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from personality_memory.extractor import MemoryExtractor  # noqa: E402
-from personality_memory.models import ConversationEvent  # noqa: E402
+from personality_memory.models import ConversationEvent, MemoryCandidate  # noqa: E402
 
 
 class MemoryExtractorTests(unittest.TestCase):
@@ -46,6 +46,39 @@ class MemoryExtractorTests(unittest.TestCase):
         )
         candidates = extractor.extract_from_event(event)
         self.assertEqual(candidates, [])
+
+    def test_preserves_resolution_metadata_from_existing_candidates(self) -> None:
+        extractor = MemoryExtractor()
+        event = ConversationEvent(
+            id="evt_3",
+            session_id="s1",
+            message_id="m3",
+            speaker="user",
+            text="I prefer JSON output.",
+            occurred_at="2026-03-01T09:10:00Z",
+        )
+        existing_id = extractor.extract_from_event(event)[0].id
+        existing = MemoryCandidate(
+            id=existing_id,
+            content="prefers json output",
+            type="preference",
+            confidence=0.73,
+            created_at="2026-03-01T09:10:00Z",
+            status="accepted",
+            notes="Merged into ltm_pref",
+            resolution_kind="merged",
+            resolved_at="2026-03-02T09:00:00Z",
+            resolved_memory_id="ltm_pref",
+        )
+
+        candidates = extractor.extract_from_events([event], existing_candidates=[existing])
+
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0].status, "accepted")
+        self.assertEqual(candidates[0].notes, "Merged into ltm_pref")
+        self.assertEqual(candidates[0].resolution_kind, "merged")
+        self.assertEqual(candidates[0].resolved_at, "2026-03-02T09:00:00Z")
+        self.assertEqual(candidates[0].resolved_memory_id, "ltm_pref")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,33 @@
+{
+  "name": "stable-memory-replay",
+  "dialogues": [
+    "dialogue_01.json",
+    "dialogue_02.json"
+  ],
+  "retrieval_checks": [
+    {
+      "step": 1,
+      "query": "tabletop campaigns",
+      "expect_memory_ids": [
+        "ltm_8bacb9c052af"
+      ]
+    },
+    {
+      "step": 2,
+      "query": "local storage over cloud dependencies",
+      "expect_memory_ids": [
+        "ltm_8415250fa921"
+      ]
+    }
+  ],
+  "memory_checks": [
+    {
+      "step": 2,
+      "active_memory_ids": [
+        "ltm_8bacb9c052af",
+        "ltm_97c142d058aa",
+        "ltm_2b0baf9345a8"
+      ]
+    }
+  ]
+}

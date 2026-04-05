@@ -1,0 +1,280 @@
+[
+  {
+    "id": "ltm_8bacb9c052af",
+    "summary": "works on local-first writing tool for tabletop campaigns",
+    "category": "project",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_e2fa5eaa5dd9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+      },
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "confidence": 0.99,
+    "first_seen": "2026-03-01T09:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 2,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-15T10:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.2315,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_97c142d058aa",
+    "summary": "prefers concise and structured",
+    "category": "style",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_e2fa5eaa5dd9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+      }
+    ],
+    "confidence": 0.87,
+    "first_seen": "2026-03-01T09:00:00Z",
+    "last_seen": "2026-03-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-01T09:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1938,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_2b0baf9345a8",
+    "summary": "prefers json when it makes things clearer",
+    "category": "preference",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_e2fa5eaa5dd9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+      }
+    ],
+    "confidence": 0.81,
+    "first_seen": "2026-03-01T09:00:00Z",
+    "last_seen": "2026-03-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-01T09:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1938,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_db11dde7ccf1",
+    "summary": "avoids fluffy marketing language",
+    "category": "taboo",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_18297b44a8b9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m3",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+      }
+    ],
+    "confidence": 0.85,
+    "first_seen": "2026-03-01T09:01:00Z",
+    "last_seen": "2026-03-01T09:01:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-01T09:01:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1937,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_b3d1a2f233a8",
+    "summary": "often work in python from the cli",
+    "category": "routine",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_18297b44a8b9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m3",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+      }
+    ],
+    "confidence": 0.79,
+    "first_seen": "2026-03-01T09:01:00Z",
+    "last_seen": "2026-03-01T09:01:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-01T09:01:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.3875,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_5b0cb2e627ba",
+    "summary": "values local files and transparent behavior because i want the system to stay inspectable",
+    "category": "worldview",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_80d9e013874a",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m4",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:02:00Z",
+        "excerpt": "I value local files and transparent behavior because I want the system to stay inspectable."
+      }
+    ],
+    "confidence": 0.81,
+    "first_seen": "2026-03-01T09:02:00Z",
+    "last_seen": "2026-03-01T09:02:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-01T09:02:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1937,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_4b8a345308ca",
+    "summary": "prefers direct and concise",
+    "category": "style",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "confidence": 0.87,
+    "first_seen": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-15T10:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1157,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_8415250fa921",
+    "summary": "prefers local storage over cloud dependencies",
+    "category": "preference",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "confidence": 0.81,
+    "first_seen": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-15T10:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1157,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_9aed26aeae49",
+    "summary": "avoids opaque black-box workflows",
+    "category": "taboo",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_a71d0c6518f6",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:01:00Z",
+        "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+      }
+    ],
+    "confidence": 0.85,
+    "first_seen": "2026-03-15T10:01:00Z",
+    "last_seen": "2026-03-15T10:01:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-15T10:01:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.1157,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_4f7378f95fa4",
+    "summary": "often revisit long-running creative tooling projects",
+    "category": "routine",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_a71d0c6518f6",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:01:00Z",
+        "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+      }
+    ],
+    "confidence": 0.79,
+    "first_seen": "2026-03-15T10:01:00Z",
+    "last_seen": "2026-03-15T10:01:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-03-15T10:01:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.2315,
+    "stale_since": null,
+    "superseded_by": null
+  }
+]

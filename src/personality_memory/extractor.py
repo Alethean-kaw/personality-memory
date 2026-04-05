@@ -32,6 +32,9 @@ class MemoryExtractor:
                     old = preserved[candidate.id]
                     candidate.status = old.status
                     candidate.notes = old.notes
+                    candidate.resolution_kind = old.resolution_kind
+                    candidate.resolved_at = old.resolved_at
+                    candidate.resolved_memory_id = old.resolved_memory_id
                 seen_ids.add(candidate.id)
                 extracted.append(candidate)
         return extracted

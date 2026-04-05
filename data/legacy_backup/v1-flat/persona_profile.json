@@ -1,0 +1,251 @@
+{
+  "generated_at": "2026-04-04T20:15:56Z",
+  "memory_refs": [
+    "ltm_8bacb9c052af",
+    "ltm_97c142d058aa",
+    "ltm_4b8a345308ca",
+    "ltm_db11dde7ccf1",
+    "ltm_9aed26aeae49",
+    "ltm_2b0baf9345a8",
+    "ltm_8415250fa921",
+    "ltm_5b0cb2e627ba",
+    "ltm_4f7378f95fa4",
+    "ltm_b3d1a2f233a8"
+  ],
+  "communication_style": {
+    "summary": "Signals suggest the user prefers concise and structured, prefers direct and concise, avoids fluffy marketing language, and prefers json when it makes things clearer.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_97c142d058aa",
+        "summary": "prefers concise and structured",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_4b8a345308ca",
+        "summary": "prefers direct and concise",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_db11dde7ccf1",
+        "summary": "avoids fluffy marketing language",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_2b0baf9345a8",
+        "summary": "prefers json when it makes things clearer",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "priorities": {
+    "summary": "Signals suggest the user prefers json when it makes things clearer, prefers local storage over cloud dependencies, and values local files and transparent behavior because i want the system to stay inspectable.",
+    "strong_signals": [],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_2b0baf9345a8",
+        "summary": "prefers json when it makes things clearer",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_8415250fa921",
+        "summary": "prefers local storage over cloud dependencies",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_5b0cb2e627ba",
+        "summary": "values local files and transparent behavior because i want the system to stay inspectable",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "recurring_interests": {
+    "summary": "Signals suggest the user works on local-first writing tool for tabletop campaigns, often revisit long-running creative tooling projects, and often work in python from the cli.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_8bacb9c052af",
+        "summary": "works on local-first writing tool for tabletop campaigns",
+        "confidence": 0.99,
+        "effective_confidence": 0.99,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_4f7378f95fa4",
+        "summary": "often revisit long-running creative tooling projects",
+        "confidence": 0.79,
+        "effective_confidence": 0.79,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_b3d1a2f233a8",
+        "summary": "often work in python from the cli",
+        "confidence": 0.79,
+        "effective_confidence": 0.79,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "working_preferences": {
+    "summary": "Signals suggest the user works on local-first writing tool for tabletop campaigns, prefers concise and structured, prefers direct and concise, and prefers json when it makes things clearer.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_8bacb9c052af",
+        "summary": "works on local-first writing tool for tabletop campaigns",
+        "confidence": 0.99,
+        "effective_confidence": 0.99,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_97c142d058aa",
+        "summary": "prefers concise and structured",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_4b8a345308ca",
+        "summary": "prefers direct and concise",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_2b0baf9345a8",
+        "summary": "prefers json when it makes things clearer",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_8415250fa921",
+        "summary": "prefers local storage over cloud dependencies",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_4f7378f95fa4",
+        "summary": "often revisit long-running creative tooling projects",
+        "confidence": 0.79,
+        "effective_confidence": 0.79,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "emotional_tone_preferences": {
+    "summary": "Signals suggest the user prefers direct and concise and avoids fluffy marketing language.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_4b8a345308ca",
+        "summary": "prefers direct and concise",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_db11dde7ccf1",
+        "summary": "avoids fluffy marketing language",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [],
+    "weak_signals": []
+  },
+  "likely_goals": {
+    "summary": "Signals suggest the user works on local-first writing tool for tabletop campaigns.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_8bacb9c052af",
+        "summary": "works on local-first writing tool for tabletop campaigns",
+        "confidence": 0.99,
+        "effective_confidence": 0.99,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [],
+    "weak_signals": []
+  },
+  "avoidances": {
+    "summary": "Signals suggest the user avoids fluffy marketing language and avoids opaque black-box workflows.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_db11dde7ccf1",
+        "summary": "avoids fluffy marketing language",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_9aed26aeae49",
+        "summary": "avoids opaque black-box workflows",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [],
+    "weak_signals": []
+  },
+  "contested_signals": [],
+  "system_adaptation_notes": [
+    {
+      "note": "Default to concise, structured answers and use JSON or explicit formats when it improves clarity.",
+      "memory_refs": [
+        "ltm_97c142d058aa",
+        "ltm_4b8a345308ca",
+        "ltm_2b0baf9345a8"
+      ],
+      "strength": "strong"
+    },
+    {
+      "note": "Prefer local-first, file-based, CLI-friendly solutions over hosted services or GUI-heavy ideas.",
+      "memory_refs": [
+        "ltm_8bacb9c052af",
+        "ltm_8415250fa921",
+        "ltm_5b0cb2e627ba",
+        "ltm_b3d1a2f233a8"
+      ],
+      "strength": "strong"
+    },
+    {
+      "note": "Avoid hype, fluffy marketing language, and patronizing tone; keep the interaction grounded and respectful.",
+      "memory_refs": [
+        "ltm_db11dde7ccf1"
+      ],
+      "strength": "strong"
+    },
+    {
+      "note": "Maintain continuity around recurring projects and connect new advice back to the existing project context.",
+      "memory_refs": [
+        "ltm_8bacb9c052af"
+      ],
+      "strength": "strong"
+    }
+  ],
+  "markdown_summary": "# Persona Profile\n\n## Communication Style\n- Signals suggest the user prefers concise and structured, prefers direct and concise, avoids fluffy marketing language, and prefers json when it makes things clearer.\n\n## Priorities\n- Signals suggest the user prefers json when it makes things clearer, prefers local storage over cloud dependencies, and values local files and transparent behavior because i want the system to stay inspectable.\n\n## Recurring Interests\n- Signals suggest the user works on local-first writing tool for tabletop campaigns, often revisit long-running creative tooling projects, and often work in python from the cli.\n\n## Working Preferences\n- Signals suggest the user works on local-first writing tool for tabletop campaigns, prefers concise and structured, prefers direct and concise, and prefers json when it makes things clearer.\n\n## Emotional Tone Preferences\n- Signals suggest the user prefers direct and concise and avoids fluffy marketing language.\n\n## Likely Goals\n- Signals suggest the user works on local-first writing tool for tabletop campaigns.\n\n## Avoidances\n- Signals suggest the user avoids fluffy marketing language and avoids opaque black-box workflows.\n\n## Contested Signals\n- No heavily contested memories right now.\n\n## System Adaptation Notes\n- Default to concise, structured answers and use JSON or explicit formats when it improves clarity. (refs: ltm_97c142d058aa, ltm_4b8a345308ca, ltm_2b0baf9345a8)\n- Prefer local-first, file-based, CLI-friendly solutions over hosted services or GUI-heavy ideas. (refs: ltm_8bacb9c052af, ltm_8415250fa921, ltm_5b0cb2e627ba, ltm_b3d1a2f233a8)\n- Avoid hype, fluffy marketing language, and patronizing tone; keep the interaction grounded and respectful. (refs: ltm_db11dde7ccf1)\n- Maintain continuity around recurring projects and connect new advice back to the existing project context. (refs: ltm_8bacb9c052af)"
+}

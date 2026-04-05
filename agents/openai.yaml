@@ -1,7 +1,7 @@
 interface:
   display_name: "Personality Memory"
-  short_description: "Persistent persona memory from dialogue history."
-  default_prompt: "Use $personality-memory to ingest dialogue logs and build an explainable long-term persona profile."
+  short_description: "Persistent profile-aware memory and runtime persona context from dialogue history."
+  default_prompt: "Before generating a personalized answer, call $personality-memory retrieve-context with the current task or question. Use prepare-context only when you need a human-readable Markdown rendering."
 
 policy:
   allow_implicit_invocation: true

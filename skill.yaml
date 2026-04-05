@@ -1,18 +1,31 @@
 name: personality-memory
-version: 0.1.0
+version: 0.3.0
 description: >
-  Self-contained OpenClaw skill for durable conversation memory, long-term user modeling,
-  persona generation, and manual memory revision without external services.
+  Self-contained OpenClaw skill for profile-aware conversation memory, long-term user modeling,
+  lifecycle-aware persona generation, retrieval/runtime context preparation, storage migration,
+  review governance, replay evaluation, and manual memory revision without external services.
 language: python
 entrypoint: python -m personality_memory.cli
 data_dir: ./data
 commands:
+  - migrate-storage
+  - list-profiles
+  - create-profile
+  - show-profile
+  - set-default-profile
   - ingest
   - extract
   - consolidate
   - build-persona
+  - retrieve-context
+  - prepare-context
   - show-memory
   - show-persona
+  - list-review
+  - show-review
+  - resolve-review
+  - reopen-candidate
   - forget
   - revise
+  - replay-eval
   - export

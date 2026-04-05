@@ -1,0 +1,40 @@
+{
+  "name": "conflict-review-replay",
+  "dialogues": [
+    "dialogue_01.json",
+    "dialogue_03_conflict.json"
+  ],
+  "actions": [
+    {
+      "step": 2,
+      "type": "resolve_review",
+      "candidate_content": "prefers verbose and detailed",
+      "action": "reject-candidate",
+      "reason": "Demo review resolution: keep the original concise-style memory and reject the conflicting candidate."
+    }
+  ],
+  "retrieval_checks": [
+    {
+      "step": 1,
+      "query": "concise and structured answers",
+      "expect_memory_ids": [
+        "ltm_97c142d058aa"
+      ]
+    },
+    {
+      "step": 2,
+      "query": "concise and structured answers",
+      "expect_memory_ids": [
+        "ltm_97c142d058aa"
+      ]
+    }
+  ],
+  "memory_checks": [
+    {
+      "step": 2,
+      "candidate_statuses": {
+        "cand_1c0b636337c4": "rejected"
+      }
+    }
+  ]
+}

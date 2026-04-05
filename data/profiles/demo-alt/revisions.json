@@ -1,0 +1,182 @@
+[
+  {
+    "id": "rev_5c83efea4491",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_8bacb9c052af",
+    "action": "create",
+    "timestamp": "2026-04-05T06:00:25Z",
+    "reason": "Candidate cand_7460c581fdc9 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_8bacb9c052af",
+      "summary": "works on local-first writing tool for tabletop campaigns",
+      "category": "project",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_550e5dae13fa",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:00:00Z",
+          "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+        }
+      ],
+      "confidence": 0.89,
+      "first_seen": "2026-03-15T10:00:00Z",
+      "last_seen": "2026-03-15T10:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_1baf171589c9",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_4b8a345308ca",
+    "action": "create",
+    "timestamp": "2026-04-05T06:00:25Z",
+    "reason": "Candidate cand_90b703c98fe3 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_4b8a345308ca",
+      "summary": "prefers direct and concise",
+      "category": "style",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_550e5dae13fa",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:00:00Z",
+          "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+        }
+      ],
+      "confidence": 0.87,
+      "first_seen": "2026-03-15T10:00:00Z",
+      "last_seen": "2026-03-15T10:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_af8e086bd0fe",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_8415250fa921",
+    "action": "create",
+    "timestamp": "2026-04-05T06:00:25Z",
+    "reason": "Candidate cand_4501e8f9ec08 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_8415250fa921",
+      "summary": "prefers local storage over cloud dependencies",
+      "category": "preference",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_550e5dae13fa",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:00:00Z",
+          "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+        }
+      ],
+      "confidence": 0.81,
+      "first_seen": "2026-03-15T10:00:00Z",
+      "last_seen": "2026-03-15T10:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_e19076bc55d1",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_9aed26aeae49",
+    "action": "create",
+    "timestamp": "2026-04-05T06:00:25Z",
+    "reason": "Candidate cand_94d5ff80fdb4 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_9aed26aeae49",
+      "summary": "avoids opaque black-box workflows",
+      "category": "taboo",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_a71d0c6518f6",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m2",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:01:00Z",
+          "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+        }
+      ],
+      "confidence": 0.85,
+      "first_seen": "2026-03-15T10:01:00Z",
+      "last_seen": "2026-03-15T10:01:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_b152e6e8f1dd",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_4f7378f95fa4",
+    "action": "create",
+    "timestamp": "2026-04-05T06:00:25Z",
+    "reason": "Candidate cand_a9a573ac9bee promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_4f7378f95fa4",
+      "summary": "often revisit long-running creative tooling projects",
+      "category": "routine",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_a71d0c6518f6",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m2",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:01:00Z",
+          "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+        }
+      ],
+      "confidence": 0.79,
+      "first_seen": "2026-03-15T10:01:00Z",
+      "last_seen": "2026-03-15T10:01:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  }
+]

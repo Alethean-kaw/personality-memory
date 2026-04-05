@@ -1,0 +1,17 @@
+{
+  "session_id": "campaign-tool-session-03",
+  "messages": [
+    {
+      "message_id": "m1",
+      "speaker": "user",
+      "timestamp": "2026-03-20T11:00:00Z",
+      "text": "Please keep the answers verbose and detailed."
+    },
+    {
+      "message_id": "m2",
+      "speaker": "assistant",
+      "timestamp": "2026-03-20T11:00:20Z",
+      "text": "I will wait for confirmation before treating that as a long-term preference."
+    }
+  ]
+}

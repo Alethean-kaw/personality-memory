@@ -16,7 +16,10 @@
     ],
     "created_at": "2026-03-01T09:00:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_97c142d058aa"
+    "notes": "Promoted to ltm_97c142d058aa",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_97c142d058aa"
   },
   {
     "id": "cand_48aeecf8ddcf",
@@ -35,7 +38,10 @@
     ],
     "created_at": "2026-03-01T09:00:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_2b0baf9345a8"
+    "notes": "Promoted to ltm_2b0baf9345a8",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_2b0baf9345a8"
   },
   {
     "id": "cand_42ad01d243c4",
@@ -54,7 +60,10 @@
     ],
     "created_at": "2026-03-01T09:00:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_8bacb9c052af"
+    "notes": "Promoted to ltm_8bacb9c052af",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_8bacb9c052af"
   },
   {
     "id": "cand_353eeed79527",
@@ -73,7 +82,10 @@
     ],
     "created_at": "2026-03-01T09:01:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_db11dde7ccf1"
+    "notes": "Promoted to ltm_db11dde7ccf1",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_db11dde7ccf1"
   },
   {
     "id": "cand_befa1b2f24da",
@@ -92,7 +104,10 @@
     ],
     "created_at": "2026-03-01T09:01:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_b3d1a2f233a8"
+    "notes": "Promoted to ltm_b3d1a2f233a8",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_b3d1a2f233a8"
   },
   {
     "id": "cand_6654e5672f6d",
@@ -111,7 +126,10 @@
     ],
     "created_at": "2026-03-01T09:02:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_5b0cb2e627ba"
+    "notes": "Promoted to ltm_5b0cb2e627ba",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_5b0cb2e627ba"
   },
   {
     "id": "cand_90b703c98fe3",
@@ -130,7 +148,10 @@
     ],
     "created_at": "2026-03-15T10:00:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_4b8a345308ca"
+    "notes": "Promoted to ltm_4b8a345308ca",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_4b8a345308ca"
   },
   {
     "id": "cand_4501e8f9ec08",
@@ -149,7 +170,10 @@
     ],
     "created_at": "2026-03-15T10:00:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_8415250fa921"
+    "notes": "Promoted to ltm_8415250fa921",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_8415250fa921"
   },
   {
     "id": "cand_7460c581fdc9",
@@ -168,7 +192,10 @@
     ],
     "created_at": "2026-03-15T10:00:00Z",
     "status": "accepted",
-    "notes": "Merged into ltm_8bacb9c052af"
+    "notes": "Merged into ltm_8bacb9c052af",
+    "resolution_kind": "merged",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_8bacb9c052af"
   },
   {
     "id": "cand_94d5ff80fdb4",
@@ -187,7 +214,10 @@
     ],
     "created_at": "2026-03-15T10:01:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_9aed26aeae49"
+    "notes": "Promoted to ltm_9aed26aeae49",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_9aed26aeae49"
   },
   {
     "id": "cand_a9a573ac9bee",
@@ -206,7 +236,10 @@
     ],
     "created_at": "2026-03-15T10:01:00Z",
     "status": "accepted",
-    "notes": "Promoted to ltm_4f7378f95fa4"
+    "notes": "Promoted to ltm_4f7378f95fa4",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-04T20:15:56Z",
+    "resolved_memory_id": "ltm_4f7378f95fa4"
   },
   {
     "id": "cand_1fb4165cfce7",
@@ -225,6 +258,9 @@
     ],
     "created_at": "2026-03-15T10:02:00Z",
     "status": "candidate",
-    "notes": "Needs more evidence (support=1)"
+    "notes": "Needs more evidence (support=1)",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
   }
 ]

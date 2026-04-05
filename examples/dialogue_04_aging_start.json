@@ -1,0 +1,11 @@
+{
+  "session_id": "aging-session-01",
+  "messages": [
+    {
+      "message_id": "m1",
+      "speaker": "user",
+      "timestamp": "2026-01-01T09:00:00Z",
+      "text": "I'm building an archival note-taking engine for narrative campaigns."
+    }
+  ]
+}

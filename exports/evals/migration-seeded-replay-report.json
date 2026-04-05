@@ -1,0 +1,108 @@
+{
+  "name": "migration-seeded-replay",
+  "backend": "hybrid",
+  "generated_at": "2026-04-05T06:00:25Z",
+  "passed": true,
+  "steps": [
+    {
+      "step": 1,
+      "profile": "default",
+      "dialogue": "D:\\GPT Codex\\OpenClaw Skill\\personality-memory\\examples\\dialogue_01.json",
+      "counts": {
+        "conversation_events": 4,
+        "memory_candidates": 6,
+        "long_term_memory": 7,
+        "open_reviews": 0
+      },
+      "actions": [],
+      "retrieval_checks": [
+        {
+          "name": "retrieval:local-only tooling",
+          "profile": "default",
+          "passed": true,
+          "actual_memory_ids": [
+            "ltm_seed_local",
+            "ltm_8bacb9c052af",
+            "ltm_97c142d058aa",
+            "ltm_2b0baf9345a8",
+            "ltm_5b0cb2e627ba"
+          ],
+          "expected_memory_ids": [
+            "ltm_seed_local"
+          ],
+          "expected_absent_memory_ids": [],
+          "schema_version": 2
+        }
+      ],
+      "memory_checks": [
+        {
+          "name": "memory-step-1",
+          "profile": "default",
+          "passed": true,
+          "active_memory_ids": [
+            "ltm_2b0baf9345a8",
+            "ltm_5b0cb2e627ba",
+            "ltm_8bacb9c052af",
+            "ltm_97c142d058aa",
+            "ltm_b3d1a2f233a8",
+            "ltm_db11dde7ccf1",
+            "ltm_seed_local"
+          ],
+          "inactive_memory_ids": [],
+          "open_review_ids": [],
+          "candidate_statuses": {
+            "cand_3fd75f3d37a0": "accepted",
+            "cand_48aeecf8ddcf": "accepted",
+            "cand_42ad01d243c4": "accepted",
+            "cand_353eeed79527": "accepted",
+            "cand_befa1b2f24da": "accepted",
+            "cand_6654e5672f6d": "accepted"
+          },
+          "lifecycle_states": {
+            "ltm_seed_local": "active",
+            "ltm_8bacb9c052af": "active",
+            "ltm_97c142d058aa": "active",
+            "ltm_2b0baf9345a8": "active",
+            "ltm_db11dde7ccf1": "active",
+            "ltm_b3d1a2f233a8": "active",
+            "ltm_5b0cb2e627ba": "active"
+          }
+        }
+      ],
+      "invariants": [
+        {
+          "name": "idempotence",
+          "profile": "default",
+          "passed": true
+        },
+        {
+          "name": "terminal_support_ignored",
+          "profile": "default",
+          "passed": true
+        },
+        {
+          "name": "inactive_not_retrieved",
+          "profile": "default",
+          "passed": true,
+          "checked_memory_ids": []
+        },
+        {
+          "name": "contested_separated",
+          "profile": "default",
+          "passed": true,
+          "checked_memory_ids": []
+        },
+        {
+          "name": "review_auditability",
+          "profile": "default",
+          "passed": true
+        },
+        {
+          "name": "runtime_contract",
+          "profile": "default",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 [
   {
-    "id": "rev_50fb04ab9f82",
+    "id": "rev_255e07666f97",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_8bacb9c052af",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_42ad01d243c4 promoted into long-term memory",
     "before": null,
     "after": {
@@ -27,15 +27,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_688a3e8bab88",
+    "id": "rev_452b511c79d5",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_97c142d058aa",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_3fd75f3d37a0 promoted into long-term memory",
     "before": null,
     "after": {
@@ -58,15 +63,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_4e5a2c67654c",
+    "id": "rev_1237ae314901",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_2b0baf9345a8",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_48aeecf8ddcf promoted into long-term memory",
     "before": null,
     "after": {
@@ -89,15 +99,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_cca431c7fea8",
+    "id": "rev_c7deb39f83ea",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_db11dde7ccf1",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_353eeed79527 promoted into long-term memory",
     "before": null,
     "after": {
@@ -120,15 +135,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_0b1bb790b5d8",
+    "id": "rev_c690a585c648",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_b3d1a2f233a8",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_befa1b2f24da promoted into long-term memory",
     "before": null,
     "after": {
@@ -151,15 +171,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_def534235b4a",
+    "id": "rev_547d38e8e2da",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_5b0cb2e627ba",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_6654e5672f6d promoted into long-term memory",
     "before": null,
     "after": {
@@ -182,15 +207,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:02:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_b8a41d8acb47",
+    "id": "rev_d1f51f1b824f",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_8bacb9c052af",
     "action": "reinforce",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_7460c581fdc9 reinforced memory ltm_8bacb9c052af",
     "before": {
       "id": "ltm_8bacb9c052af",
@@ -212,7 +242,12 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     },
     "after": {
       "id": "ltm_8bacb9c052af",
@@ -242,15 +277,20 @@
       "reinforcement_count": 2,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_f609f0a75129",
+    "id": "rev_1baf171589c9",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_4b8a345308ca",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_90b703c98fe3 promoted into long-term memory",
     "before": null,
     "after": {
@@ -273,15 +313,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_beed698f9cc1",
+    "id": "rev_af8e086bd0fe",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_8415250fa921",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_4501e8f9ec08 promoted into long-term memory",
     "before": null,
     "after": {
@@ -304,15 +349,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_00f9c20e48f6",
+    "id": "rev_e19076bc55d1",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_9aed26aeae49",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_94d5ff80fdb4 promoted into long-term memory",
     "before": null,
     "after": {
@@ -335,15 +385,20 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   },
   {
-    "id": "rev_10b0b9bf3839",
+    "id": "rev_b152e6e8f1dd",
     "entity_type": "long_term_memory",
     "entity_id": "ltm_4f7378f95fa4",
     "action": "create",
-    "timestamp": "2026-04-04T18:14:58+00:00",
+    "timestamp": "2026-04-05T06:00:25Z",
     "reason": "Candidate cand_a9a573ac9bee promoted into long-term memory",
     "before": null,
     "after": {
@@ -366,7 +421,12 @@
       "reinforcement_count": 1,
       "contradiction_count": 0,
       "mutable": true,
-      "active": true
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
     }
   }
 ]

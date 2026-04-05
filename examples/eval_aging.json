@@ -1,0 +1,44 @@
+{
+  "name": "aging-revive-replay",
+  "dialogues": [
+    "dialogue_04_aging_start.json",
+    "dialogue_05_aging_checkpoint.json",
+    "dialogue_06_aging_revive.json"
+  ],
+  "retrieval_checks": [
+    {
+      "step": 2,
+      "query": "archival note-taking engine",
+      "expect_absent_memory_ids": [
+        "ltm_48bc6085afad"
+      ]
+    },
+    {
+      "step": 3,
+      "query": "archival note-taking engine",
+      "expect_memory_ids": [
+        "ltm_48bc6085afad"
+      ]
+    }
+  ],
+  "memory_checks": [
+    {
+      "step": 2,
+      "inactive_memory_ids": [
+        "ltm_48bc6085afad"
+      ],
+      "lifecycle_states": {
+        "ltm_48bc6085afad": "expired"
+      }
+    },
+    {
+      "step": 3,
+      "active_memory_ids": [
+        "ltm_48bc6085afad"
+      ],
+      "lifecycle_states": {
+        "ltm_48bc6085afad": "active"
+      }
+    }
+  ]
+}
