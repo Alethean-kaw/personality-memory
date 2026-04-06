@@ -1,0 +1,16 @@
+{
+  "id": "2026-04-06-122254Z-consolidate",
+  "action": "consolidate",
+  "scope": "profile",
+  "profile_id": "demo-alt",
+  "created_at": "2026-04-06T12:22:54Z",
+  "files": [
+    "conversations.jsonl",
+    "memory_candidates.json",
+    "candidate_archive.json",
+    "long_term_memory.json",
+    "persona_profile.json",
+    "review_items.json",
+    "revisions.json"
+  ]
+}

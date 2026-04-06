@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from personality_memory.models import ConversationEvent, EvidenceRef, LongTermMemory  # noqa: E402
+from personality_memory.models import ConversationEvent, EvidenceRef, LongTermMemory, MemoryCandidate  # noqa: E402
 from personality_memory.storage import DEFAULT_PROFILE_ID, SCHEMA_VERSION, Storage  # noqa: E402
 
 
@@ -159,3 +159,58 @@ class StorageProfileTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class StorageOperationalTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.root = ROOT / f".tmp-storage-ops-{uuid.uuid4().hex}"
+        self.root.mkdir(parents=True, exist_ok=False)
+        (self.root / "skill.yaml").write_text("name: storage-ops-test\n", encoding="utf-8")
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.root, ignore_errors=True)
+
+    def test_profile_snapshot_can_restore_candidates(self) -> None:
+        storage = Storage(self.root)
+        candidate = MemoryCandidate(
+            id="cand_snap",
+            content="prefers local-only tooling",
+            type="preference",
+            confidence=0.8,
+            created_at="2026-03-01T09:00:00Z",
+        )
+
+        with storage.mutation("seed-candidates", scope="profile"):
+            storage.save_memory_candidates([candidate])
+
+        with storage.mutation("clear-candidates", scope="profile"):
+            storage.save_memory_candidates([])
+
+        snapshots = storage.list_snapshots(scope="profile", profile_id="default")
+        self.assertTrue(snapshots)
+        snapshot_id = next(item["id"] for item in snapshots if item["action"] == "clear-candidates")
+
+        with storage.mutation("restore-snapshot", scope="profile"):
+            result = storage.restore_snapshot(snapshot_id, profile_id="default")
+
+        self.assertEqual(result["snapshot_id"], snapshot_id)
+        self.assertEqual(len(storage.load_memory_candidates()), 1)
+        self.assertEqual(storage.load_memory_candidates()[0].id, "cand_snap")
+        self.assertTrue(any(item.action == "restore_snapshot" for item in storage.load_revisions()))
+
+    def test_storage_health_detects_active_archive_overlap(self) -> None:
+        storage = Storage(self.root)
+        candidate = MemoryCandidate(
+            id="cand_overlap",
+            content="prefers local-only tooling",
+            type="preference",
+            confidence=0.8,
+            created_at="2026-03-01T09:00:00Z",
+        )
+        storage.save_memory_candidates([candidate])
+        storage.save_candidate_archive([candidate])
+
+        report = storage.storage_health()
+
+        self.assertFalse(report["ok"])
+        self.assertTrue(any("candidate_overlap:default" in issue for issue in report["issues"]))
+

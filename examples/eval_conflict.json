@@ -32,8 +32,8 @@
   "memory_checks": [
     {
       "step": 2,
-      "candidate_statuses": {
-        "cand_1c0b636337c4": "rejected"
+      "candidate_contents": {
+        "prefers verbose and detailed": "rejected"
       }
     }
   ]

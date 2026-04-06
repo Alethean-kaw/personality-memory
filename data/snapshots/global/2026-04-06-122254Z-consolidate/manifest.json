@@ -1,0 +1,12 @@
+{
+  "id": "2026-04-06-122254Z-consolidate",
+  "action": "consolidate",
+  "scope": "global",
+  "profile_id": null,
+  "created_at": "2026-04-06T12:22:54Z",
+  "files": [
+    "registry.json",
+    "migrations.json",
+    "runtime_sessions.json"
+  ]
+}

@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
+import tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -176,9 +178,9 @@ def read_json(path: Path, default: Any) -> Any:
     return json.loads(raw)
 
 
-def write_json(path: Path, payload: Any) -> None:
-    ensure_directory(path.parent)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+def read_json_strict(path: Path) -> Any:
+    raw = path.read_text(encoding="utf-8")
+    return json.loads(raw) if raw.strip() else None
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -188,12 +190,38 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in lines if line.strip()]
 
 
-def write_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> None:
+def read_jsonl_strict(path: Path) -> list[dict[str, Any]]:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    return [json.loads(line) for line in lines if line.strip()]
+
+
+def atomic_write_bytes(path: Path, payload: bytes) -> None:
     ensure_directory(path.parent)
+    temp_fd, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(temp_fd, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_name, path)
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+
+
+def atomic_write_text(path: Path, text: str, *, encoding: str = "utf-8") -> None:
+    atomic_write_bytes(path, text.encode(encoding))
+
+
+def write_json(path: Path, payload: Any) -> None:
+    atomic_write_text(path, json.dumps(payload, indent=2, ensure_ascii=False))
+
+
+def write_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> None:
     serialized = "\n".join(json.dumps(row, ensure_ascii=False) for row in rows)
     if serialized:
         serialized += "\n"
-    path.write_text(serialized, encoding="utf-8")
+    atomic_write_text(path, serialized)
 
 
 def sentence_excerpt(text: str, limit: int = 160) -> str:

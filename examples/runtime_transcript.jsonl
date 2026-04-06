@@ -1,0 +1,6 @@
+{"id":"1","action":"hello","params":{}}
+{"id":"2","action":"create_profile","params":{"profile_id":"writer-alt","display_name":"Writer Alt"}}
+{"id":"3","action":"open_session","params":{"session_id":"demo-thread","profile_id":"writer-alt"}}
+{"id":"4","action":"step","params":{"session_id":"demo-thread","query":"How should I answer?","messages":[{"message_id":"m1","speaker":"user","timestamp":"2026-04-01T09:00:00Z","text":"I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."},{"message_id":"m2","speaker":"user","timestamp":"2026-04-01T09:01:00Z","text":"I dislike fluffy marketing language and I usually work in Python from the CLI."}]}}
+{"id":"5","action":"retrieve_context","params":{"session_id":"demo-thread","query":"Need concise JSON guidance"}}
+{"id":"6","action":"close_session","params":{"session_id":"demo-thread"}}

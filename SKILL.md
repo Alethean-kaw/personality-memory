@@ -9,10 +9,11 @@ Use the local Python package and CLI in this folder to maintain a durable, expla
 
 ## Recommended Runtime Flow
 
-1. Call `python -m personality_memory.cli retrieve-context --query ...` or `personality-memory retrieve-context --query ...` before generating a personalized answer.
-2. Treat the returned JSON as the machine contract for runtime personalization.
-3. Use `prepare-context` only when you need a human-readable Markdown rendering for prompt injection or debugging.
-4. Use `build-persona` to refresh the persisted persona snapshot when memory state changes materially.
+1. Start `personality-memory session-runtime` and keep it open as a long-running JSONL process.
+2. Call `hello` once to discover capabilities, then `open_session` if you want to pin a profile explicitly.
+3. Use `step` as the primary persist-then-retrieve contract before generating a personalized answer.
+4. Use `retrieve_context` and `prepare_context` only as low-level maintenance or debugging actions.
+5. Keep the classic CLI commands for storage maintenance, replay evaluation, export, and manual inspection.
 
 ## Workflow
 
@@ -23,7 +24,9 @@ Use the local Python package and CLI in this folder to maintain a durable, expla
 5. Run `build-persona` to generate the structured persona profile and Markdown summary.
 6. Use `retrieve-context` / `prepare-context` to prepare grounded assistant context for new tasks.
 7. Use `list-review`, `show-review`, `resolve-review`, and `reopen-candidate` to arbitrate unresolved conflicts.
-8. Use `show-memory`, `show-persona`, `forget`, `revise`, `replay-eval`, and `export` for inspection, correction, and evaluation.
+8. Use `list-candidates`, `show-candidate`, `restore-candidate`, and `archive-candidates` to manage the candidate working set and archive.
+9. Use `list-snapshots`, `restore-snapshot`, and `storage-health` for operational recovery and integrity checks.
+10. Use `show-memory`, `show-persona`, `forget`, `revise`, `replay-eval`, and `export` for inspection, correction, and evaluation.
 
 ## Storage
 
@@ -33,10 +36,13 @@ Keep all state in this skill directory:
 - `data/migrations.json`
 - `data/profiles/<profile_id>/conversations.jsonl`
 - `data/profiles/<profile_id>/memory_candidates.json`
+- `data/profiles/<profile_id>/candidate_archive.json`
 - `data/profiles/<profile_id>/long_term_memory.json`
 - `data/profiles/<profile_id>/persona_profile.json`
 - `data/profiles/<profile_id>/review_items.json`
 - `data/profiles/<profile_id>/revisions.json`
+- `data/runtime_sessions.json`
+- `data/snapshots/...` for write-before snapshots and recovery
 - `data/legacy_backup/v1-flat/` for auto-migrated backups
 
 ## Implementation Notes
@@ -44,7 +50,7 @@ Keep all state in this skill directory:
 - The extractor is conservative and prefers explicit, repeated, long-term signals over one-off requests.
 - Candidate memory exists as a quarantine layer so uncertain signals can accumulate evidence before becoming durable memory.
 - Persona generation is derived from accepted active long-term memory only, while contested memories are separated into `contested_signals`.
-- `retrieve-context` is the stable runtime contract for downstream assistant use.
+- `session-runtime` is the primary runtime contract; `step` is the main machine-facing action and `retrieve-context` remains the low-level retrieval bundle.
 - Retrieval and consolidation share a pluggable similarity backend; `hybrid` is the default and `lexical` remains available for comparison.
 - Lifecycle aging hides dormant / expired memories from default persona and retrieval output without deleting them.
 - Review items make conflicts auditable and manually resolvable without silently overwriting memory.
@@ -61,3 +67,4 @@ Keep all state in this skill directory:
 - Consolidation logic: `src/personality_memory/consolidator.py`
 - Persona synthesis: `src/personality_memory/persona_builder.py`
 - Demo runner: `scripts/demo.py`
+

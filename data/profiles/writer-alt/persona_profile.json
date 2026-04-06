@@ -1,0 +1,187 @@
+{
+  "generated_at": "2026-04-01T09:01:00Z",
+  "memory_refs": [
+    "ltm_f737f102d10c",
+    "ltm_97c142d058aa",
+    "ltm_db11dde7ccf1",
+    "ltm_4b7e07a2fda1",
+    "ltm_b3d1a2f233a8"
+  ],
+  "communication_style": {
+    "summary": "Signals suggest the user prefers concise and structured, avoids fluffy marketing language, and prefers json when it clarifies the output.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_97c142d058aa",
+        "summary": "prefers concise and structured",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_db11dde7ccf1",
+        "summary": "avoids fluffy marketing language",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_4b7e07a2fda1",
+        "summary": "prefers json when it clarifies the output",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "priorities": {
+    "summary": "Signals suggest the user prefers json when it clarifies the output.",
+    "strong_signals": [],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_4b7e07a2fda1",
+        "summary": "prefers json when it clarifies the output",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "recurring_interests": {
+    "summary": "Signals suggest the user works on local-first writing tool and often work in python from the cli.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_f737f102d10c",
+        "summary": "works on local-first writing tool",
+        "confidence": 0.89,
+        "effective_confidence": 0.89,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_b3d1a2f233a8",
+        "summary": "often work in python from the cli",
+        "confidence": 0.79,
+        "effective_confidence": 0.79,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "working_preferences": {
+    "summary": "Signals suggest the user works on local-first writing tool, prefers concise and structured, prefers json when it clarifies the output, and often work in python from the cli.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_f737f102d10c",
+        "summary": "works on local-first writing tool",
+        "confidence": 0.89,
+        "effective_confidence": 0.89,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_97c142d058aa",
+        "summary": "prefers concise and structured",
+        "confidence": 0.87,
+        "effective_confidence": 0.87,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [
+      {
+        "memory_id": "ltm_4b7e07a2fda1",
+        "summary": "prefers json when it clarifies the output",
+        "confidence": 0.81,
+        "effective_confidence": 0.81,
+        "contradiction_count": 0
+      },
+      {
+        "memory_id": "ltm_b3d1a2f233a8",
+        "summary": "often work in python from the cli",
+        "confidence": 0.79,
+        "effective_confidence": 0.79,
+        "contradiction_count": 0
+      }
+    ],
+    "weak_signals": []
+  },
+  "emotional_tone_preferences": {
+    "summary": "Signals suggest the user avoids fluffy marketing language.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_db11dde7ccf1",
+        "summary": "avoids fluffy marketing language",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [],
+    "weak_signals": []
+  },
+  "likely_goals": {
+    "summary": "Signals suggest the user works on local-first writing tool.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_f737f102d10c",
+        "summary": "works on local-first writing tool",
+        "confidence": 0.89,
+        "effective_confidence": 0.89,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [],
+    "weak_signals": []
+  },
+  "avoidances": {
+    "summary": "Signals suggest the user avoids fluffy marketing language.",
+    "strong_signals": [
+      {
+        "memory_id": "ltm_db11dde7ccf1",
+        "summary": "avoids fluffy marketing language",
+        "confidence": 0.85,
+        "effective_confidence": 0.85,
+        "contradiction_count": 0
+      }
+    ],
+    "medium_signals": [],
+    "weak_signals": []
+  },
+  "contested_signals": [],
+  "system_adaptation_notes": [
+    {
+      "note": "Default to concise, structured answers and use JSON or explicit formats when it improves clarity.",
+      "memory_refs": [
+        "ltm_97c142d058aa",
+        "ltm_4b7e07a2fda1"
+      ],
+      "strength": "strong"
+    },
+    {
+      "note": "Prefer local-first, file-based, CLI-friendly solutions over hosted services or GUI-heavy ideas.",
+      "memory_refs": [
+        "ltm_f737f102d10c",
+        "ltm_b3d1a2f233a8"
+      ],
+      "strength": "strong"
+    },
+    {
+      "note": "Avoid hype, fluffy marketing language, and patronizing tone; keep the interaction grounded and respectful.",
+      "memory_refs": [
+        "ltm_db11dde7ccf1"
+      ],
+      "strength": "strong"
+    },
+    {
+      "note": "Maintain continuity around recurring projects and connect new advice back to the existing project context.",
+      "memory_refs": [
+        "ltm_f737f102d10c"
+      ],
+      "strength": "strong"
+    }
+  ],
+  "markdown_summary": "# Persona Profile\n\n## Communication Style\n- Signals suggest the user prefers concise and structured, avoids fluffy marketing language, and prefers json when it clarifies the output.\n\n## Priorities\n- Signals suggest the user prefers json when it clarifies the output.\n\n## Recurring Interests\n- Signals suggest the user works on local-first writing tool and often work in python from the cli.\n\n## Working Preferences\n- Signals suggest the user works on local-first writing tool, prefers concise and structured, prefers json when it clarifies the output, and often work in python from the cli.\n\n## Emotional Tone Preferences\n- Signals suggest the user avoids fluffy marketing language.\n\n## Likely Goals\n- Signals suggest the user works on local-first writing tool.\n\n## Avoidances\n- Signals suggest the user avoids fluffy marketing language.\n\n## Contested Signals\n- No heavily contested memories right now.\n\n## System Adaptation Notes\n- Default to concise, structured answers and use JSON or explicit formats when it improves clarity. (refs: ltm_97c142d058aa, ltm_4b7e07a2fda1)\n- Prefer local-first, file-based, CLI-friendly solutions over hosted services or GUI-heavy ideas. (refs: ltm_f737f102d10c, ltm_b3d1a2f233a8)\n- Avoid hype, fluffy marketing language, and patronizing tone; keep the interaction grounded and respectful. (refs: ltm_db11dde7ccf1)\n- Maintain continuity around recurring projects and connect new advice back to the existing project context. (refs: ltm_f737f102d10c)"
+}

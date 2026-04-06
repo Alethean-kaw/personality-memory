@@ -8,7 +8,7 @@
         "id": "default",
         "display_name": "Default",
         "created_at": "2026-04-05T06:00:25Z",
-        "updated_at": "2026-04-05T06:00:25Z",
+        "updated_at": "2026-04-06T12:22:54Z",
         "backend": "hybrid",
         "aging_policy": "default-v1"
       },
@@ -16,7 +16,15 @@
         "id": "demo-alt",
         "display_name": "Demo Alt",
         "created_at": "2026-04-05T06:00:25Z",
-        "updated_at": "2026-04-05T06:00:25Z",
+        "updated_at": "2026-04-06T12:22:54Z",
+        "backend": "hybrid",
+        "aging_policy": "default-v1"
+      },
+      {
+        "id": "writer-alt",
+        "display_name": "Writer Alt",
+        "created_at": "2026-04-06T11:28:50Z",
+        "updated_at": "2026-04-06T11:28:50Z",
         "backend": "hybrid",
         "aging_policy": "default-v1"
       }
@@ -45,11 +53,11 @@
   ],
   "profiles": {
     "default": {
-      "metadata": {
+      "profile": {
         "id": "default",
         "display_name": "Default",
         "created_at": "2026-04-05T06:00:25Z",
-        "updated_at": "2026-04-05T06:00:25Z",
+        "updated_at": "2026-04-06T12:22:54Z",
         "backend": "hybrid",
         "aging_policy": "default-v1"
       },
@@ -121,10 +129,10 @@
       ],
       "memory_candidates": [
         {
-          "id": "cand_3fd75f3d37a0",
-          "content": "prefers concise and structured",
-          "type": "style",
-          "confidence": 0.87,
+          "id": "cand_6622bda75c53",
+          "content": "works on local-first writing tool for tabletop campaigns",
+          "type": "project",
+          "confidence": 0.89,
           "source_refs": [
             {
               "conversation_event_id": "evt_e2fa5eaa5dd9",
@@ -133,17 +141,31 @@
               "speaker": "user",
               "occurred_at": "2026-03-01T09:00:00Z",
               "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+            },
+            {
+              "conversation_event_id": "evt_550e5dae13fa",
+              "session_id": "campaign-tool-session-02",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-03-15T10:00:00Z",
+              "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
             }
           ],
           "created_at": "2026-03-01T09:00:00Z",
+          "last_seen": "2026-03-15T10:00:00Z",
+          "reinforcement_count": 2,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
-          "notes": "Promoted to ltm_97c142d058aa",
+          "notes": "Promoted to ltm_8bacb9c052af",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
-          "resolved_memory_id": "ltm_97c142d058aa"
+          "resolved_at": "2026-04-06T12:22:53Z",
+          "resolved_memory_id": "ltm_8bacb9c052af"
         },
         {
-          "id": "cand_48aeecf8ddcf",
+          "id": "cand_81dece86a3c5",
           "content": "prefers json when it makes things clearer",
           "type": "preference",
           "confidence": 0.81,
@@ -158,17 +180,23 @@
             }
           ],
           "created_at": "2026-03-01T09:00:00Z",
+          "last_seen": "2026-03-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.4681,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_2b0baf9345a8",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_2b0baf9345a8"
         },
         {
-          "id": "cand_42ad01d243c4",
-          "content": "works on local-first writing tool for tabletop campaigns",
-          "type": "project",
-          "confidence": 0.89,
+          "id": "cand_d7d111e9d10b",
+          "content": "prefers concise and structured",
+          "type": "style",
+          "confidence": 0.87,
           "source_refs": [
             {
               "conversation_event_id": "evt_e2fa5eaa5dd9",
@@ -180,36 +208,20 @@
             }
           ],
           "created_at": "2026-03-01T09:00:00Z",
+          "last_seen": "2026-03-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.4681,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
-          "notes": "Promoted to ltm_8bacb9c052af",
+          "notes": "Promoted to ltm_97c142d058aa",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
-          "resolved_memory_id": "ltm_8bacb9c052af"
+          "resolved_at": "2026-04-06T12:22:53Z",
+          "resolved_memory_id": "ltm_97c142d058aa"
         },
         {
-          "id": "cand_353eeed79527",
-          "content": "avoids fluffy marketing language",
-          "type": "taboo",
-          "confidence": 0.85,
-          "source_refs": [
-            {
-              "conversation_event_id": "evt_18297b44a8b9",
-              "session_id": "campaign-tool-session-01",
-              "message_id": "m3",
-              "speaker": "user",
-              "occurred_at": "2026-03-01T09:01:00Z",
-              "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
-            }
-          ],
-          "created_at": "2026-03-01T09:01:00Z",
-          "status": "accepted",
-          "notes": "Promoted to ltm_db11dde7ccf1",
-          "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
-          "resolved_memory_id": "ltm_db11dde7ccf1"
-        },
-        {
-          "id": "cand_befa1b2f24da",
+          "id": "cand_70e9ebd39b8d",
           "content": "often work in python from the cli",
           "type": "routine",
           "confidence": 0.79,
@@ -224,14 +236,48 @@
             }
           ],
           "created_at": "2026-03-01T09:01:00Z",
+          "last_seen": "2026-03-01T09:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.4681,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_b3d1a2f233a8",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_b3d1a2f233a8"
         },
         {
-          "id": "cand_6654e5672f6d",
+          "id": "cand_cab1de3c3256",
+          "content": "avoids fluffy marketing language",
+          "type": "taboo",
+          "confidence": 0.85,
+          "source_refs": [
+            {
+              "conversation_event_id": "evt_18297b44a8b9",
+              "session_id": "campaign-tool-session-01",
+              "message_id": "m3",
+              "speaker": "user",
+              "occurred_at": "2026-03-01T09:01:00Z",
+              "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+            }
+          ],
+          "created_at": "2026-03-01T09:01:00Z",
+          "last_seen": "2026-03-01T09:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.4681,
+          "archived_at": null,
+          "archive_reason": null,
+          "status": "accepted",
+          "notes": "Promoted to ltm_db11dde7ccf1",
+          "resolution_kind": "promoted",
+          "resolved_at": "2026-04-06T12:22:53Z",
+          "resolved_memory_id": "ltm_db11dde7ccf1"
+        },
+        {
+          "id": "cand_2620af301153",
           "content": "values local files and transparent behavior because i want the system to stay inspectable",
           "type": "worldview",
           "confidence": 0.81,
@@ -246,14 +292,20 @@
             }
           ],
           "created_at": "2026-03-01T09:02:00Z",
+          "last_seen": "2026-03-01T09:02:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.4681,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_5b0cb2e627ba",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_5b0cb2e627ba"
         },
         {
-          "id": "cand_90b703c98fe3",
+          "id": "cand_3f40fa975b50",
           "content": "prefers direct and concise",
           "type": "style",
           "confidence": 0.87,
@@ -268,14 +320,20 @@
             }
           ],
           "created_at": "2026-03-15T10:00:00Z",
+          "last_seen": "2026-03-15T10:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_4b8a345308ca",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_4b8a345308ca"
         },
         {
-          "id": "cand_4501e8f9ec08",
+          "id": "cand_6ce847ec1769",
           "content": "prefers local storage over cloud dependencies",
           "type": "preference",
           "confidence": 0.81,
@@ -290,36 +348,20 @@
             }
           ],
           "created_at": "2026-03-15T10:00:00Z",
+          "last_seen": "2026-03-15T10:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_8415250fa921",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_8415250fa921"
         },
         {
-          "id": "cand_7460c581fdc9",
-          "content": "works on local-first writing tool for tabletop campaigns",
-          "type": "project",
-          "confidence": 0.89,
-          "source_refs": [
-            {
-              "conversation_event_id": "evt_550e5dae13fa",
-              "session_id": "campaign-tool-session-02",
-              "message_id": "m1",
-              "speaker": "user",
-              "occurred_at": "2026-03-15T10:00:00Z",
-              "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
-            }
-          ],
-          "created_at": "2026-03-15T10:00:00Z",
-          "status": "accepted",
-          "notes": "Merged into ltm_8bacb9c052af",
-          "resolution_kind": "merged",
-          "resolved_at": "2026-04-05T06:00:25Z",
-          "resolved_memory_id": "ltm_8bacb9c052af"
-        },
-        {
-          "id": "cand_94d5ff80fdb4",
+          "id": "cand_20a9e474216d",
           "content": "avoids opaque black-box workflows",
           "type": "taboo",
           "confidence": 0.85,
@@ -334,14 +376,20 @@
             }
           ],
           "created_at": "2026-03-15T10:01:00Z",
+          "last_seen": "2026-03-15T10:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_9aed26aeae49",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_9aed26aeae49"
         },
         {
-          "id": "cand_a9a573ac9bee",
+          "id": "cand_383f9ae8d706",
           "content": "often revisit long-running creative tooling projects",
           "type": "routine",
           "confidence": 0.79,
@@ -356,14 +404,20 @@
             }
           ],
           "created_at": "2026-03-15T10:01:00Z",
+          "last_seen": "2026-03-15T10:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_4f7378f95fa4",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:53Z",
           "resolved_memory_id": "ltm_4f7378f95fa4"
         },
         {
-          "id": "cand_1fb4165cfce7",
+          "id": "cand_72486746b590",
           "content": "uses python and terminal workflows",
           "type": "constraint",
           "confidence": 0.67,
@@ -378,6 +432,12 @@
             }
           ],
           "created_at": "2026-03-15T10:02:00Z",
+          "last_seen": "2026-03-15T10:02:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "candidate",
           "notes": "Needs more evidence (support=1)",
           "resolution_kind": null,
@@ -385,6 +445,7 @@
           "resolved_memory_id": null
         }
       ],
+      "candidate_archive": [],
       "long_term_memory": [
         {
           "id": "ltm_8bacb9c052af",
@@ -408,16 +469,16 @@
               "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
             }
           ],
-          "confidence": 0.99,
+          "confidence": 0.89,
           "first_seen": "2026-03-01T09:00:00Z",
-          "last_seen": "2026-03-15T10:00:00Z",
+          "last_seen": "2026-03-01T09:00:00Z",
           "reinforcement_count": 2,
           "contradiction_count": 0,
           "mutable": true,
           "active": true,
-          "last_reinforced_at": "2026-03-15T10:00:00Z",
+          "last_reinforced_at": "2026-03-01T09:00:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.2315,
+          "staleness_score": 0.156,
           "stale_since": null,
           "superseded_by": null
         },
@@ -444,7 +505,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-01T09:00:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1938,
+          "staleness_score": 0.078,
           "stale_since": null,
           "superseded_by": null
         },
@@ -471,7 +532,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-01T09:00:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1938,
+          "staleness_score": 0.078,
           "stale_since": null,
           "superseded_by": null
         },
@@ -498,7 +559,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-01T09:01:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1937,
+          "staleness_score": 0.078,
           "stale_since": null,
           "superseded_by": null
         },
@@ -525,7 +586,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-01T09:01:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.3875,
+          "staleness_score": 0.156,
           "stale_since": null,
           "superseded_by": null
         },
@@ -552,7 +613,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-01T09:02:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1937,
+          "staleness_score": 0.078,
           "stale_since": null,
           "superseded_by": null
         },
@@ -579,7 +640,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-15T10:00:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1157,
+          "staleness_score": 0.0,
           "stale_since": null,
           "superseded_by": null
         },
@@ -606,7 +667,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-15T10:00:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1157,
+          "staleness_score": 0.0,
           "stale_since": null,
           "superseded_by": null
         },
@@ -633,7 +694,7 @@
           "active": true,
           "last_reinforced_at": "2026-03-15T10:01:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.1157,
+          "staleness_score": 0.0,
           "stale_since": null,
           "superseded_by": null
         },
@@ -660,13 +721,13 @@
           "active": true,
           "last_reinforced_at": "2026-03-15T10:01:00Z",
           "lifecycle_state": "active",
-          "staleness_score": 0.2315,
+          "staleness_score": 0.0,
           "stale_since": null,
           "superseded_by": null
         }
       ],
       "persona_profile": {
-        "generated_at": "2026-04-05T06:00:25Z",
+        "generated_at": "2026-03-15T10:02:00Z",
         "memory_refs": [
           "ltm_8bacb9c052af",
           "ltm_97c142d058aa",
@@ -749,8 +810,8 @@
             {
               "memory_id": "ltm_8bacb9c052af",
               "summary": "works on local-first writing tool for tabletop campaigns",
-              "confidence": 0.99,
-              "effective_confidence": 0.99,
+              "confidence": 0.89,
+              "effective_confidence": 0.89,
               "contradiction_count": 0
             }
           ],
@@ -778,8 +839,8 @@
             {
               "memory_id": "ltm_8bacb9c052af",
               "summary": "works on local-first writing tool for tabletop campaigns",
-              "confidence": 0.99,
-              "effective_confidence": 0.99,
+              "confidence": 0.89,
+              "effective_confidence": 0.89,
               "contradiction_count": 0
             },
             {
@@ -849,8 +910,8 @@
             {
               "memory_id": "ltm_8bacb9c052af",
               "summary": "works on local-first writing tool for tabletop campaigns",
-              "confidence": 0.99,
-              "effective_confidence": 0.99,
+              "confidence": 0.89,
+              "effective_confidence": 0.89,
               "contradiction_count": 0
             }
           ],
@@ -919,12 +980,12 @@
       "review_items": [],
       "revisions": [
         {
-          "id": "rev_255e07666f97",
+          "id": "rev_39472b276067",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_8bacb9c052af",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_42ad01d243c4 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_6622bda75c53 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_8bacb9c052af",
@@ -938,12 +999,20 @@
                 "speaker": "user",
                 "occurred_at": "2026-03-01T09:00:00Z",
                 "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+              },
+              {
+                "conversation_event_id": "evt_550e5dae13fa",
+                "session_id": "campaign-tool-session-02",
+                "message_id": "m1",
+                "speaker": "user",
+                "occurred_at": "2026-03-15T10:00:00Z",
+                "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
               }
             ],
-            "confidence": 0.96,
+            "confidence": 0.89,
             "first_seen": "2026-03-01T09:00:00Z",
             "last_seen": "2026-03-01T09:00:00Z",
-            "reinforcement_count": 1,
+            "reinforcement_count": 2,
             "contradiction_count": 0,
             "mutable": true,
             "active": true,
@@ -955,12 +1024,12 @@
           }
         },
         {
-          "id": "rev_452b511c79d5",
+          "id": "rev_437ad3fc2f42",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_97c142d058aa",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_3fd75f3d37a0 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_d7d111e9d10b promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_97c142d058aa",
@@ -991,12 +1060,12 @@
           }
         },
         {
-          "id": "rev_1237ae314901",
+          "id": "rev_d21e89dd2fd3",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_2b0baf9345a8",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_48aeecf8ddcf promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_81dece86a3c5 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_2b0baf9345a8",
@@ -1027,12 +1096,12 @@
           }
         },
         {
-          "id": "rev_c7deb39f83ea",
+          "id": "rev_a7c9059ecb3d",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_db11dde7ccf1",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_353eeed79527 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_cab1de3c3256 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_db11dde7ccf1",
@@ -1063,12 +1132,12 @@
           }
         },
         {
-          "id": "rev_c690a585c648",
+          "id": "rev_fa669a199b93",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_b3d1a2f233a8",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_befa1b2f24da promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_70e9ebd39b8d promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_b3d1a2f233a8",
@@ -1099,12 +1168,12 @@
           }
         },
         {
-          "id": "rev_547d38e8e2da",
+          "id": "rev_ddaa1236948f",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_5b0cb2e627ba",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_6654e5672f6d promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_2620af301153 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_5b0cb2e627ba",
@@ -1135,82 +1204,12 @@
           }
         },
         {
-          "id": "rev_d1f51f1b824f",
-          "entity_type": "long_term_memory",
-          "entity_id": "ltm_8bacb9c052af",
-          "action": "reinforce",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_7460c581fdc9 reinforced memory ltm_8bacb9c052af",
-          "before": {
-            "id": "ltm_8bacb9c052af",
-            "summary": "works on local-first writing tool for tabletop campaigns",
-            "category": "project",
-            "evidence": [
-              {
-                "conversation_event_id": "evt_e2fa5eaa5dd9",
-                "session_id": "campaign-tool-session-01",
-                "message_id": "m1",
-                "speaker": "user",
-                "occurred_at": "2026-03-01T09:00:00Z",
-                "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
-              }
-            ],
-            "confidence": 0.96,
-            "first_seen": "2026-03-01T09:00:00Z",
-            "last_seen": "2026-03-01T09:00:00Z",
-            "reinforcement_count": 1,
-            "contradiction_count": 0,
-            "mutable": true,
-            "active": true,
-            "last_reinforced_at": "2026-03-01T09:00:00Z",
-            "lifecycle_state": "active",
-            "staleness_score": 0.0,
-            "stale_since": null,
-            "superseded_by": null
-          },
-          "after": {
-            "id": "ltm_8bacb9c052af",
-            "summary": "works on local-first writing tool for tabletop campaigns",
-            "category": "project",
-            "evidence": [
-              {
-                "conversation_event_id": "evt_e2fa5eaa5dd9",
-                "session_id": "campaign-tool-session-01",
-                "message_id": "m1",
-                "speaker": "user",
-                "occurred_at": "2026-03-01T09:00:00Z",
-                "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
-              },
-              {
-                "conversation_event_id": "evt_550e5dae13fa",
-                "session_id": "campaign-tool-session-02",
-                "message_id": "m1",
-                "speaker": "user",
-                "occurred_at": "2026-03-15T10:00:00Z",
-                "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
-              }
-            ],
-            "confidence": 0.99,
-            "first_seen": "2026-03-01T09:00:00Z",
-            "last_seen": "2026-03-15T10:00:00Z",
-            "reinforcement_count": 2,
-            "contradiction_count": 0,
-            "mutable": true,
-            "active": true,
-            "last_reinforced_at": "2026-03-15T10:00:00Z",
-            "lifecycle_state": "active",
-            "staleness_score": 0.0,
-            "stale_since": null,
-            "superseded_by": null
-          }
-        },
-        {
-          "id": "rev_1baf171589c9",
+          "id": "rev_fe041e2f9fab",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_4b8a345308ca",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_90b703c98fe3 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_3f40fa975b50 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_4b8a345308ca",
@@ -1241,12 +1240,12 @@
           }
         },
         {
-          "id": "rev_af8e086bd0fe",
+          "id": "rev_fba54a7f56f3",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_8415250fa921",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_4501e8f9ec08 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_6ce847ec1769 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_8415250fa921",
@@ -1277,12 +1276,12 @@
           }
         },
         {
-          "id": "rev_e19076bc55d1",
+          "id": "rev_fa76759aa01d",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_9aed26aeae49",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_94d5ff80fdb4 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_20a9e474216d promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_9aed26aeae49",
@@ -1313,12 +1312,12 @@
           }
         },
         {
-          "id": "rev_b152e6e8f1dd",
+          "id": "rev_47ad7f68ad9a",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_4f7378f95fa4",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_a9a573ac9bee promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:53Z",
+          "reason": "Candidate cand_383f9ae8d706 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_4f7378f95fa4",
@@ -1351,11 +1350,11 @@
       ]
     },
     "demo-alt": {
-      "metadata": {
+      "profile": {
         "id": "demo-alt",
         "display_name": "Demo Alt",
         "created_at": "2026-04-05T06:00:25Z",
-        "updated_at": "2026-04-05T06:00:25Z",
+        "updated_at": "2026-04-06T12:22:54Z",
         "backend": "hybrid",
         "aging_policy": "default-v1"
       },
@@ -1395,7 +1394,7 @@
       ],
       "memory_candidates": [
         {
-          "id": "cand_90b703c98fe3",
+          "id": "cand_3f40fa975b50",
           "content": "prefers direct and concise",
           "type": "style",
           "confidence": 0.87,
@@ -1410,14 +1409,20 @@
             }
           ],
           "created_at": "2026-03-15T10:00:00Z",
+          "last_seen": "2026-03-15T10:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_4b8a345308ca",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:54Z",
           "resolved_memory_id": "ltm_4b8a345308ca"
         },
         {
-          "id": "cand_4501e8f9ec08",
+          "id": "cand_6ce847ec1769",
           "content": "prefers local storage over cloud dependencies",
           "type": "preference",
           "confidence": 0.81,
@@ -1432,14 +1437,20 @@
             }
           ],
           "created_at": "2026-03-15T10:00:00Z",
+          "last_seen": "2026-03-15T10:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_8415250fa921",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:54Z",
           "resolved_memory_id": "ltm_8415250fa921"
         },
         {
-          "id": "cand_7460c581fdc9",
+          "id": "cand_6e097dd01850",
           "content": "works on local-first writing tool for tabletop campaigns",
           "type": "project",
           "confidence": 0.89,
@@ -1454,14 +1465,20 @@
             }
           ],
           "created_at": "2026-03-15T10:00:00Z",
+          "last_seen": "2026-03-15T10:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_8bacb9c052af",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:54Z",
           "resolved_memory_id": "ltm_8bacb9c052af"
         },
         {
-          "id": "cand_94d5ff80fdb4",
+          "id": "cand_20a9e474216d",
           "content": "avoids opaque black-box workflows",
           "type": "taboo",
           "confidence": 0.85,
@@ -1476,14 +1493,20 @@
             }
           ],
           "created_at": "2026-03-15T10:01:00Z",
+          "last_seen": "2026-03-15T10:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_9aed26aeae49",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:54Z",
           "resolved_memory_id": "ltm_9aed26aeae49"
         },
         {
-          "id": "cand_a9a573ac9bee",
+          "id": "cand_383f9ae8d706",
           "content": "often revisit long-running creative tooling projects",
           "type": "routine",
           "confidence": 0.79,
@@ -1498,14 +1521,20 @@
             }
           ],
           "created_at": "2026-03-15T10:01:00Z",
+          "last_seen": "2026-03-15T10:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "accepted",
           "notes": "Promoted to ltm_4f7378f95fa4",
           "resolution_kind": "promoted",
-          "resolved_at": "2026-04-05T06:00:25Z",
+          "resolved_at": "2026-04-06T12:22:54Z",
           "resolved_memory_id": "ltm_4f7378f95fa4"
         },
         {
-          "id": "cand_1fb4165cfce7",
+          "id": "cand_72486746b590",
           "content": "uses python and terminal workflows",
           "type": "constraint",
           "confidence": 0.67,
@@ -1520,6 +1549,12 @@
             }
           ],
           "created_at": "2026-03-15T10:02:00Z",
+          "last_seen": "2026-03-15T10:02:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
           "status": "candidate",
           "notes": "Needs more evidence (support=1)",
           "resolution_kind": null,
@@ -1527,6 +1562,7 @@
           "resolved_memory_id": null
         }
       ],
+      "candidate_archive": [],
       "long_term_memory": [
         {
           "id": "ltm_8bacb9c052af",
@@ -1668,12 +1704,12 @@
       "review_items": [],
       "revisions": [
         {
-          "id": "rev_5c83efea4491",
+          "id": "rev_3c678cccbb77",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_8bacb9c052af",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_7460c581fdc9 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:54Z",
+          "reason": "Candidate cand_6e097dd01850 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_8bacb9c052af",
@@ -1704,12 +1740,12 @@
           }
         },
         {
-          "id": "rev_1baf171589c9",
+          "id": "rev_8717faef48f0",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_4b8a345308ca",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_90b703c98fe3 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:54Z",
+          "reason": "Candidate cand_3f40fa975b50 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_4b8a345308ca",
@@ -1740,12 +1776,12 @@
           }
         },
         {
-          "id": "rev_af8e086bd0fe",
+          "id": "rev_cc3c3c4b2a9a",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_8415250fa921",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_4501e8f9ec08 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:54Z",
+          "reason": "Candidate cand_6ce847ec1769 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_8415250fa921",
@@ -1776,12 +1812,12 @@
           }
         },
         {
-          "id": "rev_e19076bc55d1",
+          "id": "rev_1886f6f14e35",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_9aed26aeae49",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_94d5ff80fdb4 promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:54Z",
+          "reason": "Candidate cand_20a9e474216d promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_9aed26aeae49",
@@ -1812,12 +1848,12 @@
           }
         },
         {
-          "id": "rev_b152e6e8f1dd",
+          "id": "rev_70e3ee741ef7",
           "entity_type": "long_term_memory",
           "entity_id": "ltm_4f7378f95fa4",
           "action": "create",
-          "timestamp": "2026-04-05T06:00:25Z",
-          "reason": "Candidate cand_a9a573ac9bee promoted into long-term memory",
+          "timestamp": "2026-04-06T12:22:54Z",
+          "reason": "Candidate cand_383f9ae8d706 promoted into long-term memory",
           "before": null,
           "after": {
             "id": "ltm_4f7378f95fa4",
@@ -1841,6 +1877,684 @@
             "mutable": true,
             "active": true,
             "last_reinforced_at": "2026-03-15T10:01:00Z",
+            "lifecycle_state": "active",
+            "staleness_score": 0.0,
+            "stale_since": null,
+            "superseded_by": null
+          }
+        }
+      ]
+    },
+    "writer-alt": {
+      "profile": {
+        "id": "writer-alt",
+        "display_name": "Writer Alt",
+        "created_at": "2026-04-06T11:28:50Z",
+        "updated_at": "2026-04-06T11:28:50Z",
+        "backend": "hybrid",
+        "aging_policy": "default-v1"
+      },
+      "conversation_events": [
+        {
+          "id": "evt_ef92e1fc6005",
+          "session_id": "demo-thread",
+          "message_id": "m1",
+          "speaker": "user",
+          "text": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output.",
+          "occurred_at": "2026-04-01T09:00:00Z"
+        },
+        {
+          "id": "evt_9271207c81a4",
+          "session_id": "demo-thread",
+          "message_id": "m2",
+          "speaker": "user",
+          "text": "I dislike fluffy marketing language and I usually work in Python from the CLI.",
+          "occurred_at": "2026-04-01T09:01:00Z"
+        }
+      ],
+      "memory_candidates": [
+        {
+          "id": "cand_bb35d5e6d3cb",
+          "content": "prefers concise and structured",
+          "type": "style",
+          "confidence": 0.87,
+          "source_refs": [
+            {
+              "conversation_event_id": "evt_ef92e1fc6005",
+              "session_id": "demo-thread",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:00:00Z",
+              "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+            }
+          ],
+          "created_at": "2026-04-01T09:00:00Z",
+          "last_seen": "2026-04-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
+          "status": "accepted",
+          "notes": "Promoted to ltm_97c142d058aa",
+          "resolution_kind": "promoted",
+          "resolved_at": "2026-04-06T11:28:50Z",
+          "resolved_memory_id": "ltm_97c142d058aa"
+        },
+        {
+          "id": "cand_c8f8b5fb138e",
+          "content": "prefers json when it clarifies the output",
+          "type": "preference",
+          "confidence": 0.81,
+          "source_refs": [
+            {
+              "conversation_event_id": "evt_ef92e1fc6005",
+              "session_id": "demo-thread",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:00:00Z",
+              "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+            }
+          ],
+          "created_at": "2026-04-01T09:00:00Z",
+          "last_seen": "2026-04-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
+          "status": "accepted",
+          "notes": "Promoted to ltm_4b7e07a2fda1",
+          "resolution_kind": "promoted",
+          "resolved_at": "2026-04-06T11:28:50Z",
+          "resolved_memory_id": "ltm_4b7e07a2fda1"
+        },
+        {
+          "id": "cand_7b1e27cc192d",
+          "content": "works on local-first writing tool",
+          "type": "project",
+          "confidence": 0.89,
+          "source_refs": [
+            {
+              "conversation_event_id": "evt_ef92e1fc6005",
+              "session_id": "demo-thread",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:00:00Z",
+              "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+            }
+          ],
+          "created_at": "2026-04-01T09:00:00Z",
+          "last_seen": "2026-04-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
+          "status": "accepted",
+          "notes": "Promoted to ltm_f737f102d10c",
+          "resolution_kind": "promoted",
+          "resolved_at": "2026-04-06T11:28:50Z",
+          "resolved_memory_id": "ltm_f737f102d10c"
+        },
+        {
+          "id": "cand_c3ed21c43298",
+          "content": "avoids fluffy marketing language",
+          "type": "taboo",
+          "confidence": 0.85,
+          "source_refs": [
+            {
+              "conversation_event_id": "evt_9271207c81a4",
+              "session_id": "demo-thread",
+              "message_id": "m2",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:01:00Z",
+              "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+            }
+          ],
+          "created_at": "2026-04-01T09:01:00Z",
+          "last_seen": "2026-04-01T09:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
+          "status": "accepted",
+          "notes": "Promoted to ltm_db11dde7ccf1",
+          "resolution_kind": "promoted",
+          "resolved_at": "2026-04-06T11:28:50Z",
+          "resolved_memory_id": "ltm_db11dde7ccf1"
+        },
+        {
+          "id": "cand_e046840f3551",
+          "content": "often work in python from the cli",
+          "type": "routine",
+          "confidence": 0.79,
+          "source_refs": [
+            {
+              "conversation_event_id": "evt_9271207c81a4",
+              "session_id": "demo-thread",
+              "message_id": "m2",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:01:00Z",
+              "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+            }
+          ],
+          "created_at": "2026-04-01T09:01:00Z",
+          "last_seen": "2026-04-01T09:01:00Z",
+          "reinforcement_count": 1,
+          "lifecycle_state": "active",
+          "decay_score": 0.0,
+          "archived_at": null,
+          "archive_reason": null,
+          "status": "accepted",
+          "notes": "Promoted to ltm_b3d1a2f233a8",
+          "resolution_kind": "promoted",
+          "resolved_at": "2026-04-06T11:28:50Z",
+          "resolved_memory_id": "ltm_b3d1a2f233a8"
+        }
+      ],
+      "candidate_archive": [],
+      "long_term_memory": [
+        {
+          "id": "ltm_f737f102d10c",
+          "summary": "works on local-first writing tool",
+          "category": "project",
+          "evidence": [
+            {
+              "conversation_event_id": "evt_ef92e1fc6005",
+              "session_id": "demo-thread",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:00:00Z",
+              "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+            }
+          ],
+          "confidence": 0.89,
+          "first_seen": "2026-04-01T09:00:00Z",
+          "last_seen": "2026-04-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "contradiction_count": 0,
+          "mutable": true,
+          "active": true,
+          "last_reinforced_at": "2026-04-01T09:00:00Z",
+          "lifecycle_state": "active",
+          "staleness_score": 0.0,
+          "stale_since": null,
+          "superseded_by": null
+        },
+        {
+          "id": "ltm_97c142d058aa",
+          "summary": "prefers concise and structured",
+          "category": "style",
+          "evidence": [
+            {
+              "conversation_event_id": "evt_ef92e1fc6005",
+              "session_id": "demo-thread",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:00:00Z",
+              "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+            }
+          ],
+          "confidence": 0.87,
+          "first_seen": "2026-04-01T09:00:00Z",
+          "last_seen": "2026-04-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "contradiction_count": 0,
+          "mutable": true,
+          "active": true,
+          "last_reinforced_at": "2026-04-01T09:00:00Z",
+          "lifecycle_state": "active",
+          "staleness_score": 0.0,
+          "stale_since": null,
+          "superseded_by": null
+        },
+        {
+          "id": "ltm_4b7e07a2fda1",
+          "summary": "prefers json when it clarifies the output",
+          "category": "preference",
+          "evidence": [
+            {
+              "conversation_event_id": "evt_ef92e1fc6005",
+              "session_id": "demo-thread",
+              "message_id": "m1",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:00:00Z",
+              "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+            }
+          ],
+          "confidence": 0.81,
+          "first_seen": "2026-04-01T09:00:00Z",
+          "last_seen": "2026-04-01T09:00:00Z",
+          "reinforcement_count": 1,
+          "contradiction_count": 0,
+          "mutable": true,
+          "active": true,
+          "last_reinforced_at": "2026-04-01T09:00:00Z",
+          "lifecycle_state": "active",
+          "staleness_score": 0.0,
+          "stale_since": null,
+          "superseded_by": null
+        },
+        {
+          "id": "ltm_db11dde7ccf1",
+          "summary": "avoids fluffy marketing language",
+          "category": "taboo",
+          "evidence": [
+            {
+              "conversation_event_id": "evt_9271207c81a4",
+              "session_id": "demo-thread",
+              "message_id": "m2",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:01:00Z",
+              "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+            }
+          ],
+          "confidence": 0.85,
+          "first_seen": "2026-04-01T09:01:00Z",
+          "last_seen": "2026-04-01T09:01:00Z",
+          "reinforcement_count": 1,
+          "contradiction_count": 0,
+          "mutable": true,
+          "active": true,
+          "last_reinforced_at": "2026-04-01T09:01:00Z",
+          "lifecycle_state": "active",
+          "staleness_score": 0.0,
+          "stale_since": null,
+          "superseded_by": null
+        },
+        {
+          "id": "ltm_b3d1a2f233a8",
+          "summary": "often work in python from the cli",
+          "category": "routine",
+          "evidence": [
+            {
+              "conversation_event_id": "evt_9271207c81a4",
+              "session_id": "demo-thread",
+              "message_id": "m2",
+              "speaker": "user",
+              "occurred_at": "2026-04-01T09:01:00Z",
+              "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+            }
+          ],
+          "confidence": 0.79,
+          "first_seen": "2026-04-01T09:01:00Z",
+          "last_seen": "2026-04-01T09:01:00Z",
+          "reinforcement_count": 1,
+          "contradiction_count": 0,
+          "mutable": true,
+          "active": true,
+          "last_reinforced_at": "2026-04-01T09:01:00Z",
+          "lifecycle_state": "active",
+          "staleness_score": 0.0,
+          "stale_since": null,
+          "superseded_by": null
+        }
+      ],
+      "persona_profile": {
+        "generated_at": "2026-04-01T09:01:00Z",
+        "memory_refs": [
+          "ltm_f737f102d10c",
+          "ltm_97c142d058aa",
+          "ltm_db11dde7ccf1",
+          "ltm_4b7e07a2fda1",
+          "ltm_b3d1a2f233a8"
+        ],
+        "communication_style": {
+          "summary": "Signals suggest the user prefers concise and structured, avoids fluffy marketing language, and prefers json when it clarifies the output.",
+          "strong_signals": [
+            {
+              "memory_id": "ltm_97c142d058aa",
+              "summary": "prefers concise and structured",
+              "confidence": 0.87,
+              "effective_confidence": 0.87,
+              "contradiction_count": 0
+            },
+            {
+              "memory_id": "ltm_db11dde7ccf1",
+              "summary": "avoids fluffy marketing language",
+              "confidence": 0.85,
+              "effective_confidence": 0.85,
+              "contradiction_count": 0
+            }
+          ],
+          "medium_signals": [
+            {
+              "memory_id": "ltm_4b7e07a2fda1",
+              "summary": "prefers json when it clarifies the output",
+              "confidence": 0.81,
+              "effective_confidence": 0.81,
+              "contradiction_count": 0
+            }
+          ],
+          "weak_signals": []
+        },
+        "priorities": {
+          "summary": "Signals suggest the user prefers json when it clarifies the output.",
+          "strong_signals": [],
+          "medium_signals": [
+            {
+              "memory_id": "ltm_4b7e07a2fda1",
+              "summary": "prefers json when it clarifies the output",
+              "confidence": 0.81,
+              "effective_confidence": 0.81,
+              "contradiction_count": 0
+            }
+          ],
+          "weak_signals": []
+        },
+        "recurring_interests": {
+          "summary": "Signals suggest the user works on local-first writing tool and often work in python from the cli.",
+          "strong_signals": [
+            {
+              "memory_id": "ltm_f737f102d10c",
+              "summary": "works on local-first writing tool",
+              "confidence": 0.89,
+              "effective_confidence": 0.89,
+              "contradiction_count": 0
+            }
+          ],
+          "medium_signals": [
+            {
+              "memory_id": "ltm_b3d1a2f233a8",
+              "summary": "often work in python from the cli",
+              "confidence": 0.79,
+              "effective_confidence": 0.79,
+              "contradiction_count": 0
+            }
+          ],
+          "weak_signals": []
+        },
+        "working_preferences": {
+          "summary": "Signals suggest the user works on local-first writing tool, prefers concise and structured, prefers json when it clarifies the output, and often work in python from the cli.",
+          "strong_signals": [
+            {
+              "memory_id": "ltm_f737f102d10c",
+              "summary": "works on local-first writing tool",
+              "confidence": 0.89,
+              "effective_confidence": 0.89,
+              "contradiction_count": 0
+            },
+            {
+              "memory_id": "ltm_97c142d058aa",
+              "summary": "prefers concise and structured",
+              "confidence": 0.87,
+              "effective_confidence": 0.87,
+              "contradiction_count": 0
+            }
+          ],
+          "medium_signals": [
+            {
+              "memory_id": "ltm_4b7e07a2fda1",
+              "summary": "prefers json when it clarifies the output",
+              "confidence": 0.81,
+              "effective_confidence": 0.81,
+              "contradiction_count": 0
+            },
+            {
+              "memory_id": "ltm_b3d1a2f233a8",
+              "summary": "often work in python from the cli",
+              "confidence": 0.79,
+              "effective_confidence": 0.79,
+              "contradiction_count": 0
+            }
+          ],
+          "weak_signals": []
+        },
+        "emotional_tone_preferences": {
+          "summary": "Signals suggest the user avoids fluffy marketing language.",
+          "strong_signals": [
+            {
+              "memory_id": "ltm_db11dde7ccf1",
+              "summary": "avoids fluffy marketing language",
+              "confidence": 0.85,
+              "effective_confidence": 0.85,
+              "contradiction_count": 0
+            }
+          ],
+          "medium_signals": [],
+          "weak_signals": []
+        },
+        "likely_goals": {
+          "summary": "Signals suggest the user works on local-first writing tool.",
+          "strong_signals": [
+            {
+              "memory_id": "ltm_f737f102d10c",
+              "summary": "works on local-first writing tool",
+              "confidence": 0.89,
+              "effective_confidence": 0.89,
+              "contradiction_count": 0
+            }
+          ],
+          "medium_signals": [],
+          "weak_signals": []
+        },
+        "avoidances": {
+          "summary": "Signals suggest the user avoids fluffy marketing language.",
+          "strong_signals": [
+            {
+              "memory_id": "ltm_db11dde7ccf1",
+              "summary": "avoids fluffy marketing language",
+              "confidence": 0.85,
+              "effective_confidence": 0.85,
+              "contradiction_count": 0
+            }
+          ],
+          "medium_signals": [],
+          "weak_signals": []
+        },
+        "contested_signals": [],
+        "system_adaptation_notes": [
+          {
+            "note": "Default to concise, structured answers and use JSON or explicit formats when it improves clarity.",
+            "memory_refs": [
+              "ltm_97c142d058aa",
+              "ltm_4b7e07a2fda1"
+            ],
+            "strength": "strong"
+          },
+          {
+            "note": "Prefer local-first, file-based, CLI-friendly solutions over hosted services or GUI-heavy ideas.",
+            "memory_refs": [
+              "ltm_f737f102d10c",
+              "ltm_b3d1a2f233a8"
+            ],
+            "strength": "strong"
+          },
+          {
+            "note": "Avoid hype, fluffy marketing language, and patronizing tone; keep the interaction grounded and respectful.",
+            "memory_refs": [
+              "ltm_db11dde7ccf1"
+            ],
+            "strength": "strong"
+          },
+          {
+            "note": "Maintain continuity around recurring projects and connect new advice back to the existing project context.",
+            "memory_refs": [
+              "ltm_f737f102d10c"
+            ],
+            "strength": "strong"
+          }
+        ],
+        "markdown_summary": "# Persona Profile\n\n## Communication Style\n- Signals suggest the user prefers concise and structured, avoids fluffy marketing language, and prefers json when it clarifies the output.\n\n## Priorities\n- Signals suggest the user prefers json when it clarifies the output.\n\n## Recurring Interests\n- Signals suggest the user works on local-first writing tool and often work in python from the cli.\n\n## Working Preferences\n- Signals suggest the user works on local-first writing tool, prefers concise and structured, prefers json when it clarifies the output, and often work in python from the cli.\n\n## Emotional Tone Preferences\n- Signals suggest the user avoids fluffy marketing language.\n\n## Likely Goals\n- Signals suggest the user works on local-first writing tool.\n\n## Avoidances\n- Signals suggest the user avoids fluffy marketing language.\n\n## Contested Signals\n- No heavily contested memories right now.\n\n## System Adaptation Notes\n- Default to concise, structured answers and use JSON or explicit formats when it improves clarity. (refs: ltm_97c142d058aa, ltm_4b7e07a2fda1)\n- Prefer local-first, file-based, CLI-friendly solutions over hosted services or GUI-heavy ideas. (refs: ltm_f737f102d10c, ltm_b3d1a2f233a8)\n- Avoid hype, fluffy marketing language, and patronizing tone; keep the interaction grounded and respectful. (refs: ltm_db11dde7ccf1)\n- Maintain continuity around recurring projects and connect new advice back to the existing project context. (refs: ltm_f737f102d10c)"
+      },
+      "review_items": [],
+      "revisions": [
+        {
+          "id": "rev_67737dbb7de1",
+          "entity_type": "long_term_memory",
+          "entity_id": "ltm_f737f102d10c",
+          "action": "create",
+          "timestamp": "2026-04-06T11:28:50Z",
+          "reason": "Candidate cand_7b1e27cc192d promoted into long-term memory",
+          "before": null,
+          "after": {
+            "id": "ltm_f737f102d10c",
+            "summary": "works on local-first writing tool",
+            "category": "project",
+            "evidence": [
+              {
+                "conversation_event_id": "evt_ef92e1fc6005",
+                "session_id": "demo-thread",
+                "message_id": "m1",
+                "speaker": "user",
+                "occurred_at": "2026-04-01T09:00:00Z",
+                "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+              }
+            ],
+            "confidence": 0.89,
+            "first_seen": "2026-04-01T09:00:00Z",
+            "last_seen": "2026-04-01T09:00:00Z",
+            "reinforcement_count": 1,
+            "contradiction_count": 0,
+            "mutable": true,
+            "active": true,
+            "last_reinforced_at": "2026-04-01T09:00:00Z",
+            "lifecycle_state": "active",
+            "staleness_score": 0.0,
+            "stale_since": null,
+            "superseded_by": null
+          }
+        },
+        {
+          "id": "rev_461e60717677",
+          "entity_type": "long_term_memory",
+          "entity_id": "ltm_97c142d058aa",
+          "action": "create",
+          "timestamp": "2026-04-06T11:28:50Z",
+          "reason": "Candidate cand_bb35d5e6d3cb promoted into long-term memory",
+          "before": null,
+          "after": {
+            "id": "ltm_97c142d058aa",
+            "summary": "prefers concise and structured",
+            "category": "style",
+            "evidence": [
+              {
+                "conversation_event_id": "evt_ef92e1fc6005",
+                "session_id": "demo-thread",
+                "message_id": "m1",
+                "speaker": "user",
+                "occurred_at": "2026-04-01T09:00:00Z",
+                "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+              }
+            ],
+            "confidence": 0.87,
+            "first_seen": "2026-04-01T09:00:00Z",
+            "last_seen": "2026-04-01T09:00:00Z",
+            "reinforcement_count": 1,
+            "contradiction_count": 0,
+            "mutable": true,
+            "active": true,
+            "last_reinforced_at": "2026-04-01T09:00:00Z",
+            "lifecycle_state": "active",
+            "staleness_score": 0.0,
+            "stale_since": null,
+            "superseded_by": null
+          }
+        },
+        {
+          "id": "rev_fac543199f04",
+          "entity_type": "long_term_memory",
+          "entity_id": "ltm_4b7e07a2fda1",
+          "action": "create",
+          "timestamp": "2026-04-06T11:28:50Z",
+          "reason": "Candidate cand_c8f8b5fb138e promoted into long-term memory",
+          "before": null,
+          "after": {
+            "id": "ltm_4b7e07a2fda1",
+            "summary": "prefers json when it clarifies the output",
+            "category": "preference",
+            "evidence": [
+              {
+                "conversation_event_id": "evt_ef92e1fc6005",
+                "session_id": "demo-thread",
+                "message_id": "m1",
+                "speaker": "user",
+                "occurred_at": "2026-04-01T09:00:00Z",
+                "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+              }
+            ],
+            "confidence": 0.81,
+            "first_seen": "2026-04-01T09:00:00Z",
+            "last_seen": "2026-04-01T09:00:00Z",
+            "reinforcement_count": 1,
+            "contradiction_count": 0,
+            "mutable": true,
+            "active": true,
+            "last_reinforced_at": "2026-04-01T09:00:00Z",
+            "lifecycle_state": "active",
+            "staleness_score": 0.0,
+            "stale_since": null,
+            "superseded_by": null
+          }
+        },
+        {
+          "id": "rev_c45cec3d0a92",
+          "entity_type": "long_term_memory",
+          "entity_id": "ltm_db11dde7ccf1",
+          "action": "create",
+          "timestamp": "2026-04-06T11:28:50Z",
+          "reason": "Candidate cand_c3ed21c43298 promoted into long-term memory",
+          "before": null,
+          "after": {
+            "id": "ltm_db11dde7ccf1",
+            "summary": "avoids fluffy marketing language",
+            "category": "taboo",
+            "evidence": [
+              {
+                "conversation_event_id": "evt_9271207c81a4",
+                "session_id": "demo-thread",
+                "message_id": "m2",
+                "speaker": "user",
+                "occurred_at": "2026-04-01T09:01:00Z",
+                "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+              }
+            ],
+            "confidence": 0.85,
+            "first_seen": "2026-04-01T09:01:00Z",
+            "last_seen": "2026-04-01T09:01:00Z",
+            "reinforcement_count": 1,
+            "contradiction_count": 0,
+            "mutable": true,
+            "active": true,
+            "last_reinforced_at": "2026-04-01T09:01:00Z",
+            "lifecycle_state": "active",
+            "staleness_score": 0.0,
+            "stale_since": null,
+            "superseded_by": null
+          }
+        },
+        {
+          "id": "rev_6ea20baf8eb9",
+          "entity_type": "long_term_memory",
+          "entity_id": "ltm_b3d1a2f233a8",
+          "action": "create",
+          "timestamp": "2026-04-06T11:28:50Z",
+          "reason": "Candidate cand_e046840f3551 promoted into long-term memory",
+          "before": null,
+          "after": {
+            "id": "ltm_b3d1a2f233a8",
+            "summary": "often work in python from the cli",
+            "category": "routine",
+            "evidence": [
+              {
+                "conversation_event_id": "evt_9271207c81a4",
+                "session_id": "demo-thread",
+                "message_id": "m2",
+                "speaker": "user",
+                "occurred_at": "2026-04-01T09:01:00Z",
+                "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+              }
+            ],
+            "confidence": 0.79,
+            "first_seen": "2026-04-01T09:01:00Z",
+            "last_seen": "2026-04-01T09:01:00Z",
+            "reinforcement_count": 1,
+            "contradiction_count": 0,
+            "mutable": true,
+            "active": true,
+            "last_reinforced_at": "2026-04-01T09:01:00Z",
             "lifecycle_state": "active",
             "staleness_score": 0.0,
             "stale_since": null,

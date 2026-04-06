@@ -1,0 +1,112 @@
+[
+  {
+    "id": "cand_bb35d5e6d3cb",
+    "content": "prefers concise and structured",
+    "type": "style",
+    "confidence": 0.87,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_ef92e1fc6005",
+        "session_id": "demo-thread",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+      }
+    ],
+    "created_at": "2026-04-01T09:00:00Z",
+    "status": "accepted",
+    "notes": "Promoted to ltm_97c142d058aa",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-06T11:28:50Z",
+    "resolved_memory_id": "ltm_97c142d058aa"
+  },
+  {
+    "id": "cand_c8f8b5fb138e",
+    "content": "prefers json when it clarifies the output",
+    "type": "preference",
+    "confidence": 0.81,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_ef92e1fc6005",
+        "session_id": "demo-thread",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+      }
+    ],
+    "created_at": "2026-04-01T09:00:00Z",
+    "status": "accepted",
+    "notes": "Promoted to ltm_4b7e07a2fda1",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-06T11:28:50Z",
+    "resolved_memory_id": "ltm_4b7e07a2fda1"
+  },
+  {
+    "id": "cand_7b1e27cc192d",
+    "content": "works on local-first writing tool",
+    "type": "project",
+    "confidence": 0.89,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_ef92e1fc6005",
+        "session_id": "demo-thread",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+      }
+    ],
+    "created_at": "2026-04-01T09:00:00Z",
+    "status": "accepted",
+    "notes": "Promoted to ltm_f737f102d10c",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-06T11:28:50Z",
+    "resolved_memory_id": "ltm_f737f102d10c"
+  },
+  {
+    "id": "cand_c3ed21c43298",
+    "content": "avoids fluffy marketing language",
+    "type": "taboo",
+    "confidence": 0.85,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_9271207c81a4",
+        "session_id": "demo-thread",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+      }
+    ],
+    "created_at": "2026-04-01T09:01:00Z",
+    "status": "accepted",
+    "notes": "Promoted to ltm_db11dde7ccf1",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-06T11:28:50Z",
+    "resolved_memory_id": "ltm_db11dde7ccf1"
+  },
+  {
+    "id": "cand_e046840f3551",
+    "content": "often work in python from the cli",
+    "type": "routine",
+    "confidence": 0.79,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_9271207c81a4",
+        "session_id": "demo-thread",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+      }
+    ],
+    "created_at": "2026-04-01T09:01:00Z",
+    "status": "accepted",
+    "notes": "Promoted to ltm_b3d1a2f233a8",
+    "resolution_kind": "promoted",
+    "resolved_at": "2026-04-06T11:28:50Z",
+    "resolved_memory_id": "ltm_b3d1a2f233a8"
+  }
+]

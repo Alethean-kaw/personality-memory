@@ -2,7 +2,7 @@
 
 - Backend: hybrid
 - Passed: True
-- Generated at: 2026-04-05T06:00:26Z
+- Generated at: 2026-04-06T12:22:56Z
 
 ## Step 1
 - Profile: default
@@ -19,7 +19,7 @@
 ## Step 2
 - Profile: default
 - Dialogue: D:\GPT Codex\OpenClaw Skill\personality-memory\examples\dialogue_05_aging_checkpoint.json
-- Counts: {'conversation_events': 2, 'memory_candidates': 2, 'long_term_memory': 2, 'open_reviews': 0}
+- Counts: {'conversation_events': 2, 'memory_candidates': 1, 'long_term_memory': 2, 'open_reviews': 0}
 ### Retrieval Checks
 - retrieval:archival note-taking engine: passed=True
 ### Memory Checks
@@ -35,7 +35,7 @@
 ## Step 3
 - Profile: default
 - Dialogue: D:\GPT Codex\OpenClaw Skill\personality-memory\examples\dialogue_06_aging_revive.json
-- Counts: {'conversation_events': 3, 'memory_candidates': 3, 'long_term_memory': 2, 'open_reviews': 0}
+- Counts: {'conversation_events': 3, 'memory_candidates': 2, 'long_term_memory': 2, 'open_reviews': 0}
 ### Retrieval Checks
 - retrieval:archival note-taking engine: passed=True
 ### Memory Checks

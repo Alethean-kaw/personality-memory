@@ -1,7 +1,7 @@
 interface:
   display_name: "Personality Memory"
-  short_description: "Persistent profile-aware memory and runtime persona context from dialogue history."
-  default_prompt: "Before generating a personalized answer, call $personality-memory retrieve-context with the current task or question. Use prepare-context only when you need a human-readable Markdown rendering."
+  short_description: "Persistent profile-aware memory, runtime session binding, and persona context from dialogue history."
+  default_prompt: "Prefer $personality-memory session-runtime as the main integration surface. Call the runtime hello/open_session/step JSONL flow before generating a personalized answer. Use retrieve-context or prepare-context only as low-level debugging and maintenance tools."
 
 policy:
   allow_implicit_invocation: true

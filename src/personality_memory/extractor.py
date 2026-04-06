@@ -3,10 +3,11 @@ from __future__ import annotations
 import re
 from typing import Iterable
 
+from .candidate_lifecycle import merge_candidate_evidence
 from .models import ConversationEvent, EvidenceRef, MemoryCandidate
 from .rules import EXTRACTION_PATTERNS, STABILITY_MARKERS, TASK_NOISE_MARKERS, TEMPORAL_NOISE_MARKERS
 from .scoring import candidate_confidence
-from .utils import normalize_text, sentence_excerpt, stable_hash, tokenize
+from .utils import latest_timestamp, normalize_text, sentence_excerpt, sort_timestamp, stable_hash, tokenize
 
 
 class MemoryExtractor:
@@ -17,27 +18,42 @@ class MemoryExtractor:
         self,
         events: Iterable[ConversationEvent],
         existing_candidates: Iterable[MemoryCandidate] | None = None,
+        archived_candidates: Iterable[MemoryCandidate] | None = None,
     ) -> list[MemoryCandidate]:
-        preserved = {candidate.id: candidate for candidate in existing_candidates or []}
-        extracted: list[MemoryCandidate] = []
-        seen_ids: set[str] = set()
+        active_candidates = [candidate for candidate in existing_candidates or [] if candidate.lifecycle_state != "archived"]
+        preserved_by_key = {(candidate.type, candidate.content): candidate for candidate in active_candidates}
+        archived_by_key = {(candidate.type, candidate.content): candidate for candidate in archived_candidates or []}
+        extracted: dict[tuple[str, str], MemoryCandidate] = {}
 
         for event in events:
             if normalize_text(event.speaker) not in {"user", "human"}:
                 continue
             for candidate in self.extract_from_event(event):
-                if candidate.id in seen_ids:
+                key = (candidate.type, candidate.content)
+                archived = archived_by_key.get(key)
+                if archived is not None and self._is_historical_for_archived_candidate(event.occurred_at, archived):
                     continue
-                if candidate.id in preserved:
-                    old = preserved[candidate.id]
-                    candidate.status = old.status
-                    candidate.notes = old.notes
-                    candidate.resolution_kind = old.resolution_kind
-                    candidate.resolved_at = old.resolved_at
-                    candidate.resolved_memory_id = old.resolved_memory_id
-                seen_ids.add(candidate.id)
-                extracted.append(candidate)
-        return extracted
+
+                current = extracted.get(key)
+                if current is None:
+                    preserved = preserved_by_key.get(key)
+                    current = MemoryCandidate.from_dict(preserved.to_dict()) if preserved is not None else candidate
+                    extracted[key] = current
+                    if preserved is None:
+                        current.last_seen = candidate.created_at
+                        current.reinforcement_count = max(1, len(current.source_refs))
+                    else:
+                        self._merge_candidate_signal(current, candidate)
+                        continue
+                else:
+                    self._merge_candidate_signal(current, candidate)
+
+        values = sorted(extracted.values(), key=lambda item: (sort_timestamp(item.created_at), item.id))
+        for candidate in values:
+            candidate.reinforcement_count = max(1, len(candidate.source_refs), candidate.reinforcement_count)
+            if not candidate.last_seen:
+                candidate.last_seen = candidate.created_at
+        return values
 
     def extract_from_event(self, event: ConversationEvent) -> list[MemoryCandidate]:
         source_text = normalize_text(event.text)
@@ -62,7 +78,7 @@ class MemoryExtractor:
                 )
                 if confidence < self.minimum_confidence:
                     continue
-                candidate_id = self._candidate_id(event, pattern.candidate_type, content)
+                candidate_id = self._candidate_id(pattern.candidate_type, content, event.id)
                 candidates.append(
                     MemoryCandidate(
                         id=candidate_id,
@@ -80,9 +96,31 @@ class MemoryExtractor:
                             )
                         ],
                         created_at=event.occurred_at,
+                        last_seen=event.occurred_at,
+                        reinforcement_count=1,
                     )
                 )
         return self._deduplicate_candidates(candidates)
+
+    def _merge_candidate_signal(self, current: MemoryCandidate, candidate: MemoryCandidate) -> None:
+        current.source_refs = merge_candidate_evidence(current.source_refs, candidate.source_refs)
+        current.confidence = max(current.confidence, candidate.confidence)
+        current.created_at = current.created_at or candidate.created_at
+        current.last_seen = latest_timestamp(current.last_seen, candidate.last_seen, candidate.created_at)
+        current.reinforcement_count = max(current.reinforcement_count, len(current.source_refs))
+        if current.status == "candidate" and current.lifecycle_state == "cooling":
+            current.lifecycle_state = "active"
+            current.decay_score = 0.0
+        if current.status == "outdated" and current.lifecycle_state != "archived":
+            current.status = "candidate"
+            current.archive_reason = None
+            current.archived_at = None
+
+    def _is_historical_for_archived_candidate(self, occurred_at: str, archived_candidate: MemoryCandidate) -> bool:
+        anchor = archived_candidate.archived_at or archived_candidate.last_seen or archived_candidate.created_at
+        if not anchor:
+            return False
+        return sort_timestamp(occurred_at) <= sort_timestamp(anchor)
 
     def _clean_fragment(self, fragment: str) -> str:
         fragment = fragment.strip().strip("\"'`")
@@ -113,8 +151,8 @@ class MemoryExtractor:
     def _canonicalize(self, prefix: str, fragment: str) -> str:
         return f"{prefix} {normalize_text(fragment)}"
 
-    def _candidate_id(self, event: ConversationEvent, candidate_type: str, content: str) -> str:
-        return f"cand_{stable_hash(f'{event.id}|{candidate_type}|{content}')}"
+    def _candidate_id(self, candidate_type: str, content: str, seed: str) -> str:
+        return f"cand_{stable_hash(f'{candidate_type}|{content}|{seed}') }"
 
     def _deduplicate_candidates(self, candidates: list[MemoryCandidate]) -> list[MemoryCandidate]:
         deduped: dict[tuple[str, str], MemoryCandidate] = {}

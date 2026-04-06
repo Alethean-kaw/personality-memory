@@ -1,0 +1,170 @@
+[
+  {
+    "id": "cand_3f40fa975b50",
+    "content": "prefers direct and concise",
+    "type": "style",
+    "confidence": 0.87,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "created_at": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_6ce847ec1769",
+    "content": "prefers local storage over cloud dependencies",
+    "type": "preference",
+    "confidence": 0.81,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "created_at": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_6e097dd01850",
+    "content": "works on local-first writing tool for tabletop campaigns",
+    "type": "project",
+    "confidence": 0.89,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "created_at": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_20a9e474216d",
+    "content": "avoids opaque black-box workflows",
+    "type": "taboo",
+    "confidence": 0.85,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_a71d0c6518f6",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:01:00Z",
+        "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+      }
+    ],
+    "created_at": "2026-03-15T10:01:00Z",
+    "last_seen": "2026-03-15T10:01:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_383f9ae8d706",
+    "content": "often revisit long-running creative tooling projects",
+    "type": "routine",
+    "confidence": 0.79,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_a71d0c6518f6",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:01:00Z",
+        "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+      }
+    ],
+    "created_at": "2026-03-15T10:01:00Z",
+    "last_seen": "2026-03-15T10:01:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_72486746b590",
+    "content": "uses python and terminal workflows",
+    "type": "constraint",
+    "confidence": 0.67,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_cd8b7812ba54",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m4",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:02:00Z",
+        "excerpt": "I mainly use Python and terminal workflows. I want reusable building blocks instead of brittle hacks."
+      }
+    ],
+    "created_at": "2026-03-15T10:02:00Z",
+    "last_seen": "2026-03-15T10:02:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  }
+]

@@ -1,0 +1,432 @@
+[
+  {
+    "id": "rev_bcf23c3cbb01",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_8bacb9c052af",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_42ad01d243c4 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_8bacb9c052af",
+      "summary": "works on local-first writing tool for tabletop campaigns",
+      "category": "project",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_e2fa5eaa5dd9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:00:00Z",
+          "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+        }
+      ],
+      "confidence": 0.96,
+      "first_seen": "2026-03-01T09:00:00Z",
+      "last_seen": "2026-03-01T09:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_8577393f9338",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_97c142d058aa",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_3fd75f3d37a0 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_97c142d058aa",
+      "summary": "prefers concise and structured",
+      "category": "style",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_e2fa5eaa5dd9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:00:00Z",
+          "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+        }
+      ],
+      "confidence": 0.87,
+      "first_seen": "2026-03-01T09:00:00Z",
+      "last_seen": "2026-03-01T09:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_6d6956f85a6d",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_2b0baf9345a8",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_48aeecf8ddcf promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_2b0baf9345a8",
+      "summary": "prefers json when it makes things clearer",
+      "category": "preference",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_e2fa5eaa5dd9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:00:00Z",
+          "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+        }
+      ],
+      "confidence": 0.81,
+      "first_seen": "2026-03-01T09:00:00Z",
+      "last_seen": "2026-03-01T09:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_6ff1da35efee",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_db11dde7ccf1",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_353eeed79527 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_db11dde7ccf1",
+      "summary": "avoids fluffy marketing language",
+      "category": "taboo",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_18297b44a8b9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m3",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:01:00Z",
+          "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+        }
+      ],
+      "confidence": 0.85,
+      "first_seen": "2026-03-01T09:01:00Z",
+      "last_seen": "2026-03-01T09:01:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_e87adaac14f7",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_b3d1a2f233a8",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_befa1b2f24da promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_b3d1a2f233a8",
+      "summary": "often work in python from the cli",
+      "category": "routine",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_18297b44a8b9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m3",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:01:00Z",
+          "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+        }
+      ],
+      "confidence": 0.79,
+      "first_seen": "2026-03-01T09:01:00Z",
+      "last_seen": "2026-03-01T09:01:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_8180a0c4d1e9",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_5b0cb2e627ba",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_6654e5672f6d promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_5b0cb2e627ba",
+      "summary": "values local files and transparent behavior because i want the system to stay inspectable",
+      "category": "worldview",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_80d9e013874a",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m4",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:02:00Z",
+          "excerpt": "I value local files and transparent behavior because I want the system to stay inspectable."
+        }
+      ],
+      "confidence": 0.81,
+      "first_seen": "2026-03-01T09:02:00Z",
+      "last_seen": "2026-03-01T09:02:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:02:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_799a4628bacf",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_8bacb9c052af",
+    "action": "reinforce",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_7460c581fdc9 reinforced memory ltm_8bacb9c052af",
+    "before": {
+      "id": "ltm_8bacb9c052af",
+      "summary": "works on local-first writing tool for tabletop campaigns",
+      "category": "project",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_e2fa5eaa5dd9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:00:00Z",
+          "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+        }
+      ],
+      "confidence": 0.96,
+      "first_seen": "2026-03-01T09:00:00Z",
+      "last_seen": "2026-03-01T09:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-01T09:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    },
+    "after": {
+      "id": "ltm_8bacb9c052af",
+      "summary": "works on local-first writing tool for tabletop campaigns",
+      "category": "project",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_e2fa5eaa5dd9",
+          "session_id": "campaign-tool-session-01",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-01T09:00:00Z",
+          "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+        },
+        {
+          "conversation_event_id": "evt_550e5dae13fa",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:00:00Z",
+          "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+        }
+      ],
+      "confidence": 0.99,
+      "first_seen": "2026-03-01T09:00:00Z",
+      "last_seen": "2026-03-15T10:00:00Z",
+      "reinforcement_count": 2,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_6e81d0065cf2",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_4b8a345308ca",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_90b703c98fe3 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_4b8a345308ca",
+      "summary": "prefers direct and concise",
+      "category": "style",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_550e5dae13fa",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:00:00Z",
+          "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+        }
+      ],
+      "confidence": 0.87,
+      "first_seen": "2026-03-15T10:00:00Z",
+      "last_seen": "2026-03-15T10:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_53e52f0cdd46",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_8415250fa921",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_4501e8f9ec08 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_8415250fa921",
+      "summary": "prefers local storage over cloud dependencies",
+      "category": "preference",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_550e5dae13fa",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m1",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:00:00Z",
+          "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+        }
+      ],
+      "confidence": 0.81,
+      "first_seen": "2026-03-15T10:00:00Z",
+      "last_seen": "2026-03-15T10:00:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:00:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_4be7311e3b73",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_9aed26aeae49",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_94d5ff80fdb4 promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_9aed26aeae49",
+      "summary": "avoids opaque black-box workflows",
+      "category": "taboo",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_a71d0c6518f6",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m2",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:01:00Z",
+          "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+        }
+      ],
+      "confidence": 0.85,
+      "first_seen": "2026-03-15T10:01:00Z",
+      "last_seen": "2026-03-15T10:01:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  },
+  {
+    "id": "rev_6154cf40d449",
+    "entity_type": "long_term_memory",
+    "entity_id": "ltm_4f7378f95fa4",
+    "action": "create",
+    "timestamp": "2026-04-06T11:28:40Z",
+    "reason": "Candidate cand_a9a573ac9bee promoted into long-term memory",
+    "before": null,
+    "after": {
+      "id": "ltm_4f7378f95fa4",
+      "summary": "often revisit long-running creative tooling projects",
+      "category": "routine",
+      "evidence": [
+        {
+          "conversation_event_id": "evt_a71d0c6518f6",
+          "session_id": "campaign-tool-session-02",
+          "message_id": "m2",
+          "speaker": "user",
+          "occurred_at": "2026-03-15T10:01:00Z",
+          "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+        }
+      ],
+      "confidence": 0.79,
+      "first_seen": "2026-03-15T10:01:00Z",
+      "last_seen": "2026-03-15T10:01:00Z",
+      "reinforcement_count": 1,
+      "contradiction_count": 0,
+      "mutable": true,
+      "active": true,
+      "last_reinforced_at": "2026-03-15T10:01:00Z",
+      "lifecycle_state": "active",
+      "staleness_score": 0.0,
+      "stale_since": null,
+      "superseded_by": null
+    }
+  }
+]

@@ -5,16 +5,30 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .consolidator import MemoryConsolidator
-from .evaluator import ReplayEvaluator
-from .extractor import MemoryExtractor
-from .governance import MemoryGovernanceManager
-from .lifecycle import DEFAULT_AGING_POLICY, refresh_memory_activity
-from .models import ConversationEvent, LongTermMemory, MemoryCandidate, ReviewItem, RevisionEntry
-from .persona_builder import PersonaBuilder
-from .retrieval import RetrievalService
+from .models import ConversationEvent, LongTermMemory, ReviewItem
+from .operations import (
+    archive_candidates_action,
+    build_persona_profile,
+    consolidate_profile,
+    export_payload,
+    extract_candidates,
+    find_memory,
+    forget_memory,
+    ingest_payload,
+    list_candidates_payload,
+    list_snapshots_payload,
+    prepare_context_bundle,
+    reopen_candidate_action,
+    resolve_review_action,
+    restore_candidate_action,
+    restore_snapshot_action,
+    retrieve_context_bundle,
+    revise_memory,
+    show_candidate_payload,
+    storage_health_payload,
+)
 from .storage import DEFAULT_BACKEND, SCHEMA_VERSION, Storage
-from .utils import detect_project_root, normalize_timestamp, sentence_excerpt, sort_timestamp, stable_hash, utc_now, write_json
+from .utils import detect_project_root, normalize_timestamp, sentence_excerpt, stable_hash, utc_now, write_json
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -104,6 +118,29 @@ def build_parser() -> argparse.ArgumentParser:
     reopen_candidate.add_argument("--reason", required=True)
     reopen_candidate.set_defaults(func=cmd_reopen_candidate)
 
+    list_candidates = subparsers.add_parser("list-candidates", help="List active and archived candidates.")
+    list_candidates.add_argument("--json", action="store_true")
+    list_candidates.add_argument("--include-archived", action="store_true")
+    list_candidates.add_argument("--status", choices=["candidate", "accepted", "review", "rejected", "outdated"])
+    list_candidates.add_argument("--lifecycle-state", choices=["active", "cooling", "archived"])
+    list_candidates.set_defaults(func=cmd_list_candidates)
+
+    show_candidate = subparsers.add_parser("show-candidate", help="Show a candidate from active or archive storage.")
+    show_candidate.add_argument("candidate_id")
+    show_candidate.add_argument("--json", action="store_true")
+    show_candidate.set_defaults(func=cmd_show_candidate)
+
+    restore_candidate = subparsers.add_parser("restore-candidate", help="Restore an archived candidate back into the active working set.")
+    restore_candidate.add_argument("candidate_id")
+    restore_candidate.add_argument("--reason", required=True)
+    restore_candidate.set_defaults(func=cmd_restore_candidate)
+
+    archive_candidates = subparsers.add_parser("archive-candidates", help="Archive candidates by rule or explicit id.")
+    archive_candidates.add_argument("candidate_ids", nargs="*")
+    archive_candidates.add_argument("--reason", default="Manual candidate archive.")
+    archive_candidates.add_argument("--reference-time")
+    archive_candidates.set_defaults(func=cmd_archive_candidates)
+
     list_profiles = subparsers.add_parser("list-profiles", help="List profiles.")
     list_profiles.add_argument("--json", action="store_true")
     list_profiles.set_defaults(func=cmd_list_profiles)
@@ -112,7 +149,7 @@ def build_parser() -> argparse.ArgumentParser:
     create_profile.add_argument("profile_id")
     create_profile.add_argument("--display-name")
     create_profile.add_argument("--backend", choices=["lexical", "hybrid"], default=DEFAULT_BACKEND)
-    create_profile.add_argument("--aging-policy", default=DEFAULT_AGING_POLICY)
+    create_profile.add_argument("--aging-policy", default="default-v1")
     create_profile.add_argument("--set-default", action="store_true")
     create_profile.set_defaults(func=cmd_create_profile)
 
@@ -129,6 +166,21 @@ def build_parser() -> argparse.ArgumentParser:
     migrate_storage.add_argument("--json", action="store_true")
     migrate_storage.set_defaults(func=cmd_migrate_storage)
 
+    list_snapshots = subparsers.add_parser("list-snapshots", help="List storage snapshots.")
+    list_snapshots.add_argument("--scope", choices=["global", "profile"])
+    list_snapshots.add_argument("--json", action="store_true")
+    list_snapshots.set_defaults(func=cmd_list_snapshots)
+
+    restore_snapshot = subparsers.add_parser("restore-snapshot", help="Restore a storage snapshot.")
+    restore_snapshot.add_argument("snapshot_id")
+    restore_snapshot.add_argument("--snapshot-profile")
+    restore_snapshot.add_argument("--json", action="store_true")
+    restore_snapshot.set_defaults(func=cmd_restore_snapshot)
+
+    storage_health = subparsers.add_parser("storage-health", help="Run storage integrity checks.")
+    storage_health.add_argument("--json", action="store_true")
+    storage_health.set_defaults(func=cmd_storage_health)
+
     replay_eval = subparsers.add_parser("replay-eval", help="Run replay evaluation.")
     replay_eval.add_argument("manifest", type=Path)
     replay_eval.add_argument("--output-dir", type=Path, default=None)
@@ -139,6 +191,9 @@ def build_parser() -> argparse.ArgumentParser:
     export.add_argument("--output-dir", type=Path, default=None)
     export.add_argument("--all-profiles", action="store_true")
     export.set_defaults(func=cmd_export)
+
+    session_runtime = subparsers.add_parser("session-runtime", help="Run the JSONL session runtime.")
+    session_runtime.set_defaults(func=cmd_session_runtime)
     return parser
 
 
@@ -148,401 +203,6 @@ def resolve_root(root: Path | None) -> Path:
 
 def open_storage(args: argparse.Namespace) -> Storage:
     return Storage(resolve_root(args.root), profile_id=args.profile)
-
-
-def resolve_backend(storage: Storage, override: str | None) -> str:
-    if override:
-        return override
-    profile = storage.get_profile_metadata()
-    return profile.backend if profile is not None else DEFAULT_BACKEND
-
-
-def cmd_ingest(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    existing_candidates = storage.load_memory_candidates()
-    conversations = load_dialogue_payload(args.path)
-    events = normalize_dialogue_payload(conversations)
-    added_events = storage.append_conversation_events(events)
-    extractor = MemoryExtractor()
-    if not added_events:
-        print("No new conversation events were added.")
-        return 0
-
-    id_index = {candidate.id: candidate for candidate in existing_candidates}
-    extracted = extractor.extract_from_events(added_events, existing_candidates=existing_candidates)
-    for candidate in extracted:
-        id_index[candidate.id] = candidate
-    combined = sorted(id_index.values(), key=lambda item: (sort_timestamp(item.created_at), item.id))
-    storage.save_memory_candidates(combined)
-    print(f"Ingested {len(added_events)} new conversation events from {args.path} into profile {storage.profile_id}.")
-    print(f"Extracted {len(extracted)} candidate memories.")
-    return 0
-
-
-def cmd_extract(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    extractor = MemoryExtractor()
-    candidates = extractor.extract_from_events(storage.load_conversation_events(), existing_candidates=storage.load_memory_candidates())
-    storage.save_memory_candidates(candidates)
-    print(f"Rebuilt {len(candidates)} candidate memories from {len(storage.load_conversation_events())} conversation events in profile {storage.profile_id}.")
-    return 0
-
-
-def cmd_consolidate(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    backend_name = resolve_backend(storage, args.backend)
-    consolidator = MemoryConsolidator(backend_name=backend_name, aging_policy=storage.get_profile_metadata().aging_policy)
-    result = consolidator.consolidate(storage.load_memory_candidates(), storage.load_long_term_memory(), storage.load_review_items())
-    storage.save_memory_candidates(result.candidates)
-    storage.save_long_term_memory(result.memories)
-    storage.save_review_items(result.review_items)
-    if result.revisions:
-        storage.append_revisions(result.revisions)
-    storage.touch_profile(storage.profile_id, backend=backend_name)
-    print(f"Consolidation complete: profile={storage.profile_id}, created={result.created}, updated={result.updated}, conflicts={result.conflicts}, pending={result.pending}.")
-    return 0
-
-
-def cmd_build_persona(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    memories = storage.load_long_term_memory()
-    profile = PersonaBuilder(aging_policy=storage.get_profile_metadata().aging_policy).build(memories)
-    storage.save_long_term_memory(memories)
-    storage.save_persona_profile(profile)
-    print(json.dumps(profile.to_dict(), indent=2, ensure_ascii=False) if args.json else profile.markdown_summary)
-    return 0
-
-def cmd_retrieve_context(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    memories = storage.load_long_term_memory()
-    backend_name = resolve_backend(storage, args.backend)
-    result = RetrievalService(backend_name=backend_name, aging_policy=storage.get_profile_metadata().aging_policy).retrieve(
-        query=args.query,
-        memories=memories,
-        review_items=storage.load_review_items(),
-        profile_id=storage.profile_id,
-        top_k=max(0, args.top_k),
-        include_contested=args.include_contested,
-        include_review=args.include_review,
-    )
-    storage.save_long_term_memory(memories)
-    storage.touch_profile(storage.profile_id, backend=backend_name)
-    print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
-    return 0
-
-
-def cmd_prepare_context(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    memories = storage.load_long_term_memory()
-    backend_name = resolve_backend(storage, args.backend)
-    service = RetrievalService(backend_name=backend_name, aging_policy=storage.get_profile_metadata().aging_policy)
-    result = service.retrieve(
-        query=args.query,
-        memories=memories,
-        review_items=storage.load_review_items(),
-        profile_id=storage.profile_id,
-        top_k=max(0, args.top_k),
-        include_contested=args.include_contested,
-        include_review=args.include_review,
-    )
-    storage.save_long_term_memory(memories)
-    storage.touch_profile(storage.profile_id, backend=backend_name)
-    print(service.render_markdown(result, include_contested=args.include_contested, include_review=args.include_review))
-    return 0
-
-
-def cmd_show_memory(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    memories = storage.load_long_term_memory()
-    if not args.include_inactive:
-        memories = [memory for memory in memories if memory.active]
-    if args.json:
-        print(json.dumps([memory.to_dict() for memory in memories], indent=2, ensure_ascii=False))
-        return 0
-    if not memories:
-        print("No long-term memory stored.")
-        return 0
-    for memory in sorted(memories, key=lambda item: (-item.confidence, item.category, item.id)):
-        print(f"{memory.id} | {memory.category} | state={memory.lifecycle_state} | confidence={memory.confidence:.2f} | reinforced={memory.reinforcement_count} | contradictions={memory.contradiction_count}")
-        print(f"  {memory.summary}")
-        if memory.evidence:
-            print(f"  evidence: {sentence_excerpt(memory.evidence[0].excerpt, 100)}")
-    return 0
-
-
-def cmd_show_persona(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    profile = storage.load_persona_profile()
-    if profile is None:
-        print("No persona profile built yet.")
-        return 0
-    print(json.dumps(profile.to_dict(), indent=2, ensure_ascii=False) if args.json else profile.markdown_summary)
-    return 0
-
-
-def cmd_forget(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    memories = storage.load_long_term_memory()
-    target = find_memory(memories, args.memory_id)
-    if target is None:
-        print(f"Memory {args.memory_id} not found.")
-        return 1
-    before = target.to_dict()
-    if args.hard_delete:
-        memories = [memory for memory in memories if memory.id != args.memory_id]
-        action = "hard_delete"
-        after = None
-    else:
-        target.active = False
-        target.lifecycle_state = "expired"
-        target.staleness_score = 1.0
-        target.stale_since = utc_now()
-        action = "forget"
-        after = target.to_dict()
-    storage.save_long_term_memory(memories)
-    storage.append_revisions([
-        RevisionEntry(
-            id=f"rev_{stable_hash(f'{action}|{args.memory_id}|{utc_now()}')}",
-            entity_type="long_term_memory",
-            entity_id=args.memory_id,
-            action=action,
-            timestamp=utc_now(),
-            reason=args.reason,
-            before=before,
-            after=after,
-        )
-    ])
-    print(f"Memory {args.memory_id} {'deleted' if args.hard_delete else 'deactivated' }.")
-    return 0
-
-
-def cmd_revise(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    memories = storage.load_long_term_memory()
-    target = find_memory(memories, args.memory_id)
-    if target is None:
-        print(f"Memory {args.memory_id} not found.")
-        return 1
-    before = target.to_dict()
-    if args.summary:
-        target.summary = args.summary
-    if args.category:
-        target.category = args.category
-    if args.confidence is not None:
-        target.confidence = max(0.0, min(0.99, args.confidence))
-    if args.mutable:
-        target.mutable = True
-    if args.immutable:
-        target.mutable = False
-    if args.superseded_by:
-        target.superseded_by = args.superseded_by
-    if args.deactivate:
-        target.active = False
-        target.lifecycle_state = "expired"
-        target.staleness_score = 1.0
-        target.stale_since = utc_now()
-    else:
-        if args.activate or args.summary or args.category or args.confidence is not None:
-            refresh_memory_activity(target, reference_time=utc_now())
-    storage.save_long_term_memory(memories)
-    storage.append_revisions([
-        RevisionEntry(
-            id=f"rev_{stable_hash(f'revise|{args.memory_id}|{utc_now()}')}",
-            entity_type="long_term_memory",
-            entity_id=args.memory_id,
-            action="revise",
-            timestamp=utc_now(),
-            reason=args.reason,
-            before=before,
-            after=target.to_dict(),
-        )
-    ])
-    print(f"Revised memory {args.memory_id}.")
-    return 0
-
-
-def cmd_list_review(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    review_items = storage.load_review_items()
-    if args.status:
-        review_items = [item for item in review_items if item.status == args.status]
-    review_items.sort(key=lambda item: (sort_timestamp(item.opened_at), item.id))
-    if args.json:
-        print(json.dumps([item.to_dict() for item in review_items], indent=2, ensure_ascii=False))
-        return 0
-    if not review_items:
-        print("No review items found.")
-        return 0
-    for item in review_items:
-        target = item.target_memory_id or "(new memory candidate)"
-        print(f"{item.id} | status={item.status} | candidate={item.candidate_id} | target={target} | kind={item.kind}")
-        print(f"  reason: {item.reason}")
-    return 0
-
-
-def cmd_show_review(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    review = find_review(storage.load_review_items(), args.review_id)
-    if review is None:
-        print(f"Review item {args.review_id} not found.")
-        return 1
-    if args.json:
-        print(json.dumps(review.to_dict(), indent=2, ensure_ascii=False))
-        return 0
-    print(f"{review.id} | status={review.status} | kind={review.kind}")
-    print(f"candidate: {review.candidate_id}")
-    print(f"target_memory: {review.target_memory_id or '(new memory candidate)'}")
-    print(f"reason: {review.reason}")
-    if review.resolution_action:
-        print(f"resolution: {review.resolution_action}")
-    if review.resolution_notes:
-        print(f"notes: {review.resolution_notes}")
-    return 0
-
-
-def cmd_resolve_review(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    result = MemoryGovernanceManager().resolve_review(
-        review_id=args.review_id,
-        action=args.action,
-        reason=args.reason,
-        candidates=storage.load_memory_candidates(),
-        memories=storage.load_long_term_memory(),
-        review_items=storage.load_review_items(),
-        memory_id=args.memory_id,
-    )
-    storage.save_memory_candidates(result.candidates)
-    storage.save_long_term_memory(result.memories)
-    storage.save_review_items(result.review_items)
-    if result.revisions:
-        storage.append_revisions(result.revisions)
-    print(f"Resolved review {args.review_id} with action {args.action}.")
-    return 0
-
-
-def cmd_reopen_candidate(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    result = MemoryGovernanceManager().reopen_candidate(
-        candidate_id=args.candidate_id,
-        reason=args.reason,
-        candidates=storage.load_memory_candidates(),
-        review_items=storage.load_review_items(),
-        memories=storage.load_long_term_memory(),
-    )
-    storage.save_memory_candidates(result.candidates)
-    storage.save_long_term_memory(result.memories)
-    storage.save_review_items(result.review_items)
-    if result.revisions:
-        storage.append_revisions(result.revisions)
-    print(f"Reopened candidate {args.candidate_id}.")
-    return 0
-
-def cmd_list_profiles(args: argparse.Namespace) -> int:
-    storage = Storage(resolve_root(args.root), profile_id=args.profile)
-    profiles = storage.list_profiles()
-    if args.json:
-        print(json.dumps([profile.to_dict() for profile in profiles], indent=2, ensure_ascii=False))
-        return 0
-    for profile in profiles:
-        marker = "*" if profile.id == storage.registry.default_profile_id else " "
-        print(f"{marker} {profile.id} | {profile.display_name} | backend={profile.backend} | aging={profile.aging_policy}")
-    return 0
-
-
-def cmd_create_profile(args: argparse.Namespace) -> int:
-    storage = Storage(resolve_root(args.root), profile_id=args.profile)
-    profile = storage.create_profile(
-        args.profile_id,
-        display_name=args.display_name,
-        backend=args.backend,
-        aging_policy=args.aging_policy,
-    )
-    if args.set_default:
-        storage.set_default_profile(profile.id)
-    print(f"Created profile {profile.id}.")
-    return 0
-
-
-def cmd_show_profile(args: argparse.Namespace) -> int:
-    storage = Storage(resolve_root(args.root), profile_id=args.profile)
-    profile = storage.get_profile_metadata(args.profile_id or storage.profile_id)
-    if profile is None:
-        print(f"Profile {args.profile_id} not found.")
-        return 1
-    payload = {"schema_version": storage.registry.schema_version, "default_profile_id": storage.registry.default_profile_id, "profile": profile.to_dict()}
-    if args.json:
-        print(json.dumps(payload, indent=2, ensure_ascii=False))
-        return 0
-    print(f"{profile.id} | display_name={profile.display_name}")
-    print(f"backend: {profile.backend}")
-    print(f"aging_policy: {profile.aging_policy}")
-    print(f"created_at: {profile.created_at}")
-    print(f"updated_at: {profile.updated_at}")
-    return 0
-
-
-def cmd_set_default_profile(args: argparse.Namespace) -> int:
-    storage = Storage(resolve_root(args.root), profile_id=args.profile)
-    profile = storage.set_default_profile(args.profile_id)
-    print(f"Default profile set to {profile.id}.")
-    return 0
-
-
-def cmd_migrate_storage(args: argparse.Namespace) -> int:
-    storage = Storage(resolve_root(args.root), profile_id=args.profile)
-    payload = storage.migration_status()
-    payload["migrations"] = [item.to_dict() for item in storage.load_migrations()]
-    if args.json:
-        print(json.dumps(payload, indent=2, ensure_ascii=False))
-        return 0
-    print(f"Schema version: {payload['schema_version']}")
-    print(f"Default profile: {payload['default_profile_id']}")
-    print(f"Profiles: {', '.join(payload['profiles'])}")
-    if payload["last_migration"]:
-        print(f"Last migration: {payload['last_migration']['name']} @ {payload['last_migration']['applied_at']}")
-    return 0
-
-
-def cmd_replay_eval(args: argparse.Namespace) -> int:
-    storage = Storage(resolve_root(args.root), profile_id=args.profile)
-    backend_name = resolve_backend(storage, args.backend)
-    report = ReplayEvaluator(backend_name=backend_name).run(args.manifest, output_dir=args.output_dir)
-    print(f"Replay evaluation written to {report['json_path']}")
-    print(f"Replay evaluation markdown written to {report['markdown_path']}")
-    return 0 if report["passed"] else 1
-
-
-def cmd_export(args: argparse.Namespace) -> int:
-    storage = open_storage(args)
-    output_dir = args.output_dir or (storage.root / "exports")
-    output_dir.mkdir(parents=True, exist_ok=True)
-    if args.all_profiles:
-        export_json = {
-            "schema_version": SCHEMA_VERSION,
-            "registry": storage.registry.to_dict(),
-            "migrations": [entry.to_dict() for entry in storage.load_migrations()],
-            "profiles": storage.export_all_profiles_state(),
-        }
-    else:
-        persona = storage.load_persona_profile()
-        export_json = {
-            "schema_version": SCHEMA_VERSION,
-            "profile_id": storage.profile_id,
-            "profile": storage.get_profile_metadata().to_dict(),
-            "conversation_events": [event.to_dict() for event in storage.load_conversation_events()],
-            "memory_candidates": [candidate.to_dict() for candidate in storage.load_memory_candidates()],
-            "long_term_memory": [memory.to_dict() for memory in storage.load_long_term_memory()],
-            "persona_profile": persona.to_dict() if persona else {},
-            "review_items": [item.to_dict() for item in storage.load_review_items()],
-            "revisions": [entry.to_dict() for entry in storage.load_revisions()],
-        }
-    json_path = output_dir / "personality-memory-export.json"
-    markdown_path = output_dir / "personality-memory-export.md"
-    write_json(json_path, export_json)
-    markdown_path.write_text(build_export_markdown(export_json), encoding="utf-8")
-    print(f"Exported JSON to {json_path}")
-    print(f"Exported Markdown to {markdown_path}")
-    return 0
 
 
 def load_dialogue_payload(path: Path) -> Any:
@@ -596,21 +256,305 @@ def normalize_dialogue_payload(payload: Any) -> list[ConversationEvent]:
     return events
 
 
-def find_memory(memories: list[LongTermMemory], memory_id: str) -> LongTermMemory | None:
-    return next((memory for memory in memories if memory.id == memory_id), None)
-
-
 def find_review(review_items: list[ReviewItem], review_id: str) -> ReviewItem | None:
     return next((item for item in review_items if item.id == review_id), None)
+
+
+def cmd_ingest(args: argparse.Namespace) -> int:
+    storage = open_storage(args)
+    result = ingest_payload(storage, load_dialogue_payload(args.path), events=normalize_dialogue_payload(load_dialogue_payload(args.path)))
+    print(f"Ingested {result['events_added']} new conversation events from {args.path} into profile {storage.profile_id}.")
+    print(f"Extracted {result['candidates_extracted']} candidate memories.")
+    return 0
+
+
+def cmd_extract(args: argparse.Namespace) -> int:
+    storage = open_storage(args)
+    result = extract_candidates(storage)
+    print(f"Rebuilt {result['candidate_count']} candidate memories from {result['conversation_event_count']} conversation events in profile {storage.profile_id}.")
+    return 0
+
+
+def cmd_consolidate(args: argparse.Namespace) -> int:
+    storage = open_storage(args)
+    payload = consolidate_profile(storage, backend_override=args.backend)
+    result = payload["result"]
+    print(f"Consolidation complete: profile={storage.profile_id}, created={result.created}, updated={result.updated}, conflicts={result.conflicts}, pending={result.pending}, archived={result.candidates_archived}.")
+    return 0
+
+
+def cmd_build_persona(args: argparse.Namespace) -> int:
+    persona = build_persona_profile(open_storage(args))
+    print(json.dumps(persona.to_dict(), indent=2, ensure_ascii=False) if args.json else persona.markdown_summary)
+    return 0
+
+
+def cmd_retrieve_context(args: argparse.Namespace) -> int:
+    result = retrieve_context_bundle(open_storage(args), query=args.query, top_k=args.top_k, include_contested=args.include_contested, include_review=args.include_review, backend_override=args.backend)
+    print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
+    return 0
+
+
+def cmd_prepare_context(args: argparse.Namespace) -> int:
+    _, markdown = prepare_context_bundle(open_storage(args), query=args.query, top_k=args.top_k, include_contested=args.include_contested, include_review=args.include_review, backend_override=args.backend)
+    print(markdown)
+    return 0
+
+
+def cmd_show_memory(args: argparse.Namespace) -> int:
+    storage = open_storage(args)
+    memories = storage.load_long_term_memory()
+    if not args.include_inactive:
+        memories = [memory for memory in memories if memory.active]
+    if args.json:
+        print(json.dumps([memory.to_dict() for memory in memories], indent=2, ensure_ascii=False))
+        return 0
+    if not memories:
+        print("No long-term memory stored.")
+        return 0
+    for memory in sorted(memories, key=lambda item: (-item.confidence, item.category, item.id)):
+        print(f"{memory.id} | {memory.category} | state={memory.lifecycle_state} | confidence={memory.confidence:.2f} | reinforced={memory.reinforcement_count} | contradictions={memory.contradiction_count}")
+        print(f"  {memory.summary}")
+        if memory.evidence:
+            print(f"  evidence: {sentence_excerpt(memory.evidence[0].excerpt, 100)}")
+    return 0
+
+
+def cmd_show_persona(args: argparse.Namespace) -> int:
+    profile = open_storage(args).load_persona_profile()
+    if profile is None:
+        print("No persona profile built yet.")
+        return 0
+    print(json.dumps(profile.to_dict(), indent=2, ensure_ascii=False) if args.json else profile.markdown_summary)
+    return 0
+
+
+def cmd_forget(args: argparse.Namespace) -> int:
+    result = forget_memory(open_storage(args), memory_id=args.memory_id, reason=args.reason, hard_delete=args.hard_delete)
+    print(f"Memory {result['memory_id']} {'deleted' if result['action'] == 'hard_delete' else 'deactivated' }.")
+    return 0
+
+
+def cmd_revise(args: argparse.Namespace) -> int:
+    revise_memory(open_storage(args), memory_id=args.memory_id, summary=args.summary, category=args.category, confidence=args.confidence, mutable=args.mutable, immutable=args.immutable, activate=args.activate, deactivate=args.deactivate, superseded_by=args.superseded_by, reason=args.reason)
+    print(f"Revised memory {args.memory_id}.")
+    return 0
+
+
+def cmd_list_review(args: argparse.Namespace) -> int:
+    items = open_storage(args).load_review_items()
+    if args.status:
+        items = [item for item in items if item.status == args.status]
+    items.sort(key=lambda item: (item.opened_at, item.id))
+    if args.json:
+        print(json.dumps([item.to_dict() for item in items], indent=2, ensure_ascii=False))
+        return 0
+    if not items:
+        print("No review items found.")
+        return 0
+    for item in items:
+        target = item.target_memory_id or "(new memory candidate)"
+        print(f"{item.id} | status={item.status} | candidate={item.candidate_id} | target={target} | kind={item.kind}")
+        print(f"  reason: {item.reason}")
+    return 0
+
+
+def cmd_show_review(args: argparse.Namespace) -> int:
+    review = find_review(open_storage(args).load_review_items(), args.review_id)
+    if review is None:
+        print(f"Review item {args.review_id} not found.")
+        return 1
+    if args.json:
+        print(json.dumps(review.to_dict(), indent=2, ensure_ascii=False))
+        return 0
+    print(f"{review.id} | status={review.status} | kind={review.kind}")
+    print(f"candidate: {review.candidate_id}")
+    print(f"target_memory: {review.target_memory_id or '(new memory candidate)'}")
+    print(f"reason: {review.reason}")
+    if review.resolution_action:
+        print(f"resolution: {review.resolution_action}")
+    if review.resolution_notes:
+        print(f"notes: {review.resolution_notes}")
+    return 0
+
+
+def cmd_resolve_review(args: argparse.Namespace) -> int:
+    resolve_review_action(open_storage(args), review_id=args.review_id, action=args.action, reason=args.reason, memory_id=args.memory_id)
+    print(f"Resolved review {args.review_id} with action {args.action}.")
+    return 0
+
+
+def cmd_reopen_candidate(args: argparse.Namespace) -> int:
+    reopen_candidate_action(open_storage(args), candidate_id=args.candidate_id, reason=args.reason)
+    print(f"Reopened candidate {args.candidate_id}.")
+    return 0
+
+
+def cmd_list_candidates(args: argparse.Namespace) -> int:
+    payload = list_candidates_payload(open_storage(args), include_archived=args.include_archived, status=args.status, lifecycle_state=args.lifecycle_state)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    rows = [("active", item) for item in payload["active_candidates"]] + [("archived", item) for item in payload["archived_candidates"]]
+    if not rows:
+        print("No candidates found.")
+        return 0
+    for store, item in rows:
+        print(f"{item['id']} | store={store} | status={item['status']} | lifecycle={item['lifecycle_state']} | confidence={item['confidence']:.2f}")
+        print(f"  {item['content']}")
+    return 0
+
+
+def cmd_show_candidate(args: argparse.Namespace) -> int:
+    payload = show_candidate_payload(open_storage(args), candidate_id=args.candidate_id)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    item = payload["candidate"]
+    print(f"{item['id']} | store={item['candidate_store']} | status={item['status']} | lifecycle={item['lifecycle_state']}")
+    print(f"content: {item['content']}")
+    return 0
+
+
+def cmd_restore_candidate(args: argparse.Namespace) -> int:
+    restore_candidate_action(open_storage(args), candidate_id=args.candidate_id, reason=args.reason)
+    print(f"Restored candidate {args.candidate_id}.")
+    return 0
+
+
+def cmd_archive_candidates(args: argparse.Namespace) -> int:
+    result = archive_candidates_action(open_storage(args), candidate_ids=list(args.candidate_ids), reason=args.reason, reference_time=args.reference_time)
+    print(f"Archived {result['archived']} candidates.")
+    if result["skipped_candidate_ids"]:
+        print(f"Skipped review candidates: {', '.join(result['skipped_candidate_ids'])}")
+    return 0
+
+
+def cmd_list_profiles(args: argparse.Namespace) -> int:
+    storage = Storage(resolve_root(args.root), profile_id=args.profile)
+    profiles = storage.list_profiles()
+    if args.json:
+        print(json.dumps([profile.to_dict() for profile in profiles], indent=2, ensure_ascii=False))
+        return 0
+    for profile in profiles:
+        marker = "*" if profile.id == storage.registry.default_profile_id else " "
+        print(f"{marker} {profile.id} | {profile.display_name} | backend={profile.backend} | aging={profile.aging_policy}")
+    return 0
+
+
+def cmd_create_profile(args: argparse.Namespace) -> int:
+    storage = Storage(resolve_root(args.root), profile_id=args.profile)
+    profile = storage.create_profile(args.profile_id, display_name=args.display_name, backend=args.backend, aging_policy=args.aging_policy)
+    if args.set_default:
+        storage.set_default_profile(profile.id)
+    print(f"Created profile {profile.id}.")
+    return 0
+
+
+def cmd_show_profile(args: argparse.Namespace) -> int:
+    storage = Storage(resolve_root(args.root), profile_id=args.profile)
+    profile = storage.get_profile_metadata(args.profile_id or storage.profile_id)
+    if profile is None:
+        print(f"Profile {args.profile_id} not found.")
+        return 1
+    payload = {"schema_version": storage.registry.schema_version, "default_profile_id": storage.registry.default_profile_id, "profile": profile.to_dict()}
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    print(f"{profile.id} | display_name={profile.display_name}")
+    print(f"backend: {profile.backend}")
+    print(f"aging_policy: {profile.aging_policy}")
+    print(f"created_at: {profile.created_at}")
+    print(f"updated_at: {profile.updated_at}")
+    return 0
+
+
+def cmd_set_default_profile(args: argparse.Namespace) -> int:
+    profile = Storage(resolve_root(args.root), profile_id=args.profile).set_default_profile(args.profile_id)
+    print(f"Default profile set to {profile.id}.")
+    return 0
+
+
+def cmd_migrate_storage(args: argparse.Namespace) -> int:
+    storage = Storage(resolve_root(args.root), profile_id=args.profile)
+    payload = storage.migration_status()
+    payload["migrations"] = [item.to_dict() for item in storage.load_migrations()]
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    print(f"Schema version: {payload['schema_version']}")
+    print(f"Default profile: {payload['default_profile_id']}")
+    print(f"Profiles: {', '.join(payload['profiles'])}")
+    if payload["last_migration"]:
+        print(f"Last migration: {payload['last_migration']['name']} @ {payload['last_migration']['applied_at']}")
+    return 0
+
+
+def cmd_list_snapshots(args: argparse.Namespace) -> int:
+    payload = list_snapshots_payload(open_storage(args), scope=args.scope, profile_id=args.profile if args.scope == 'profile' else None)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    if not payload["snapshots"]:
+        print("No snapshots found.")
+        return 0
+    for item in payload["snapshots"]:
+        target = item.get("profile_id") or "global"
+        print(f"{item['id']} | scope={item['scope']} | target={target} | action={item['action']}")
+    return 0
+
+
+def cmd_restore_snapshot(args: argparse.Namespace) -> int:
+    payload = restore_snapshot_action(open_storage(args), snapshot_id=args.snapshot_id, profile_id=args.snapshot_profile)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    print(f"Restored snapshot {payload['snapshot_id']} ({payload['scope']}).")
+    return 0
+
+
+def cmd_storage_health(args: argparse.Namespace) -> int:
+    payload = storage_health_payload(open_storage(args), profile_id=args.profile)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+    print(f"Storage healthy: {payload['ok']}")
+    for check in payload["checks"]:
+        print(f"- {check['name']}: {check['passed']}")
+    return 0 if payload["ok"] else 1
+
+
+def cmd_replay_eval(args: argparse.Namespace) -> int:
+    from .evaluator import ReplayEvaluator
+
+    storage = Storage(resolve_root(args.root), profile_id=args.profile)
+    report = ReplayEvaluator(backend_name=args.backend or storage.get_profile_metadata().backend).run(args.manifest, output_dir=args.output_dir)
+    print(f"Replay evaluation written to {report['json_path']}")
+    print(f"Replay evaluation markdown written to {report['markdown_path']}")
+    return 0 if report["passed"] else 1
+
+
+def cmd_export(args: argparse.Namespace) -> int:
+    storage = open_storage(args)
+    output_dir = args.output_dir or (storage.root / "exports")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    export_json = export_payload(storage, all_profiles=args.all_profiles)
+    json_path = output_dir / "personality-memory-export.json"
+    markdown_path = output_dir / "personality-memory-export.md"
+    write_json(json_path, export_json)
+    markdown_path.write_text(build_export_markdown(export_json), encoding="utf-8")
+    print(f"Exported JSON to {json_path}")
+    print(f"Exported Markdown to {markdown_path}")
+    return 0
 
 
 def build_export_markdown(payload: dict[str, Any]) -> str:
     if "profiles" in payload:
         lines = ["# Personality Memory Export", "", f"- Schema version: {payload['schema_version']}", f"- Profiles: {len(payload['profiles'])}", "", "## Profiles"]
         for profile_id, profile_payload in payload["profiles"].items():
-            lines.append(f"- `{profile_id}` memories={len(profile_payload['long_term_memory'])} candidates={len(profile_payload['memory_candidates'])} reviews={len(profile_payload['review_items'])}")
+            lines.append(f"- `{profile_id}` memories={len(profile_payload['long_term_memory'])} candidates={len(profile_payload['memory_candidates'])} archived_candidates={len(profile_payload.get('candidate_archive', []))} reviews={len(profile_payload['review_items'])}")
         return "\n".join(lines)
-    lines = ["# Personality Memory Export", "", f"- Schema version: {payload['schema_version']}", f"- Profile: {payload['profile_id']}", f"- Conversation events: {len(payload['conversation_events'])}", f"- Memory candidates: {len(payload['memory_candidates'])}", f"- Long-term memories: {len(payload['long_term_memory'])}", f"- Review items: {len(payload['review_items'])}", f"- Revisions: {len(payload['revisions'])}", "", "## Long-Term Memory"]
+    lines = ["# Personality Memory Export", "", f"- Schema version: {payload['schema_version']}", f"- Profile: {payload['profile_id']}", f"- Conversation events: {len(payload['conversation_events'])}", f"- Memory candidates: {len(payload['memory_candidates'])}", f"- Archived candidates: {len(payload.get('candidate_archive', []))}", f"- Long-term memories: {len(payload['long_term_memory'])}", f"- Review items: {len(payload['review_items'])}", f"- Revisions: {len(payload['revisions'])}", "", "## Long-Term Memory"]
     if payload["long_term_memory"]:
         for memory in payload["long_term_memory"]:
             lines.append(f"- `{memory['id']}` [{memory['category']}] state={memory.get('lifecycle_state', 'active')} confidence={memory['confidence']}: {memory['summary']}")
@@ -627,6 +571,12 @@ def build_export_markdown(payload: dict[str, Any]) -> str:
     persona = payload.get("persona_profile") or {}
     lines.append(persona.get("markdown_summary", "- No persona profile built."))
     return "\n".join(lines)
+
+
+def cmd_session_runtime(args: argparse.Namespace) -> int:
+    from .runtime import SessionRuntime
+
+    return SessionRuntime(resolve_root(args.root)).serve()
 
 
 def main(argv: list[str] | None = None) -> int:

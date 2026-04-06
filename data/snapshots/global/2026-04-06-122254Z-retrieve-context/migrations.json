@@ -1,0 +1,21 @@
+[
+  {
+    "id": "migration_0d42479b0f17",
+    "name": "flat-data-to-profiles",
+    "applied_at": "2026-04-05T06:00:25Z",
+    "status": "applied",
+    "details": {
+      "source": "v1-flat",
+      "profile_id": "default",
+      "files": [
+        "conversations.jsonl",
+        "memory_candidates.json",
+        "long_term_memory.json",
+        "persona_profile.json",
+        "revisions.json",
+        "review_items.json"
+      ],
+      "backup_dir": "D:\\GPT Codex\\OpenClaw Skill\\personality-memory\\data\\legacy_backup\\v1-flat"
+    }
+  }
+]

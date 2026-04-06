@@ -9,8 +9,7 @@ from typing import Any
 
 from .consolidator import MemoryConsolidator
 from .extractor import MemoryExtractor
-from .governance import MemoryGovernanceManager
-from .persona_builder import PersonaBuilder
+from .operations import build_persona_profile, consolidate_profile, current_reference_time, extract_candidates, ingest_payload, reopen_candidate_action, resolve_review_action
 from .retrieval import RetrievalService
 from .storage import SCHEMA_VERSION, Storage
 from .utils import bundled_skill_root, copy_if_exists, latest_timestamp, stable_hash, utc_now
@@ -20,7 +19,6 @@ class ReplayEvaluator:
     def __init__(self, *, backend_name: str = "hybrid") -> None:
         self.backend_name = backend_name
         self.extractor = MemoryExtractor()
-        self.governance = MemoryGovernanceManager()
 
     def run(self, manifest_path: Path, output_dir: Path | None = None) -> dict[str, Any]:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -120,82 +118,29 @@ class ReplayEvaluator:
         storage = self._ensure_storage(temp_root, profile_id)
         payload = json.loads(dialogue_path.read_text(encoding="utf-8"))
         events = normalize_dialogue_payload(payload)
-        added_events = storage.append_conversation_events(events)
-        existing_candidates = storage.load_memory_candidates()
-        id_index = {candidate.id: candidate for candidate in existing_candidates}
-        extracted = self.extractor.extract_from_events(added_events, existing_candidates=existing_candidates)
-        for candidate in extracted:
-            id_index[candidate.id] = candidate
-        storage.save_memory_candidates(sorted(id_index.values(), key=lambda item: (item.created_at, item.id)))
-
-        candidates = self.extractor.extract_from_events(
-            storage.load_conversation_events(),
-            existing_candidates=storage.load_memory_candidates(),
-        )
-        storage.save_memory_candidates(candidates)
-        reference_time = max((event.occurred_at for event in storage.load_conversation_events()), default=utc_now())
-        profile = storage.get_profile_metadata(profile_id)
-        consolidator = MemoryConsolidator(backend_name=profile.backend or self.backend_name, aging_policy=profile.aging_policy)
-        result = consolidator.consolidate(
-            storage.load_memory_candidates(),
-            storage.load_long_term_memory(),
-            storage.load_review_items(),
-            reference_time=reference_time,
-        )
-        storage.save_memory_candidates(result.candidates)
-        storage.save_long_term_memory(result.memories)
-        storage.save_review_items(result.review_items)
-        if result.revisions:
-            storage.append_revisions(result.revisions)
-
-        memories = storage.load_long_term_memory()
-        builder = PersonaBuilder(aging_policy=profile.aging_policy)
-        persona = builder.build(memories, reference_time=reference_time)
-        storage.save_long_term_memory(memories)
-        storage.save_persona_profile(persona)
-        return reference_time
+        ingest_payload(storage, payload, events=events)
+        extract_candidates(storage)
+        consolidate_profile(storage, backend_override=storage.get_profile_metadata(profile_id).backend or self.backend_name)
+        build_persona_profile(storage)
+        return current_reference_time(storage)
 
     def _apply_action(self, action: dict[str, Any], temp_root: Path, default_profile: str, reference_time: str) -> dict[str, Any]:
         profile_id = action.get("profile", default_profile)
         storage = self._ensure_storage(temp_root, profile_id)
-        candidates = storage.load_memory_candidates()
-        memories = storage.load_long_term_memory()
-        review_items = storage.load_review_items()
         action_type = action.get("type")
 
         if action_type == "resolve_review":
-            review_id = action.get("review_id") or self._match_review_id(action, candidates, review_items)
-            result = self.governance.resolve_review(
-                review_id=review_id,
-                action=action["action"],
-                reason=action["reason"],
-                candidates=candidates,
-                memories=memories,
-                review_items=review_items,
-                memory_id=action.get("memory_id"),
-            )
+            review_id = action.get("review_id") or self._match_review_id(action, storage.load_memory_candidates(), storage.load_review_items())
+            resolve_review_action(storage, review_id=review_id, action=action["action"], reason=action["reason"], memory_id=action.get("memory_id"))
             summary = f"Resolved {review_id} with {action['action']}"
         elif action_type == "reopen_candidate":
-            candidate_id = action.get("candidate_id") or self._match_candidate_id(action, candidates)
-            result = self.governance.reopen_candidate(
-                candidate_id=candidate_id,
-                reason=action["reason"],
-                candidates=candidates,
-                review_items=review_items,
-                memories=memories,
-            )
+            candidate_id = action.get("candidate_id") or self._match_candidate_id(action, storage.load_memory_candidates())
+            reopen_candidate_action(storage, candidate_id=candidate_id, reason=action["reason"])
             summary = f"Reopened {candidate_id}"
         else:
             raise ValueError(f"Unsupported replay action type: {action_type}")
 
-        storage.save_memory_candidates(result.candidates)
-        storage.save_long_term_memory(result.memories)
-        storage.save_review_items(result.review_items)
-        if result.revisions:
-            storage.append_revisions(result.revisions)
-        persona = PersonaBuilder(aging_policy=storage.get_profile_metadata().aging_policy).build(result.memories, reference_time=reference_time)
-        storage.save_long_term_memory(result.memories)
-        storage.save_persona_profile(persona)
+        build_persona_profile(storage)
         return {"type": action_type, "summary": summary, "passed": True, "profile": profile_id}
 
     def _run_retrieval_checks(
@@ -256,17 +201,20 @@ class ReplayEvaluator:
             inactive_ids = {memory.id for memory in memories if not memory.active}
             open_review_ids = {item.id for item in review_items if item.status == "open"}
             candidate_statuses = {candidate.id: candidate.status for candidate in candidates}
+            candidate_content_statuses = {candidate.content: candidate.status for candidate in candidates}
             lifecycle_states = {memory.id: memory.lifecycle_state for memory in memories}
             expected_active = set(check.get("active_memory_ids", []))
             expected_inactive = set(check.get("inactive_memory_ids", []))
             expected_open_reviews = set(check.get("open_review_ids", []))
             expected_candidate_statuses = dict(check.get("candidate_statuses", {}))
+            expected_candidate_contents = dict(check.get("candidate_contents", {}))
             expected_lifecycle_states = dict(check.get("lifecycle_states", {}))
             passed = (
                 expected_active.issubset(active_ids)
                 and expected_inactive.issubset(inactive_ids)
                 and expected_open_reviews.issubset(open_review_ids)
                 and all(candidate_statuses.get(candidate_id) == status for candidate_id, status in expected_candidate_statuses.items())
+                and all(candidate_content_statuses.get(content) == status for content, status in expected_candidate_contents.items())
                 and all(lifecycle_states.get(memory_id) == state for memory_id, state in expected_lifecycle_states.items())
             )
             report.append(

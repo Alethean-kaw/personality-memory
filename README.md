@@ -89,6 +89,7 @@ personality-memory/
       lifecycle.py
       memory_ops.py
       models.py
+      operations.py
       persona_builder.py
       retrieval.py
       rules.py
@@ -102,10 +103,13 @@ personality-memory/
       <profile_id>/
         conversations.jsonl
         memory_candidates.json
+        candidate_archive.json
         long_term_memory.json
         persona_profile.json
         review_items.json
         revisions.json
+    runtime_sessions.json
+    snapshots/
     legacy_backup/
       v1-flat/
   examples/
@@ -120,6 +124,7 @@ personality-memory/
     eval_multi_profile.json
     eval_migration.json
     eval_aging.json
+    runtime_transcript.jsonl
     legacy_seed_v1/
       *.json
   exports/
@@ -155,10 +160,14 @@ Current storage layout:
 - `data/migrations.json`
 - `data/profiles/<profile_id>/conversations.jsonl`
 - `data/profiles/<profile_id>/memory_candidates.json`
+- `data/runtime_sessions.json`
 - `data/profiles/<profile_id>/long_term_memory.json`
 - `data/profiles/<profile_id>/persona_profile.json`
 - `data/profiles/<profile_id>/review_items.json`
 - `data/profiles/<profile_id>/revisions.json`
+- `data/profiles/<profile_id>/candidate_archive.json`
+- `data/snapshots/global/<timestamp>-<action>/...`
+- `data/snapshots/profiles/<profile_id>/<timestamp>-<action>/...`
 
 ### Registry
 
@@ -211,6 +220,12 @@ Candidate memories with:
 - `confidence`
 - `source_refs`
 - `created_at`
+- `last_seen`
+- `reinforcement_count`
+- `lifecycle_state`
+- `decay_score`
+- `archived_at`
+- `archive_reason`
 - `status`
 - `notes`
 - `resolution_kind`
@@ -279,38 +294,120 @@ Auditable conflict and manual review records with:
 
 ## Runtime Contract For OpenClaw
 
-`retrieve-context` is the stable machine contract for assistant runtime use.
+`session-runtime` is now the primary machine-facing contract for OpenClaw.
 
 The recommended flow is:
 
-1. call `retrieve-context` before generating a personalized answer
-2. use the returned JSON as the authoritative memory context bundle
-3. only use `prepare-context` when you need a human-readable Markdown rendering
+1. start `personality-memory session-runtime`
+2. send JSONL requests over stdin / stdout
+3. use `step` as the main persist-then-retrieve contract
+4. treat `retrieve-context` and `prepare-context` as low-level maintenance tools
 
-### `retrieve-context` JSON shape
+### Runtime Envelope
+
+Request:
 
 ```json
 {
-  "schema_version": 2,
-  "profile_id": "default",
-  "query": "Need concise JSON guidance",
-  "generated_at": "2026-03-15T10:02:00Z",
-  "memory_hits": [],
-  "persona_adaptation_notes": [],
-  "contested_signals": [],
-  "open_reviews": [],
-  "usage_guidance": [],
-  "memory_policy": {}
+  "id": "req-1",
+  "action": "step",
+  "params": {}
+}
+```
+
+Success response:
+
+```json
+{
+  "id": "req-1",
+  "ok": true,
+  "result": {}
+}
+```
+
+Error response:
+
+```json
+{
+  "id": "req-1",
+  "ok": false,
+  "error": {
+    "code": "invalid_params",
+    "message": "...",
+    "details": {}
+  }
+}
+```
+
+### Native Runtime Actions
+
+- `hello`
+- `open_session`
+- `close_session`
+- `step`
+
+### `step` Result Shape
+
+```json
+{
+  "session": {
+    "session_id": "thread-1",
+    "profile_id": "default",
+    "binding_source": "explicit"
+  },
+  "write_summary": {
+    "events_added": 2,
+    "candidates_rebuilt": 3,
+    "created": 1,
+    "updated": 1,
+    "conflicts": 0,
+    "pending": 0,
+    "candidates_archived": 1,
+    "candidates_restored": 0,
+    "persona_rebuilt": true
+  },
+  "context": {
+    "schema_version": 3,
+    "profile_id": "default",
+    "query": "Need concise JSON guidance",
+    "generated_at": "2026-03-15T10:02:00Z",
+    "memory_hits": [],
+    "persona_adaptation_notes": [],
+    "contested_signals": [],
+    "open_reviews": [],
+    "usage_guidance": [],
+    "memory_policy": {}
+  },
+  "persona_snapshot": {
+    "generated_at": "2026-03-15T10:02:00Z",
+    "memory_refs": [],
+    "markdown_summary": "# Persona Profile"
+  }
 }
 ```
 
 Semantics:
 
-- `memory_hits` are stable active memories only
-- `contested_signals` are explicitly unsettled
-- `open_reviews` are unresolved governance items
-- `usage_guidance` explains how to treat the payload safely
-- `memory_policy` describes the active backend / lifecycle assumptions
+- `step` always persists normalized events before retrieval
+- `session_id` binds to a profile and that binding survives process restarts
+- explicit `profile_id` wins, otherwise runtime reuses the existing binding, otherwise it falls back to the registry default profile
+- `context` reuses the retrieval contract and keeps contested / review sections explicitly uncertain
+- `persona_snapshot` is a lightweight persisted snapshot, not a second source of truth
+
+### Low-Level Retrieval Contract
+
+`retrieve-context` still returns the stable low-level JSON bundle with:
+
+- `schema_version`
+- `profile_id`
+- `query`
+- `generated_at`
+- `memory_hits`
+- `persona_adaptation_notes`
+- `contested_signals`
+- `open_reviews`
+- `usage_guidance`
+- `memory_policy`
 
 ## Lifecycle / Aging
 
@@ -403,7 +500,23 @@ python -m pip install -e .
 python scripts/demo.py
 ```
 
-### Basic Flow
+### Runtime Session Flow
+
+Start the long-running JSONL runtime:
+
+```bash
+personality-memory session-runtime
+```
+
+Then send JSON requests like the transcript in `examples/runtime_transcript.jsonl`, for example:
+
+```json
+{"id":"1","action":"hello","params":{}}
+{"id":"2","action":"open_session","params":{"session_id":"demo-thread"}}
+{"id":"3","action":"step","params":{"session_id":"demo-thread","query":"Need concise JSON guidance","messages":[{"message_id":"m1","speaker":"user","text":"Please keep answers concise and structured."}]}}
+```
+
+### Low-Level CLI Maintenance Flow
 
 ```bash
 personality-memory migrate-storage
@@ -418,7 +531,7 @@ personality-memory prepare-context --query "Need concise JSON guidance"
 personality-memory export
 ```
 
-If you do not install the package, you can run `python -m personality_memory.cli ...` with `src/` on `PYTHONPATH`.
+If you do not install the package, you can run `python -m personality_memory ...` with `src/` on `PYTHONPATH`.
 
 ## CLI Commands
 
@@ -430,6 +543,14 @@ Most commands accept:
 - `--profile <profile_id>`
 
 If `--profile` is omitted, the registry default profile is used.
+
+### Session Runtime
+
+```bash
+personality-memory session-runtime
+```
+
+Use this as the primary OpenClaw integration surface. It accepts JSONL requests over stdin and emits JSONL responses over stdout.
 
 ### Profile / Storage Management
 
@@ -458,9 +579,10 @@ Accepted `timestamp` formats are normalized to canonical UTC `YYYY-MM-DDTHH:MM:S
 - `YYYY-MM-DD`
 - `YYYY/MM/DD`
 
-### Persona / Retrieval
+### Runtime / Persona / Retrieval
 
 ```bash
+personality-memory session-runtime
 personality-memory build-persona
 personality-memory build-persona --json
 personality-memory retrieve-context --query "Need concise JSON guidance"
@@ -474,6 +596,10 @@ personality-memory list-review --status open
 personality-memory show-review review_abcd1234 --json
 personality-memory resolve-review review_abcd1234 --action reject-candidate --reason "Hypothetical statement"
 personality-memory reopen-candidate cand_1234 --reason "Need to re-evaluate after new evidence"
+personality-memory list-candidates --include-archived
+personality-memory show-candidate cand_1234
+personality-memory restore-candidate cand_1234 --reason "Bring it back into the active queue"
+personality-memory archive-candidates cand_1234 --reason "Move terminal candidate out of the working set"
 ```
 
 ### Manual Memory Control
@@ -489,6 +615,9 @@ personality-memory revise ltm_1234 --summary "prefers structured JSON outputs" -
 ### Evaluation / Export
 
 ```bash
+personality-memory list-snapshots --scope profile
+personality-memory restore-snapshot 2026-04-06-120000Z-clear-candidates --snapshot-profile default
+personality-memory storage-health
 personality-memory replay-eval ./examples/eval_stable.json
 personality-memory replay-eval ./examples/eval_multi_profile.json
 personality-memory replay-eval ./examples/eval_migration.json
@@ -507,6 +636,7 @@ Dialogues:
 - `examples/dialogue_04_aging_start.json`
 - `examples/dialogue_05_aging_checkpoint.json`
 - `examples/dialogue_06_aging_revive.json`
+- `examples/runtime_transcript.jsonl`
 
 Replay manifests:
 
@@ -585,7 +715,7 @@ python -m unittest discover -s tests -v
 
 Validated in this workspace:
 
-- 56 unit tests pass
+- 63 unit tests pass
 - replay evaluator covers stable, conflict, migration, multi-profile, and aging scenarios
 - retrieval, governance, storage migration, and lifecycle tests all pass
 
@@ -606,7 +736,7 @@ Natural future extensions include:
 
 - local embedding or reranking backends
 - richer review queues and reviewer policies
-- candidate aging / decay
+- richer archive inspection and retention policy tuning
 - optional LLM summarization for cleaner memory summaries
 - tighter host integration that calls `retrieve-context` automatically before every response
 - richer replay benchmark suites for long-horizon behavior
@@ -628,3 +758,9 @@ When the CLI is run without `--root`, it resolves to this bundled skill director
 Use `--root` only when you intentionally want to point at another compatible skill data directory.
 
 All persistence remains local to the skill directory.
+
+
+
+
+
+

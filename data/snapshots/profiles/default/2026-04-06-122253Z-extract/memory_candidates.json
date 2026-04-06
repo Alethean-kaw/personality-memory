@@ -1,0 +1,318 @@
+[
+  {
+    "id": "cand_6622bda75c53",
+    "content": "works on local-first writing tool for tabletop campaigns",
+    "type": "project",
+    "confidence": 0.89,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_e2fa5eaa5dd9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+      },
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "created_at": "2026-03-01T09:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 2,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_81dece86a3c5",
+    "content": "prefers json when it makes things clearer",
+    "type": "preference",
+    "confidence": 0.81,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_e2fa5eaa5dd9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+      }
+    ],
+    "created_at": "2026-03-01T09:00:00Z",
+    "last_seen": "2026-03-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.4681,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_d7d111e9d10b",
+    "content": "prefers concise and structured",
+    "type": "style",
+    "confidence": 0.87,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_e2fa5eaa5dd9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool for tabletop campaigns. Please keep answers concise and structured. I prefer JSON when it makes things clearer."
+      }
+    ],
+    "created_at": "2026-03-01T09:00:00Z",
+    "last_seen": "2026-03-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.4681,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_70e9ebd39b8d",
+    "content": "often work in python from the cli",
+    "type": "routine",
+    "confidence": 0.79,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_18297b44a8b9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m3",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+      }
+    ],
+    "created_at": "2026-03-01T09:01:00Z",
+    "last_seen": "2026-03-01T09:01:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.4681,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_cab1de3c3256",
+    "content": "avoids fluffy marketing language",
+    "type": "taboo",
+    "confidence": 0.85,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_18297b44a8b9",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m3",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language. I usually work in Python from the CLI."
+      }
+    ],
+    "created_at": "2026-03-01T09:01:00Z",
+    "last_seen": "2026-03-01T09:01:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.4681,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_2620af301153",
+    "content": "values local files and transparent behavior because i want the system to stay inspectable",
+    "type": "worldview",
+    "confidence": 0.81,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_80d9e013874a",
+        "session_id": "campaign-tool-session-01",
+        "message_id": "m4",
+        "speaker": "user",
+        "occurred_at": "2026-03-01T09:02:00Z",
+        "excerpt": "I value local files and transparent behavior because I want the system to stay inspectable."
+      }
+    ],
+    "created_at": "2026-03-01T09:02:00Z",
+    "last_seen": "2026-03-01T09:02:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.4681,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_3f40fa975b50",
+    "content": "prefers direct and concise",
+    "type": "style",
+    "confidence": 0.87,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "created_at": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_6ce847ec1769",
+    "content": "prefers local storage over cloud dependencies",
+    "type": "preference",
+    "confidence": 0.81,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_550e5dae13fa",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:00:00Z",
+        "excerpt": "I'm still working on the local-first writing tool for tabletop campaigns. Please keep the responses direct and concise. I prefer local storage over cloud dep..."
+      }
+    ],
+    "created_at": "2026-03-15T10:00:00Z",
+    "last_seen": "2026-03-15T10:00:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_20a9e474216d",
+    "content": "avoids opaque black-box workflows",
+    "type": "taboo",
+    "confidence": 0.85,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_a71d0c6518f6",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:01:00Z",
+        "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+      }
+    ],
+    "created_at": "2026-03-15T10:01:00Z",
+    "last_seen": "2026-03-15T10:01:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_383f9ae8d706",
+    "content": "often revisit long-running creative tooling projects",
+    "type": "routine",
+    "confidence": 0.79,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_a71d0c6518f6",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:01:00Z",
+        "excerpt": "I often revisit long-running creative tooling projects. I hate opaque black-box workflows."
+      }
+    ],
+    "created_at": "2026-03-15T10:01:00Z",
+    "last_seen": "2026-03-15T10:01:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  },
+  {
+    "id": "cand_72486746b590",
+    "content": "uses python and terminal workflows",
+    "type": "constraint",
+    "confidence": 0.67,
+    "source_refs": [
+      {
+        "conversation_event_id": "evt_cd8b7812ba54",
+        "session_id": "campaign-tool-session-02",
+        "message_id": "m4",
+        "speaker": "user",
+        "occurred_at": "2026-03-15T10:02:00Z",
+        "excerpt": "I mainly use Python and terminal workflows. I want reusable building blocks instead of brittle hacks."
+      }
+    ],
+    "created_at": "2026-03-15T10:02:00Z",
+    "last_seen": "2026-03-15T10:02:00Z",
+    "reinforcement_count": 1,
+    "lifecycle_state": "active",
+    "decay_score": 0.0,
+    "archived_at": null,
+    "archive_reason": null,
+    "status": "candidate",
+    "notes": "",
+    "resolution_kind": null,
+    "resolved_at": null,
+    "resolved_memory_id": null
+  }
+]

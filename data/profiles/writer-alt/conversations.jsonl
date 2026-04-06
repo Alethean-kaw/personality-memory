@@ -1,0 +1,2 @@
+{"id": "evt_ef92e1fc6005", "session_id": "demo-thread", "message_id": "m1", "speaker": "user", "text": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output.", "occurred_at": "2026-04-01T09:00:00Z"}
+{"id": "evt_9271207c81a4", "session_id": "demo-thread", "message_id": "m2", "speaker": "user", "text": "I dislike fluffy marketing language and I usually work in Python from the CLI.", "occurred_at": "2026-04-01T09:01:00Z"}

@@ -2,7 +2,7 @@
 
 - Backend: hybrid
 - Passed: True
-- Generated at: 2026-04-05T06:00:25Z
+- Generated at: 2026-04-06T12:22:54Z
 
 ## Step 1
 - Profile: default
@@ -21,7 +21,7 @@
 ## Step 2
 - Profile: default
 - Dialogue: D:\GPT Codex\OpenClaw Skill\personality-memory\examples\dialogue_02.json
-- Counts: {'conversation_events': 8, 'memory_candidates': 12, 'long_term_memory': 10, 'open_reviews': 0}
+- Counts: {'conversation_events': 8, 'memory_candidates': 11, 'long_term_memory': 10, 'open_reviews': 0}
 ### Retrieval Checks
 - retrieval:local storage over cloud dependencies: passed=True
 ### Memory Checks

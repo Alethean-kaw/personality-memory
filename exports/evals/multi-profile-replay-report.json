@@ -1,7 +1,7 @@
 {
   "name": "multi-profile-replay",
   "backend": "hybrid",
-  "generated_at": "2026-04-05T06:00:25Z",
+  "generated_at": "2026-04-06T12:22:55Z",
   "passed": true,
   "steps": [
     {
@@ -31,7 +31,7 @@
             "ltm_8bacb9c052af"
           ],
           "expected_absent_memory_ids": [],
-          "schema_version": 2
+          "schema_version": 3
         }
       ],
       "memory_checks": [],
@@ -97,7 +97,7 @@
           "expected_absent_memory_ids": [
             "ltm_8415250fa921"
           ],
-          "schema_version": 2
+          "schema_version": 3
         },
         {
           "name": "retrieval:local storage over cloud dependencies",
@@ -116,7 +116,7 @@
           "expected_absent_memory_ids": [
             "ltm_db11dde7ccf1"
           ],
-          "schema_version": 2
+          "schema_version": 3
         }
       ],
       "memory_checks": [
@@ -135,12 +135,12 @@
           "inactive_memory_ids": [],
           "open_review_ids": [],
           "candidate_statuses": {
-            "cand_3fd75f3d37a0": "accepted",
-            "cand_48aeecf8ddcf": "accepted",
-            "cand_42ad01d243c4": "accepted",
-            "cand_353eeed79527": "accepted",
-            "cand_befa1b2f24da": "accepted",
-            "cand_6654e5672f6d": "accepted"
+            "cand_6622bda75c53": "accepted",
+            "cand_81dece86a3c5": "accepted",
+            "cand_d7d111e9d10b": "accepted",
+            "cand_70e9ebd39b8d": "accepted",
+            "cand_cab1de3c3256": "accepted",
+            "cand_2620af301153": "accepted"
           },
           "lifecycle_states": {
             "ltm_8bacb9c052af": "active",
@@ -165,12 +165,12 @@
           "inactive_memory_ids": [],
           "open_review_ids": [],
           "candidate_statuses": {
-            "cand_90b703c98fe3": "accepted",
-            "cand_4501e8f9ec08": "accepted",
-            "cand_7460c581fdc9": "accepted",
-            "cand_94d5ff80fdb4": "accepted",
-            "cand_a9a573ac9bee": "accepted",
-            "cand_1fb4165cfce7": "candidate"
+            "cand_3f40fa975b50": "accepted",
+            "cand_6ce847ec1769": "accepted",
+            "cand_6e097dd01850": "accepted",
+            "cand_20a9e474216d": "accepted",
+            "cand_383f9ae8d706": "accepted",
+            "cand_72486746b590": "candidate"
           },
           "lifecycle_states": {
             "ltm_8bacb9c052af": "active",

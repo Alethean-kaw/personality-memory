@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "personality-memory"
-version = "0.2.0"
-description = "Persistent, explainable personality memory skill for OpenClaw."
+version = "0.4.0"
+description = "Persistent, explainable personality memory and session runtime skill for OpenClaw."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [
@@ -21,3 +21,4 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+

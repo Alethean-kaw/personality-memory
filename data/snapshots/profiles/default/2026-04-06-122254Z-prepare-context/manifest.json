@@ -1,0 +1,16 @@
+{
+  "id": "2026-04-06-122254Z-prepare-context",
+  "action": "prepare-context",
+  "scope": "profile",
+  "profile_id": "default",
+  "created_at": "2026-04-06T12:22:54Z",
+  "files": [
+    "conversations.jsonl",
+    "memory_candidates.json",
+    "candidate_archive.json",
+    "long_term_memory.json",
+    "persona_profile.json",
+    "review_items.json",
+    "revisions.json"
+  ]
+}

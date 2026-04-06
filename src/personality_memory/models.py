@@ -74,6 +74,12 @@ class MemoryCandidate:
     confidence: float
     source_refs: list[EvidenceRef] = field(default_factory=list)
     created_at: str = ""
+    last_seen: str = ""
+    reinforcement_count: int = 1
+    lifecycle_state: str = "active"
+    decay_score: float = 0.0
+    archived_at: str | None = None
+    archive_reason: str | None = None
     status: str = "candidate"
     notes: str = ""
     resolution_kind: str | None = None
@@ -88,6 +94,12 @@ class MemoryCandidate:
             "confidence": round(self.confidence, 4),
             "source_refs": [ref.to_dict() for ref in self.source_refs],
             "created_at": self.created_at,
+            "last_seen": self.last_seen,
+            "reinforcement_count": self.reinforcement_count,
+            "lifecycle_state": self.lifecycle_state,
+            "decay_score": round(self.decay_score, 4),
+            "archived_at": self.archived_at,
+            "archive_reason": self.archive_reason,
             "status": self.status,
             "notes": self.notes,
             "resolution_kind": self.resolution_kind,
@@ -97,13 +109,20 @@ class MemoryCandidate:
 
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> "MemoryCandidate":
+        created_at = payload.get("created_at", "")
         return cls(
             id=payload["id"],
             content=payload["content"],
             type=payload["type"],
             confidence=float(payload["confidence"]),
             source_refs=[EvidenceRef.from_dict(ref) for ref in payload.get("source_refs", [])],
-            created_at=payload.get("created_at", ""),
+            created_at=created_at,
+            last_seen=payload.get("last_seen", created_at),
+            reinforcement_count=int(payload.get("reinforcement_count", max(1, len(payload.get("source_refs", [])) or 1))),
+            lifecycle_state=payload.get("lifecycle_state", "active"),
+            decay_score=float(payload.get("decay_score", 0.0)),
+            archived_at=payload.get("archived_at"),
+            archive_reason=payload.get("archive_reason"),
             status=payload.get("status", "candidate"),
             notes=payload.get("notes", ""),
             resolution_kind=payload.get("resolution_kind"),
@@ -519,3 +538,35 @@ class MigrationRecord:
             status=payload.get("status", "applied"),
             details=dict(payload.get("details", {})),
         )
+
+
+@dataclass(slots=True)
+class RuntimeSessionBinding:
+    session_id: str
+    profile_id: str
+    created_at: str
+    last_seen: str
+    last_action: str
+    closed_at: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "session_id": self.session_id,
+            "profile_id": self.profile_id,
+            "created_at": self.created_at,
+            "last_seen": self.last_seen,
+            "last_action": self.last_action,
+            "closed_at": self.closed_at,
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "RuntimeSessionBinding":
+        return cls(
+            session_id=payload["session_id"],
+            profile_id=payload["profile_id"],
+            created_at=payload.get("created_at", payload.get("last_seen", "")),
+            last_seen=payload.get("last_seen", payload.get("created_at", "")),
+            last_action=payload.get("last_action", "open_session"),
+            closed_at=payload.get("closed_at"),
+        )
+

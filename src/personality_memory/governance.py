@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from .candidate_lifecycle import refresh_candidate_activity, restore_archived_candidate
 from .lifecycle import refresh_memory_activity
 from .memory_ops import create_long_term_memory, merge_candidate_into_memory, replace_memory_with_candidate
 from .models import LongTermMemory, MemoryCandidate, ReviewItem, RevisionEntry
@@ -11,37 +12,27 @@ from .utils import stable_hash, utc_now
 @dataclass(slots=True)
 class GovernanceResult:
     candidates: list[MemoryCandidate]
+    archived_candidates: list[MemoryCandidate]
     memories: list[LongTermMemory]
     review_items: list[ReviewItem]
     revisions: list[RevisionEntry] = field(default_factory=list)
 
 
 class MemoryGovernanceManager:
-    def resolve_review(
-        self,
-        *,
-        review_id: str,
-        action: str,
-        reason: str,
-        candidates: list[MemoryCandidate],
-        memories: list[LongTermMemory],
-        review_items: list[ReviewItem],
-        memory_id: str | None = None,
-    ) -> GovernanceResult:
+    def resolve_review(self, *, review_id: str, action: str, reason: str, candidates: list[MemoryCandidate], memories: list[LongTermMemory], review_items: list[ReviewItem], memory_id: str | None = None, archived_candidates: list[MemoryCandidate] | None = None) -> GovernanceResult:
         review = self._find_review(review_items, review_id)
         if review is None:
             raise ValueError(f"Review item {review_id} not found.")
         if review.status != "open":
             raise ValueError(f"Review item {review_id} is not open.")
-
         candidate = self._find_candidate(candidates, review.candidate_id)
         if candidate is None:
             raise ValueError(f"Candidate {review.candidate_id} referenced by review {review_id} was not found.")
-
         revisions: list[RevisionEntry] = []
-        candidate_before = candidate.to_dict()
+        candidate_before = self._candidate_snapshot(candidate, "active")
         review_before = review.to_dict()
         resolved_memory_id = review.target_memory_id
+        archived = list(archived_candidates or [])
 
         if action == "accept-candidate":
             memory = create_long_term_memory(candidate, candidate.confidence, memories)
@@ -98,8 +89,7 @@ class MemoryGovernanceManager:
         else:
             raise ValueError(f"Unsupported review resolution action: {action}")
 
-        revisions.append(self._revision("memory_candidate", candidate.id, action, reason, candidate_before, candidate.to_dict()))
-
+        revisions.append(self._revision("memory_candidate", candidate.id, action, reason, candidate_before, self._candidate_snapshot(candidate, "active")))
         review.status = "resolved"
         review.resolution_action = action
         review.resolution_notes = reason
@@ -108,35 +98,30 @@ class MemoryGovernanceManager:
         review_revision = self._revision("review_item", review.id, "resolve", reason, review_before, review.to_dict())
         revisions.append(review_revision)
         review.revision_ids.extend([revision.id for revision in revisions])
+        return GovernanceResult(candidates=candidates, archived_candidates=archived, memories=memories, review_items=review_items, revisions=revisions)
 
-        return GovernanceResult(
-            candidates=candidates,
-            memories=memories,
-            review_items=review_items,
-            revisions=revisions,
-        )
-
-    def reopen_candidate(
-        self,
-        *,
-        candidate_id: str,
-        reason: str,
-        candidates: list[MemoryCandidate],
-        review_items: list[ReviewItem],
-        memories: list[LongTermMemory],
-    ) -> GovernanceResult:
+    def reopen_candidate(self, *, candidate_id: str, reason: str, candidates: list[MemoryCandidate], review_items: list[ReviewItem], memories: list[LongTermMemory], archived_candidates: list[MemoryCandidate] | None = None) -> GovernanceResult:
+        archived = list(archived_candidates or [])
         candidate = self._find_candidate(candidates, candidate_id)
+        source = "active"
+        if candidate is None:
+            refresh = restore_archived_candidate(candidate_id, candidates=candidates, archived_candidates=archived, reason=reason)
+            candidates = refresh.active_candidates
+            archived = refresh.archived_candidates
+            candidate = self._find_candidate(candidates, candidate_id)
+            source = "archive"
         if candidate is None:
             raise ValueError(f"Candidate {candidate_id} not found.")
 
         revisions: list[RevisionEntry] = []
-        candidate_before = candidate.to_dict()
+        candidate_before = self._candidate_snapshot(candidate, source)
         candidate.status = "candidate"
         candidate.notes = f"Reopened manually: {reason}"
         candidate.resolution_kind = None
         candidate.resolved_at = None
         candidate.resolved_memory_id = None
-        revisions.append(self._revision("memory_candidate", candidate.id, "reopen", reason, candidate_before, candidate.to_dict()))
+        refresh_candidate_activity(candidate, reference_time=utc_now())
+        revisions.append(self._revision("memory_candidate", candidate.id, "reopen", reason, candidate_before, self._candidate_snapshot(candidate, "active")))
 
         for review in review_items:
             if review.candidate_id != candidate_id or review.status != "open":
@@ -150,12 +135,12 @@ class MemoryGovernanceManager:
             revisions.append(review_revision)
             review.revision_ids.append(review_revision.id)
 
-        return GovernanceResult(
-            candidates=candidates,
-            memories=memories,
-            review_items=review_items,
-            revisions=revisions,
-        )
+        return GovernanceResult(candidates=candidates, archived_candidates=archived, memories=memories, review_items=review_items, revisions=revisions)
+
+    def _candidate_snapshot(self, candidate: MemoryCandidate, store: str) -> dict[str, object]:
+        payload = candidate.to_dict()
+        payload["candidate_store"] = store
+        return payload
 
     def _find_candidate(self, candidates: list[MemoryCandidate], candidate_id: str) -> MemoryCandidate | None:
         for candidate in candidates:
@@ -175,23 +160,6 @@ class MemoryGovernanceManager:
                 return item
         return None
 
-    def _revision(
-        self,
-        entity_type: str,
-        entity_id: str,
-        action: str,
-        reason: str,
-        before: dict[str, object] | None,
-        after: dict[str, object] | None,
-    ) -> RevisionEntry:
+    def _revision(self, entity_type: str, entity_id: str, action: str, reason: str, before: dict[str, object] | None, after: dict[str, object] | None) -> RevisionEntry:
         timestamp = utc_now()
-        return RevisionEntry(
-            id=f"rev_{stable_hash(f'{entity_type}|{entity_id}|{action}|{timestamp}')}",
-            entity_type=entity_type,
-            entity_id=entity_id,
-            action=action,
-            timestamp=timestamp,
-            reason=reason,
-            before=before,
-            after=after,
-        )
+        return RevisionEntry(id=f"rev_{stable_hash(f'{entity_type}|{entity_id}|{action}|{timestamp}')}", entity_type=entity_type, entity_id=entity_id, action=action, timestamp=timestamp, reason=reason, before=before, after=after)

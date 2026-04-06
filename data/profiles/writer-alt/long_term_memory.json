@@ -1,0 +1,137 @@
+[
+  {
+    "id": "ltm_f737f102d10c",
+    "summary": "works on local-first writing tool",
+    "category": "project",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_ef92e1fc6005",
+        "session_id": "demo-thread",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+      }
+    ],
+    "confidence": 0.89,
+    "first_seen": "2026-04-01T09:00:00Z",
+    "last_seen": "2026-04-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-04-01T09:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.0,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_97c142d058aa",
+    "summary": "prefers concise and structured",
+    "category": "style",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_ef92e1fc6005",
+        "session_id": "demo-thread",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+      }
+    ],
+    "confidence": 0.87,
+    "first_seen": "2026-04-01T09:00:00Z",
+    "last_seen": "2026-04-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-04-01T09:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.0,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_4b7e07a2fda1",
+    "summary": "prefers json when it clarifies the output",
+    "category": "preference",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_ef92e1fc6005",
+        "session_id": "demo-thread",
+        "message_id": "m1",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:00:00Z",
+        "excerpt": "I'm building a local-first writing tool. Please keep answers concise and structured. I prefer JSON when it clarifies the output."
+      }
+    ],
+    "confidence": 0.81,
+    "first_seen": "2026-04-01T09:00:00Z",
+    "last_seen": "2026-04-01T09:00:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-04-01T09:00:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.0,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_db11dde7ccf1",
+    "summary": "avoids fluffy marketing language",
+    "category": "taboo",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_9271207c81a4",
+        "session_id": "demo-thread",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+      }
+    ],
+    "confidence": 0.85,
+    "first_seen": "2026-04-01T09:01:00Z",
+    "last_seen": "2026-04-01T09:01:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-04-01T09:01:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.0,
+    "stale_since": null,
+    "superseded_by": null
+  },
+  {
+    "id": "ltm_b3d1a2f233a8",
+    "summary": "often work in python from the cli",
+    "category": "routine",
+    "evidence": [
+      {
+        "conversation_event_id": "evt_9271207c81a4",
+        "session_id": "demo-thread",
+        "message_id": "m2",
+        "speaker": "user",
+        "occurred_at": "2026-04-01T09:01:00Z",
+        "excerpt": "I dislike fluffy marketing language and I usually work in Python from the CLI."
+      }
+    ],
+    "confidence": 0.79,
+    "first_seen": "2026-04-01T09:01:00Z",
+    "last_seen": "2026-04-01T09:01:00Z",
+    "reinforcement_count": 1,
+    "contradiction_count": 0,
+    "mutable": true,
+    "active": true,
+    "last_reinforced_at": "2026-04-01T09:01:00Z",
+    "lifecycle_state": "active",
+    "staleness_score": 0.0,
+    "stale_since": null,
+    "superseded_by": null
+  }
+]
